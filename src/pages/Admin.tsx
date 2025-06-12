@@ -42,6 +42,7 @@ interface Ticket {
   machine_id?: string;
   description: string;
   notes?: string;
+  after_photos?: string[];
 }
 
 const statusConfig = {
