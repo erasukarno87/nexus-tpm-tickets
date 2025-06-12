@@ -5,68 +5,36 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 import { Search, QrCode, Calendar, User, MapPin, Clock, CheckCircle, AlertCircle, Loader2, Eye } from 'lucide-react';
 
 interface TicketStatus {
   id: string;
-  ticketNumber: string;
+  ticket_number: string;
   title: string;
   status: 'open' | 'in_progress' | 'pending_parts' | 'completed' | 'closed';
   priority: 'low' | 'medium' | 'high' | 'critical';
   category: 'corrective_action' | 'repair' | 'procurement' | 'support';
-  createdAt: string;
-  updatedAt: string;
-  assignedTo?: string;
+  created_at: string;
+  updated_at: string;
+  completed_at?: string;
+  assigned_to?: string;
   location: string;
-  progress: number;
-  timeline: Array<{
-    date: string;
-    action: string;
-    description: string;
-    by: string;
-  }>;
+  requester_name: string;
+  requester_department: string;
+  machine_id?: string;
+  description: string;
+  notes?: string;
 }
 
-const mockTickets: TicketStatus[] = [
-  {
-    id: '1',
-    ticketNumber: 'TPM-20241211-1001',
-    title: 'Conveyor Belt Motor Malfunction',
-    status: 'in_progress',
-    priority: 'high',
-    category: 'repair',
-    createdAt: '2024-12-11T08:30:00Z',
-    updatedAt: '2024-12-11T14:20:00Z',
-    assignedTo: 'John Smith',
-    location: 'Production Line A',
-    progress: 65,
-    timeline: [
-      { date: '2024-12-11T08:30:00Z', action: 'Created', description: 'Ticket submitted by production team', by: 'Maria Garcia' },
-      { date: '2024-12-11T09:15:00Z', action: 'Assigned', description: 'Assigned to maintenance technician', by: 'System' },
-      { date: '2024-12-11T10:45:00Z', action: 'In Progress', description: 'Technician started diagnosis', by: 'John Smith' },
-      { date: '2024-12-11T14:20:00Z', action: 'Update', description: 'Motor bearings need replacement, parts ordered', by: 'John Smith' },
-    ]
-  },
-  {
-    id: '2',
-    ticketNumber: 'TPM-20241210-0897',
-    title: 'Safety Guard Replacement',
-    status: 'completed',
-    priority: 'medium',
-    category: 'corrective_action',
-    createdAt: '2024-12-10T12:15:00Z',
-    updatedAt: '2024-12-11T16:30:00Z',
-    assignedTo: 'Sarah Johnson',
-    location: 'Assembly Area 2',
-    progress: 100,
-    timeline: [
-      { date: '2024-12-10T12:15:00Z', action: 'Created', description: 'Safety inspection identified worn guard', by: 'Mike Chen' },
-      { date: '2024-12-10T13:00:00Z', action: 'Assigned', description: 'Assigned to safety specialist', by: 'System' },
-      { date: '2024-12-11T09:00:00Z', action: 'In Progress', description: 'Guard removal and installation started', by: 'Sarah Johnson' },
-      { date: '2024-12-11T16:30:00Z', action: 'Completed', description: 'New safety guard installed and tested', by: 'Sarah Johnson' },
-    ]
-  }
-];
+interface TicketLog {
+  id: string;
+  action: string;
+  description: string;
+  created_by: string;
+  created_at: string;
+}
 
 const statusConfig = {
   open: { label: 'Open', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
@@ -88,22 +56,92 @@ export const TicketTracking = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [foundTickets, setFoundTickets] = useState<TicketStatus[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<TicketStatus | null>(null);
+  const [ticketLogs, setTicketLogs] = useState<TicketLog[]>([]);
+  const { toast } = useToast();
+
+  const calculateProgress = (status: string): number => {
+    switch (status) {
+      case 'open': return 10;
+      case 'in_progress': return 50;
+      case 'pending_parts': return 75;
+      case 'completed': return 100;
+      case 'closed': return 100;
+      default: return 0;
+    }
+  };
 
   const handleSearch = async () => {
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter a ticket number or search term",
+        variant: "destructive",
+      });
+      return;
+    }
     
     setIsSearching(true);
     
-    // Simulate API search
-    await new Promise(resolve => setTimeout(resolve, 1500));
+    try {
+      console.log('Searching for:', searchQuery);
+      
+      const { data: tickets, error } = await supabase
+        .from('tickets')
+        .select('*')
+        .or(`ticket_number.ilike.%${searchQuery}%,title.ilike.%${searchQuery}%,machine_id.ilike.%${searchQuery}%`)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Search error:', error);
+        throw error;
+      }
+
+      console.log('Search results:', tickets);
+      setFoundTickets(tickets || []);
+      
+      if (!tickets || tickets.length === 0) {
+        toast({
+          title: "No Results",
+          description: "No tickets found matching your search criteria",
+        });
+      }
+      
+    } catch (error: any) {
+      console.error('Error searching tickets:', error);
+      toast({
+        title: "Search Error",
+        description: error.message || "Failed to search tickets. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
+  const handleViewDetails = async (ticket: TicketStatus) => {
+    setSelectedTicket(ticket);
     
-    const results = mockTickets.filter(ticket => 
-      ticket.ticketNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      ticket.title.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    
-    setFoundTickets(results);
-    setIsSearching(false);
+    try {
+      const { data: logs, error } = await supabase
+        .from('ticket_logs')
+        .select('*')
+        .eq('ticket_id', ticket.id)
+        .order('created_at', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching logs:', error);
+        throw error;
+      }
+
+      setTicketLogs(logs || []);
+    } catch (error: any) {
+      console.error('Error fetching ticket logs:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load ticket details",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -145,7 +183,7 @@ export const TicketTracking = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Enter ticket number (e.g., TPM-20241211-1001) or search terms..."
+                placeholder="Enter ticket number (e.g., TPM-20241211-0001) or search terms..."
                 className="glass-input text-white placeholder-gray-400 h-12 pl-12 text-lg"
               />
             </div>
@@ -196,12 +234,12 @@ export const TicketTracking = () => {
                           <span className="ml-1">{statusConfig[ticket.status].label}</span>
                         </Badge>
                       </div>
-                      <p className="text-lg font-mono text-blue-400">{ticket.ticketNumber}</p>
+                      <p className="text-lg font-mono text-blue-400">{ticket.ticket_number}</p>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setSelectedTicket(ticket)}
+                      onClick={() => handleViewDetails(ticket)}
                       className="glass-input border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white"
                     >
                       <Eye className="w-4 h-4 mr-1" />
@@ -216,20 +254,20 @@ export const TicketTracking = () => {
                     </div>
                     <div className="flex items-center space-x-2 text-gray-300">
                       <User className="w-4 h-4 text-green-400" />
-                      <span>{ticket.assignedTo || 'Unassigned'}</span>
+                      <span>{ticket.assigned_to || 'Unassigned'}</span>
                     </div>
                     <div className="flex items-center space-x-2 text-gray-300">
                       <Calendar className="w-4 h-4 text-purple-400" />
-                      <span>{formatDate(ticket.createdAt)}</span>
+                      <span>{formatDate(ticket.created_at)}</span>
                     </div>
                   </div>
 
                   <div className="space-y-2">
                     <div className="flex justify-between items-center text-sm">
                       <span className="text-gray-400">Progress</span>
-                      <span className="text-white font-semibold">{ticket.progress}%</span>
+                      <span className="text-white font-semibold">{calculateProgress(ticket.status)}%</span>
                     </div>
-                    <Progress value={ticket.progress} className="h-2" />
+                    <Progress value={calculateProgress(ticket.status)} className="h-2" />
                   </div>
 
                   <div className={`inline-block px-3 py-1 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-medium mt-4`}>
@@ -249,7 +287,7 @@ export const TicketTracking = () => {
             <div className="flex justify-between items-start">
               <div>
                 <CardTitle className="text-2xl gradient-text">{selectedTicket.title}</CardTitle>
-                <p className="text-lg font-mono text-blue-400 mt-1">{selectedTicket.ticketNumber}</p>
+                <p className="text-lg font-mono text-blue-400 mt-1">{selectedTicket.ticket_number}</p>
               </div>
               <Button
                 variant="outline"
@@ -277,9 +315,9 @@ export const TicketTracking = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between items-center text-sm">
                       <span className="text-gray-400">Completion Progress</span>
-                      <span className="text-white font-semibold">{selectedTicket.progress}%</span>
+                      <span className="text-white font-semibold">{calculateProgress(selectedTicket.status)}%</span>
                     </div>
-                    <Progress value={selectedTicket.progress} className="h-3" />
+                    <Progress value={calculateProgress(selectedTicket.status)} className="h-3" />
                   </div>
                 </div>
               </div>
@@ -302,26 +340,45 @@ export const TicketTracking = () => {
                     <span className="text-white">{selectedTicket.location}</span>
                   </div>
                   <div className="flex justify-between">
+                    <span className="text-gray-400">Machine ID:</span>
+                    <span className="text-white">{selectedTicket.machine_id || 'N/A'}</span>
+                  </div>
+                  <div className="flex justify-between">
                     <span className="text-gray-400">Assigned To:</span>
-                    <span className="text-white">{selectedTicket.assignedTo || 'Unassigned'}</span>
+                    <span className="text-white">{selectedTicket.assigned_to || 'Unassigned'}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-400">Requester:</span>
+                    <span className="text-white">{selectedTicket.requester_name} ({selectedTicket.requester_department})</span>
                   </div>
                 </div>
               </div>
             </div>
 
+            <div className="space-y-4">
+              <h4 className="text-lg font-semibold text-white">Description</h4>
+              <p className="text-gray-300 p-4 glass-card rounded-lg">{selectedTicket.description}</p>
+              {selectedTicket.notes && (
+                <>
+                  <h4 className="text-lg font-semibold text-white">Additional Notes</h4>
+                  <p className="text-gray-300 p-4 glass-card rounded-lg">{selectedTicket.notes}</p>
+                </>
+              )}
+            </div>
+
             <div>
               <h4 className="text-lg font-semibold text-white mb-4">Activity Timeline</h4>
               <div className="space-y-4">
-                {selectedTicket.timeline.map((entry, index) => (
-                  <div key={index} className="flex items-start space-x-4 p-4 glass-card rounded-lg">
+                {ticketLogs.map((entry, index) => (
+                  <div key={entry.id} className="flex items-start space-x-4 p-4 glass-card rounded-lg">
                     <div className="w-3 h-3 rounded-full bg-blue-500 mt-1 flex-shrink-0"></div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
                         <h5 className="font-semibold text-white">{entry.action}</h5>
-                        <span className="text-sm text-gray-400">{formatDate(entry.date)}</span>
+                        <span className="text-sm text-gray-400">{formatDate(entry.created_at)}</span>
                       </div>
                       <p className="text-gray-300 text-sm">{entry.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">by {entry.by}</p>
+                      <p className="text-xs text-gray-500 mt-1">by {entry.created_by}</p>
                     </div>
                   </div>
                 ))}
