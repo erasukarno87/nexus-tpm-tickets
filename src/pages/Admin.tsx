@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { ImageUpload } from '@/components/ImageUpload';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -21,7 +22,8 @@ import {
   User,
   CheckCircle,
   Clock,
-  AlertTriangle
+  AlertTriangle,
+  Image
 } from 'lucide-react';
 
 interface Ticket {
@@ -296,6 +298,18 @@ const Admin = () => {
                         />
                       </div>
 
+                      <div>
+                        <label className="text-white text-sm mb-2 block">
+                          <Image className="w-4 h-4 inline mr-2" />
+                          After Repair Photos (Optional Evidence)
+                        </label>
+                        <ImageUpload
+                          existingImages={Array.isArray(editingTicket.after_photos) ? editingTicket.after_photos as string[] : []}
+                          onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
+                          maxImages={5}
+                        />
+                      </div>
+
                       <div className="flex space-x-2">
                         <Button
                           onClick={() => updateTicket(ticket.id, editingTicket)}
@@ -358,7 +372,29 @@ const Admin = () => {
                       </div>
 
                       <p className="text-gray-300 text-sm mb-2">{ticket.description}</p>
-                      <div className="text-xs text-gray-500">
+                      
+                      {/* Display after photos if available */}
+                      {ticket.after_photos && Array.isArray(ticket.after_photos) && ticket.after_photos.length > 0 && (
+                        <div className="mt-4">
+                          <h4 className="text-white text-sm mb-2 flex items-center">
+                            <Image className="w-4 h-4 mr-2" />
+                            After Repair Evidence ({ticket.after_photos.length} photos)
+                          </h4>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                            {ticket.after_photos.map((photo: string, index: number) => (
+                              <img
+                                key={index}
+                                src={photo}
+                                alt={`After repair ${index + 1}`}
+                                className="w-full h-20 object-cover rounded border-2 border-gray-300 cursor-pointer hover:border-blue-400 transition-colors"
+                                onClick={() => window.open(photo, '_blank')}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="text-xs text-gray-500 mt-2">
                         Requester: {ticket.requester_name} ({ticket.requester_department})
                         {ticket.machine_id && ` | Machine: ${ticket.machine_id}`}
                       </div>
