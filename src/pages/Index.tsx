@@ -3,13 +3,29 @@ import React, { useState } from 'react';
 import { TicketSubmissionForm } from '@/components/TicketSubmissionForm';
 import { TicketTracking } from '@/components/TicketTracking';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Ticket, Search, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Ticket, Search, Zap, Settings } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Index = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Particle Background */}
       <div className="particle-bg fixed inset-0 z-0"></div>
+      
+      {/* Admin Button */}
+      <div className="absolute top-4 right-4 z-20">
+        <Button
+          onClick={() => navigate('/admin')}
+          variant="outline"
+          className="glass-input border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white"
+        >
+          <Settings className="w-4 h-4 mr-2" />
+          Admin Panel
+        </Button>
+      </div>
       
       {/* Main Content */}
       <div className="relative z-10">
@@ -35,6 +51,7 @@ const Index = () => {
             <TabsList className="grid w-full grid-cols-2 mb-8 glass-card p-2 h-16">
               <TabsTrigger 
                 value="submit" 
+                data-value="submit"
                 className="flex items-center space-x-2 h-12 data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white"
               >
                 <Ticket className="w-5 h-5" />
@@ -42,6 +59,7 @@ const Index = () => {
               </TabsTrigger>
               <TabsTrigger 
                 value="track" 
+                data-value="track"
                 className="flex items-center space-x-2 h-12 data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white"
               >
                 <Search className="w-5 h-5" />

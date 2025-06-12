@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { QRCodeGenerator } from '@/components/QRCodeGenerator';
 import { 
   Wrench, 
   AlertTriangle, 
@@ -151,6 +152,27 @@ export const TicketSubmissionForm = () => {
     }
   };
 
+  const switchToTrackingTab = () => {
+    // Reset form state
+    setShowSuccess(false);
+    setSubmittedTicket(null);
+    
+    // Find and click the tracking tab
+    const trackingTab = document.querySelector('[data-value="track"]') as HTMLElement;
+    if (trackingTab) {
+      trackingTab.click();
+      
+      // Pre-fill the search with the ticket number
+      setTimeout(() => {
+        const searchInput = document.querySelector('input[placeholder*="ticket number"]') as HTMLInputElement;
+        if (searchInput && submittedTicket) {
+          searchInput.value = submittedTicket.ticket_number;
+          searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      }, 100);
+    }
+  };
+
   if (showSuccess && submittedTicket) {
     return (
       <Card className="glass-card border-0 neon-glow">
@@ -161,10 +183,23 @@ export const TicketSubmissionForm = () => {
             <p className="text-gray-300 text-lg">Your maintenance request has been received</p>
           </div>
 
-          <div className="glass-card p-6 mb-6 max-w-md mx-auto">
-            <h4 className="text-xl font-semibold text-white mb-2">Ticket Number</h4>
-            <p className="text-2xl font-mono text-blue-400 mb-4">{submittedTicket.ticket_number}</p>
-            <p className="text-sm text-gray-400">Save this number for tracking your request</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            {/* Ticket Information */}
+            <div className="glass-card p-6">
+              <h4 className="text-xl font-semibold text-white mb-2">Ticket Number</h4>
+              <p className="text-2xl font-mono text-blue-400 mb-4">{submittedTicket.ticket_number}</p>
+              <p className="text-sm text-gray-400">Save this number for tracking your request</p>
+            </div>
+
+            {/* QR Code */}
+            <div className="glass-card p-6">
+              <h4 className="text-xl font-semibold text-white mb-4">QR Code</h4>
+              <QRCodeGenerator 
+                value={submittedTicket.ticket_number} 
+                ticketNumber={submittedTicket.ticket_number}
+                size={150}
+              />
+            </div>
           </div>
 
           <div className="space-y-4">
@@ -176,11 +211,7 @@ export const TicketSubmissionForm = () => {
             </Button>
             <Button
               variant="outline"
-              onClick={() => {
-                // Switch to tracking tab
-                const trackingTab = document.querySelector('[value="track"]') as HTMLElement;
-                trackingTab?.click();
-              }}
+              onClick={switchToTrackingTab}
               className="w-full h-12 glass-input border-green-500 text-green-400 hover:bg-green-500 hover:text-white"
             >
               Track This Ticket
