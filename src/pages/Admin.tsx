@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -86,7 +85,14 @@ const Admin = () => {
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setTickets(data || []);
+      
+      // Transform the data to ensure after_photos is properly typed
+      const transformedData = (data || []).map(ticket => ({
+        ...ticket,
+        after_photos: Array.isArray(ticket.after_photos) ? ticket.after_photos : []
+      })) as Ticket[];
+      
+      setTickets(transformedData);
     } catch (error: any) {
       toast({
         title: "Error",
