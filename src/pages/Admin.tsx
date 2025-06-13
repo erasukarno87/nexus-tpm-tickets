@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -30,7 +29,9 @@ import {
   AlertTriangle,
   LogOut,
   BarChart3,
-  Database
+  Database,
+  Shield,
+  Sparkles
 } from 'lucide-react';
 
 interface Ticket {
@@ -247,9 +248,13 @@ const Admin = () => {
       <div className="relative min-h-screen">
         <Background3D />
         <div className="min-h-screen flex items-center justify-center relative z-10">
-          <div className="text-center">
-            <Settings className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
-            <p className="text-white text-xl">Memuat Panel Admin...</p>
+          <div className="text-center animate-fadeIn">
+            <div className="relative">
+              <Settings className="w-20 h-20 text-blue-400 mx-auto mb-6 animate-spin" />
+              <div className="absolute inset-0 w-20 h-20 mx-auto border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+            <h2 className="text-2xl font-bold gradient-text mb-2">Memuat Panel Admin</h2>
+            <p className="text-gray-300">Menyiapkan dashboard administrasi...</p>
           </div>
         </div>
       </div>
@@ -262,23 +267,28 @@ const Admin = () => {
       
       {/* Main Content */}
       <div className="relative z-10">
-        {/* Header */}
-        <header className="text-center py-8 px-4">
+        {/* Enhanced Header */}
+        <header className="text-center py-12 px-4">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
-            <div>
-              <h1 className="text-4xl md:text-6xl font-bold gradient-text mb-4">
-                Panel Admin TPM
-              </h1>
-              <p className="text-xl text-gray-300">
+            <div className="animate-fadeIn">
+              <div className="flex items-center justify-center mb-6">
+                <Shield className="w-12 h-12 text-blue-400 mr-4 animate-pulse" />
+                <h1 className="text-4xl md:text-6xl font-bold gradient-text text-glow">
+                  Panel Admin TPM
+                </h1>
+                <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
+              </div>
+              <p className="text-xl md:text-2xl text-gray-200 text-shadow-lg font-medium">
                 Kelola dan pantau semua permintaan pemeliharaan
               </p>
+              <div className="mt-4 h-1 w-40 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col items-center space-y-4 animate-slideInRight">
               <ThemeToggle />
               <Button
                 onClick={handleLogout}
                 variant="outline"
-                className="glass-input border-red-500 text-red-400 hover:bg-red-500 hover:text-white"
+                className="glass-input border-red-500 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-red-500/25"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Keluar
@@ -287,251 +297,279 @@ const Admin = () => {
           </div>
         </header>
 
-        {/* Main Content */}
+        {/* Main Content with enhanced styling */}
         <div className="max-w-6xl mx-auto px-4 pb-12">
-          <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 glass-card mb-8">
-              <TabsTrigger value="dashboard" className="data-[state=active]:bg-blue-600">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                Dashboard
-              </TabsTrigger>
-              <TabsTrigger value="tickets" className="data-[state=active]:bg-blue-600">
-                <FileText className="w-4 h-4 mr-2" />
-                Kelola Tiket
-              </TabsTrigger>
-              <TabsTrigger value="master-data" className="data-[state=active]:bg-blue-600">
-                <Database className="w-4 h-4 mr-2" />
-                Data Master
-              </TabsTrigger>
-            </TabsList>
+          <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
+            <Tabs defaultValue="dashboard" className="w-full">
+              <TabsList className="grid w-full grid-cols-3 glass-card mb-8 p-2 h-16">
+                <TabsTrigger 
+                  value="dashboard" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold"
+                >
+                  <BarChart3 className="w-5 h-5 mr-2" />
+                  Dashboard
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="tickets" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold"
+                >
+                  <FileText className="w-5 h-5 mr-2" />
+                  Kelola Tiket
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="master-data" 
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold"
+                >
+                  <Database className="w-5 h-5 mr-2" />
+                  Data Master
+                </TabsTrigger>
+              </TabsList>
 
-            <TabsContent value="dashboard">
-              <Dashboard />
-            </TabsContent>
+              <TabsContent value="dashboard" className="animate-slideInLeft">
+                <Dashboard />
+              </TabsContent>
 
-            <TabsContent value="tickets">
-              {/* Filters and Search */}
-              <Card className="glass-card border-0 neon-glow mb-8">
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                      <Input
-                        placeholder="Cari tiket..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="glass-input text-white pl-10"
-                      />
+              <TabsContent value="tickets" className="animate-fadeIn">
+                {/* Enhanced Filters and Search */}
+                <Card className="glass-card border-0 neon-glow mb-8">
+                  <CardContent className="p-6">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                      <div className="relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+                        <Input
+                          placeholder="Cari tiket..."
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="glass-input text-white pl-12 h-12 text-lg"
+                        />
+                      </div>
+                      
+                      <Select value={statusFilter} onValueChange={setStatusFilter}>
+                        <SelectTrigger className="glass-input text-white h-12">
+                          <SelectValue placeholder="Filter berdasarkan status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Semua Status</SelectItem>
+                          <SelectItem value="open">Terbuka</SelectItem>
+                          <SelectItem value="in_progress">Sedang Proses</SelectItem>
+                          <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
+                          <SelectItem value="closed">Selesai</SelectItem>
+                          <SelectItem value="ditolak">Ditolak</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+                        <SelectTrigger className="glass-input text-white h-12">
+                          <SelectValue placeholder="Filter berdasarkan prioritas" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">Semua Prioritas</SelectItem>
+                          <SelectItem value="low">Rendah</SelectItem>
+                          <SelectItem value="medium">Sedang</SelectItem>
+                          <SelectItem value="high">Tinggi</SelectItem>
+                          <SelectItem value="critical">Kritis</SelectItem>
+                        </SelectContent>
+                      </Select>
+
+                      <div className="flex items-center space-x-2 text-gray-200 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg p-3 border border-blue-500/30">
+                        <Users className="w-5 h-5 text-blue-400" />
+                        <span className="font-semibold">Total: {filteredTickets.length}</span>
+                      </div>
                     </div>
-                    
-                    <Select value={statusFilter} onValueChange={setStatusFilter}>
-                      <SelectTrigger className="glass-input text-white">
-                        <SelectValue placeholder="Filter berdasarkan status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Semua Status</SelectItem>
-                        <SelectItem value="open">Terbuka</SelectItem>
-                        <SelectItem value="in_progress">Sedang Proses</SelectItem>
-                        <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
-                        <SelectItem value="closed">Selesai</SelectItem>
-                        <SelectItem value="ditolak">Ditolak</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  </CardContent>
+                </Card>
 
-                    <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-                      <SelectTrigger className="glass-input text-white">
-                        <SelectValue placeholder="Filter berdasarkan prioritas" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">Semua Prioritas</SelectItem>
-                        <SelectItem value="low">Rendah</SelectItem>
-                        <SelectItem value="medium">Sedang</SelectItem>
-                        <SelectItem value="high">Tinggi</SelectItem>
-                        <SelectItem value="critical">Kritis</SelectItem>
-                      </SelectContent>
-                    </Select>
-
-                    <div className="flex items-center space-x-2 text-gray-300">
-                      <Users className="w-4 h-4" />
-                      <span>Total: {filteredTickets.length}</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Tickets List */}
-              <div className="space-y-4">
-                {filteredTickets.map((ticket) => (
-                  <Card key={ticket.id} className="glass-card border-0 hover:neon-glow transition-all duration-300">
-                    <CardContent className="p-6">
-                      {editingTicket?.id === ticket.id ? (
-                        // Edit Mode
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                              <label className="text-white text-sm">Status</label>
-                              <Select 
-                                value={editingTicket.status} 
-                                onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
-                              >
-                                <SelectTrigger className="glass-input text-white">
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="open">Terbuka</SelectItem>
-                                  <SelectItem value="in_progress">Sedang Proses</SelectItem>
-                                  <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
-                                  <SelectItem value="closed">Selesai</SelectItem>
-                                  <SelectItem value="ditolak">Ditolak</SelectItem>
-                                </SelectContent>
-                              </Select>
+                {/* Enhanced Tickets List */}
+                <div className="space-y-6">
+                  {filteredTickets.map((ticket, index) => (
+                    <Card 
+                      key={ticket.id} 
+                      className="ticket-card glass-card border-0 hover:neon-glow transition-all duration-500"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <CardContent className="p-6">
+                        {editingTicket?.id === ticket.id ? (
+                          // Enhanced Edit Mode
+                          <div className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <div>
+                                <label className="text-white text-sm font-semibold mb-2 block">Status</label>
+                                <Select 
+                                  value={editingTicket.status} 
+                                  onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
+                                >
+                                  <SelectTrigger className="glass-input text-white h-12">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="open">Terbuka</SelectItem>
+                                    <SelectItem value="in_progress">Sedang Proses</SelectItem>
+                                    <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
+                                    <SelectItem value="closed">Selesai</SelectItem>
+                                    <SelectItem value="ditolak">Ditolak</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                              
+                              <div>
+                                <label className="text-white text-sm font-semibold mb-2 block">Ditugaskan Kepada</label>
+                                <Select 
+                                  value={editingTicket.assigned_to || 'unassigned'} 
+                                  onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
+                                >
+                                  <SelectTrigger className="glass-input text-white h-12">
+                                    <SelectValue placeholder="Pilih teknisi" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="unassigned">Belum Ditugaskan</SelectItem>
+                                    {technicians.map((tech) => (
+                                      <SelectItem key={tech.id} value={tech.name}>
+                                        {tech.name} {tech.specialty && `(${tech.specialty})`}
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
                             </div>
-                            
-                            <div>
-                              <label className="text-white text-sm">Ditugaskan Kepada</label>
-                              <Select 
-                                value={editingTicket.assigned_to || 'unassigned'} 
-                                onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
-                              >
-                                <SelectTrigger className="glass-input text-white">
-                                  <SelectValue placeholder="Pilih teknisi" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="unassigned">Belum Ditugaskan</SelectItem>
-                                  {technicians.map((tech) => (
-                                    <SelectItem key={tech.id} value={tech.name}>
-                                      {tech.name} {tech.specialty && `(${tech.specialty})`}
-                                    </SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
 
-                          {editingTicket.status === 'ditolak' && (
+                            {editingTicket.status === 'ditolak' && (
+                              <div>
+                                <label className="text-white text-sm font-semibold mb-2 block">Alasan Penolakan *</label>
+                                <Textarea
+                                  value={editingTicket.rejection_reason || ''}
+                                  onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
+                                  className="glass-input text-white min-h-[100px]"
+                                  placeholder="Masukkan alasan penolakan..."
+                                  required
+                                />
+                              </div>
+                            )}
+
                             <div>
-                              <label className="text-white text-sm">Alasan Penolakan *</label>
+                              <label className="text-white text-sm font-semibold mb-2 block">Catatan Admin</label>
                               <Textarea
-                                value={editingTicket.rejection_reason || ''}
-                                onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
-                                className="glass-input text-white"
-                                placeholder="Masukkan alasan penolakan..."
-                                required
+                                value={editingTicket.notes || ''}
+                                onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
+                                className="glass-input text-white min-h-[100px]"
+                                placeholder="Tambahkan catatan admin..."
                               />
                             </div>
-                          )}
 
+                            <div className="flex space-x-4">
+                              <Button
+                                onClick={() => updateTicket(ticket.id, editingTicket)}
+                                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105"
+                              >
+                                <Save className="w-4 h-4 mr-2" />
+                                Simpan Perubahan
+                              </Button>
+                              <Button
+                                variant="outline"
+                                onClick={() => setEditingTicket(null)}
+                                className="glass-input border-gray-500 hover:bg-gray-500 hover:text-white transition-all duration-300"
+                              >
+                                <X className="w-4 h-4 mr-2" />
+                                Batal
+                              </Button>
+                            </div>
+                          </div>
+                        ) : (
+                          // Enhanced View Mode
                           <div>
-                            <label className="text-white text-sm">Catatan Admin</label>
-                            <Textarea
-                              value={editingTicket.notes || ''}
-                              onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
-                              className="glass-input text-white"
-                              placeholder="Tambahkan catatan admin..."
-                            />
-                          </div>
-
-                          <div className="flex space-x-2">
-                            <Button
-                              onClick={() => updateTicket(ticket.id, editingTicket)}
-                              className="bg-green-600 hover:bg-green-700"
-                            >
-                              <Save className="w-4 h-4 mr-2" />
-                              Simpan
-                            </Button>
-                            <Button
-                              variant="outline"
-                              onClick={() => setEditingTicket(null)}
-                              className="glass-input"
-                            >
-                              <X className="w-4 h-4 mr-2" />
-                              Batal
-                            </Button>
-                          </div>
-                        </div>
-                      ) : (
-                        // View Mode
-                        <div>
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="space-y-2">
-                              <div className="flex items-center space-x-3">
-                                <h3 className="text-xl font-semibold text-white">{ticket.title}</h3>
-                                <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0`}>
-                                  {getStatusIcon(ticket.status)}
-                                  <span className="ml-1">{statusConfig[ticket.status].label}</span>
-                                </Badge>
+                            <div className="flex items-start justify-between mb-6">
+                              <div className="space-y-3">
+                                <div className="flex items-center space-x-4">
+                                  <h3 className="text-xl font-bold text-white">{ticket.title}</h3>
+                                  <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0 px-3 py-1`}>
+                                    {getStatusIcon(ticket.status)}
+                                    <span className="ml-2 font-semibold">{statusConfig[ticket.status].label}</span>
+                                  </Badge>
+                                </div>
+                                <p className="text-lg font-mono text-blue-400 font-bold">{ticket.ticket_number}</p>
                               </div>
-                              <p className="text-lg font-mono text-blue-400">{ticket.ticket_number}</p>
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => setEditingTicket(ticket)}
+                                className="glass-input border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105"
+                              >
+                                <Edit3 className="w-4 h-4 mr-2" />
+                                Edit Tiket
+                              </Button>
                             </div>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => setEditingTicket(ticket)}
-                              className="glass-input border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white"
-                            >
-                              <Edit3 className="w-4 h-4 mr-1" />
-                              Edit
-                            </Button>
+
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                              <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
+                                <MapPin className="w-5 h-5 text-blue-400" />
+                                <div>
+                                  <p className="text-xs text-gray-400">Lokasi</p>
+                                  <p className="text-white font-semibold">{ticket.location}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
+                                <User className="w-5 h-5 text-green-400" />
+                                <div>
+                                  <p className="text-xs text-gray-400">Teknisi</p>
+                                  <p className="text-white font-semibold">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
+                                <Calendar className="w-5 h-5 text-purple-400" />
+                                <div>
+                                  <p className="text-xs text-gray-400">Dibuat</p>
+                                  <p className="text-white font-semibold text-xs">{formatDate(ticket.created_at)}</p>
+                                </div>
+                              </div>
+                              <div className="flex items-center justify-center p-3">
+                                <div className={`px-4 py-2 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-bold`}>
+                                  PRIORITAS {ticket.priority.toUpperCase()}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="p-4 glass-card rounded-lg mb-4">
+                              <p className="text-gray-200 leading-relaxed">{ticket.description}</p>
+                            </div>
+                            
+                            {ticket.status === 'ditolak' && ticket.rejection_reason && (
+                              <div className="mt-4 p-4 bg-red-500/20 border-2 border-red-500 rounded-lg neon-glow">
+                                <p className="text-red-400 text-sm font-bold mb-2">⚠️ Alasan Penolakan:</p>
+                                <p className="text-red-300">{ticket.rejection_reason}</p>
+                              </div>
+                            )}
+
+                            <div className="text-sm text-gray-400 mt-4 p-3 glass-card rounded-lg">
+                              <strong>Pemohon:</strong> {ticket.requester_name} ({ticket.requester_department})
+                              {ticket.machine_id && <span> | <strong>Mesin:</strong> {ticket.machine_id}</span>}
+                            </div>
                           </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
 
-                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 text-sm">
-                            <div className="flex items-center space-x-2 text-gray-300">
-                              <MapPin className="w-4 h-4 text-blue-400" />
-                              <span>{ticket.location}</span>
-                            </div>
-                            <div className="flex items-center space-x-2 text-gray-300">
-                              <User className="w-4 h-4 text-green-400" />
-                              <span>{ticket.assigned_to || 'Belum Ditugaskan'}</span>
-                            </div>
-                            <div className="flex items-center space-x-2 text-gray-300">
-                              <Calendar className="w-4 h-4 text-purple-400" />
-                              <span>{formatDate(ticket.created_at)}</span>
-                            </div>
-                            <div className={`inline-block px-2 py-1 rounded border ${priorityConfig[ticket.priority].color} text-xs`}>
-                              {ticket.priority.toUpperCase()}
-                            </div>
-                          </div>
+                  {filteredTickets.length === 0 && (
+                    <Card className="glass-card border-0 border-dashed border-gray-500">
+                      <CardContent className="text-center py-16">
+                        <FileText className="w-20 h-20 text-gray-400 mx-auto mb-6 animate-pulse" />
+                        <h3 className="text-2xl font-bold text-white mb-4">Tidak Ada Tiket Ditemukan</h3>
+                        <p className="text-gray-400 text-lg">
+                          {searchQuery || statusFilter !== 'all' || priorityFilter !== 'all' 
+                            ? 'Coba sesuaikan filter pencarian Anda' 
+                            : 'Belum ada tiket yang diajukan dalam sistem'
+                          }
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )}
+                </div>
+              </TabsContent>
 
-                          <p className="text-gray-300 text-sm mb-2">{ticket.description}</p>
-                          
-                          {ticket.status === 'ditolak' && ticket.rejection_reason && (
-                            <div className="mt-4 p-3 bg-red-500/20 border border-red-500 rounded-lg">
-                              <p className="text-red-400 text-sm font-semibold">Alasan Penolakan:</p>
-                              <p className="text-red-300 text-sm">{ticket.rejection_reason}</p>
-                            </div>
-                          )}
-
-                          <div className="text-xs text-gray-500 mt-2">
-                            Pemohon: {ticket.requester_name} ({ticket.requester_department})
-                            {ticket.machine_id && ` | Mesin: ${ticket.machine_id}`}
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-                ))}
-
-                {filteredTickets.length === 0 && (
-                  <Card className="glass-card border-0 border-dashed">
-                    <CardContent className="text-center py-12">
-                      <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                      <h3 className="text-xl font-semibold text-white mb-2">Tidak Ada Tiket Ditemukan</h3>
-                      <p className="text-gray-400">
-                        {searchQuery || statusFilter !== 'all' || priorityFilter !== 'all' 
-                          ? 'Coba sesuaikan filter Anda' 
-                          : 'Belum ada tiket yang diajukan'
-                        }
-                      </p>
-                    </CardContent>
-                  </Card>
-                )}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="master-data">
-              <MasterData />
-            </TabsContent>
-          </Tabs>
+              <TabsContent value="master-data" className="animate-slideInRight">
+                <MasterData />
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
       </div>
     </div>

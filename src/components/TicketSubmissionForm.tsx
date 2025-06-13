@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -23,7 +22,9 @@ import {
   Building,
   Phone,
   Settings,
-  FileText
+  FileText,
+  Sparkles,
+  Send
 } from 'lucide-react';
 
 type TicketCategory = 'corrective_action' | 'repair' | 'procurement' | 'support';
@@ -53,17 +54,17 @@ interface Machine {
 }
 
 const categoryOptions = [
-  { value: 'corrective_action', label: 'Tindakan Korektif', icon: AlertTriangle, color: 'from-orange-500 to-red-500' },
-  { value: 'repair', label: 'Perbaikan', icon: Wrench, color: 'from-blue-500 to-purple-500' },
-  { value: 'procurement', label: 'Pengadaan', icon: Package, color: 'from-green-500 to-teal-500' },
-  { value: 'support', label: 'Dukungan', icon: HelpCircle, color: 'from-purple-500 to-pink-500' },
+  { value: 'corrective_action', label: 'Tindakan Korektif', icon: AlertTriangle, color: 'from-orange-500 to-red-500', description: 'Perbaikan untuk mencegah masalah berulang' },
+  { value: 'repair', label: 'Perbaikan', icon: Wrench, color: 'from-blue-500 to-purple-500', description: 'Perbaikan kerusakan mesin atau peralatan' },
+  { value: 'procurement', label: 'Pengadaan', icon: Package, color: 'from-green-500 to-teal-500', description: 'Permintaan suku cadang atau material' },
+  { value: 'support', label: 'Dukungan', icon: HelpCircle, color: 'from-purple-500 to-pink-500', description: 'Bantuan teknis dan konsultasi' },
 ];
 
 const priorityOptions = [
-  { value: 'low', label: 'Rendah', color: 'border-green-500 text-green-400 bg-green-500/10' },
-  { value: 'medium', label: 'Sedang', color: 'border-yellow-500 text-yellow-400 bg-yellow-500/10' },
-  { value: 'high', label: 'Tinggi', color: 'border-orange-500 text-orange-400 bg-orange-500/10' },
-  { value: 'critical', label: 'Kritis', color: 'border-red-500 text-red-400 bg-red-500/10' },
+  { value: 'low', label: 'Rendah', color: 'border-green-500 text-green-400 bg-green-500/10', description: 'Tidak mengganggu produksi' },
+  { value: 'medium', label: 'Sedang', color: 'border-yellow-500 text-yellow-400 bg-yellow-500/10', description: 'Berpotensi mengganggu produksi' },
+  { value: 'high', label: 'Tinggi', color: 'border-orange-500 text-orange-400 bg-orange-500/10', description: 'Mengganggu produksi secara signifikan' },
+  { value: 'critical', label: 'Kritis', color: 'border-red-500 text-red-400 bg-red-500/10', description: 'Menghentikan produksi' },
 ];
 
 export const TicketSubmissionForm = () => {
@@ -188,26 +189,30 @@ export const TicketSubmissionForm = () => {
       <div className="relative min-h-screen">
         <Background3D />
         <Card className="glass-card border-0 neon-glow relative z-10">
-          <CardContent className="text-center py-12">
-            <div className="mb-6">
-              <CheckCircle className="w-20 h-20 text-green-400 mx-auto mb-4 animate-pulse" />
-              <h3 className="text-3xl font-bold gradient-text mb-2">Tiket Berhasil Diajukan!</h3>
-              <p className="text-gray-300 text-lg">Permintaan pemeliharaan Anda telah diterima</p>
+          <CardContent className="text-center py-16">
+            <div className="mb-8 animate-fadeIn">
+              <div className="relative">
+                <CheckCircle className="w-24 h-24 text-green-400 mx-auto mb-6 animate-pulse" />
+                <div className="absolute inset-0 w-24 h-24 mx-auto border-4 border-green-500 border-t-transparent rounded-full animate-spin opacity-30"></div>
+              </div>
+              <h3 className="text-4xl font-bold gradient-text mb-4">Tiket Berhasil Diajukan!</h3>
+              <p className="text-gray-200 text-xl">Permintaan pemeliharaan Anda telah diterima dan sedang diproses</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-              <div className="glass-card p-6">
-                <h4 className="text-xl font-semibold text-white mb-2">Nomor Tiket</h4>
-                <p className="text-2xl font-mono text-blue-400 mb-4">{submittedTicket.ticket_number}</p>
-                <p className="text-sm text-gray-400">Simpan nomor ini untuk melacak permintaan Anda</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+              <div className="glass-card p-8 neon-glow">
+                <Sparkles className="w-8 h-8 text-blue-400 mx-auto mb-4" />
+                <h4 className="text-2xl font-bold text-white mb-4">Nomor Tiket</h4>
+                <p className="text-3xl font-mono text-blue-400 mb-6 font-bold">{submittedTicket.ticket_number}</p>
+                <p className="text-gray-300">Simpan nomor ini untuk melacak status permintaan Anda</p>
               </div>
 
-              <div className="glass-card p-6">
-                <h4 className="text-xl font-semibold text-white mb-4">Kode QR</h4>
+              <div className="glass-card p-8 neon-glow">
+                <h4 className="text-2xl font-bold text-white mb-6">Kode QR</h4>
                 <QRCodeGenerator 
                   value={submittedTicket.ticket_number} 
                   ticketNumber={submittedTicket.ticket_number}
-                  size={150}
+                  size={180}
                 />
               </div>
             </div>
@@ -215,15 +220,17 @@ export const TicketSubmissionForm = () => {
             <div className="space-y-4">
               <Button
                 onClick={() => setShowSuccess(false)}
-                className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0"
+                className="w-full h-14 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold transition-all duration-300 hover:scale-105"
               >
+                <Send className="w-5 h-5 mr-2" />
                 Ajukan Tiket Lain
               </Button>
               <Button
                 variant="outline"
                 onClick={switchToTrackingTab}
-                className="w-full h-12 glass-input border-green-500 text-green-400 hover:bg-green-500 hover:text-white"
+                className="w-full h-14 text-lg glass-input border-green-500 text-green-400 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105"
               >
+                <Settings className="w-5 h-5 mr-2" />
                 Lacak Tiket Ini
               </Button>
             </div>
@@ -237,21 +244,29 @@ export const TicketSubmissionForm = () => {
     <div className="relative min-h-screen">
       <Background3D />
       <Card className="glass-card border-0 neon-glow relative z-10">
-        <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold gradient-text mb-2">
-            Ajukan Permintaan Pemeliharaan
-          </CardTitle>
-          <p className="text-gray-400">
+        <CardHeader className="text-center pb-8">
+          <div className="flex items-center justify-center mb-6">
+            <FileText className="w-12 h-12 text-blue-400 mr-4 animate-pulse" />
+            <CardTitle className="text-4xl font-bold gradient-text text-glow">
+              Ajukan Permintaan Pemeliharaan
+            </CardTitle>
+            <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
+          </div>
+          <p className="text-gray-300 text-xl">
             Lengkapi formulir di bawah untuk meminta bantuan TPM
           </p>
+          <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
         </CardHeader>
 
-        <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-            {/* Category Selection */}
-            <div className="space-y-4">
-              <Label className="text-lg font-semibold text-white">Jenis Permintaan</Label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <CardContent className="px-8 pb-8">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+            {/* Enhanced Category Selection */}
+            <div className="space-y-6">
+              <Label className="text-2xl font-bold text-white flex items-center">
+                <Settings className="w-6 h-6 mr-3 text-blue-400" />
+                Jenis Permintaan
+              </Label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {categoryOptions.map((option) => {
                   const Icon = option.icon;
                   const isSelected = selectedCategory === option.value;
@@ -259,32 +274,33 @@ export const TicketSubmissionForm = () => {
                     <div
                       key={option.value}
                       onClick={() => setValue('category', option.value as TicketCategory)}
-                      className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                      className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
                         isSelected 
-                          ? `bg-gradient-to-r ${option.color} border-transparent text-white` 
-                          : 'glass-input border-gray-600 hover:border-blue-400'
+                          ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-2xl neon-glow` 
+                          : 'glass-card border-gray-600 hover:border-blue-400 hover:neon-glow'
                       }`}
                     >
-                      <div className="flex items-center space-x-3">
-                        <Icon className="w-6 h-6" />
-                        <span className="font-medium">{option.label}</span>
+                      <div className="flex items-center space-x-4 mb-3">
+                        <Icon className="w-8 h-8" />
+                        <span className="font-bold text-lg">{option.label}</span>
                       </div>
+                      <p className="text-sm opacity-90">{option.description}</p>
                     </div>
                   );
                 })}
               </div>
             </div>
 
-            {/* Title and Line/Area */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label htmlFor="title" className="text-white flex items-center space-x-2">
-                  <FileText className="w-4 h-4" />
+            {/* Enhanced Title and Line/Area */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="space-y-3">
+                <Label htmlFor="title" className="text-white flex items-center space-x-2 text-lg font-semibold">
+                  <FileText className="w-5 h-5 text-blue-400" />
                   <span>Judul Masalah *</span>
                 </Label>
                 <Input
                   {...register('title', { required: 'Judul wajib diisi' })}
-                  className="glass-input text-white h-12"
+                  className="glass-input text-white h-14 text-lg"
                   placeholder="Deskripsi singkat masalah"
                 />
                 {errors.title && (
@@ -292,13 +308,13 @@ export const TicketSubmissionForm = () => {
                 )}
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="machine_id" className="text-white flex items-center space-x-2">
-                  <Settings className="w-4 h-4" />
+              <div className="space-y-3">
+                <Label htmlFor="machine_id" className="text-white flex items-center space-x-2 text-lg font-semibold">
+                  <Settings className="w-5 h-5 text-green-400" />
                   <span>Line/Area</span>
                 </Label>
                 <Select onValueChange={(value) => setValue('machine_id', value)}>
-                  <SelectTrigger className="glass-input text-white h-12">
+                  <SelectTrigger className="glass-input text-white h-14 text-lg">
                     <SelectValue placeholder="Pilih Line/Area" />
                   </SelectTrigger>
                   <SelectContent>
@@ -312,13 +328,14 @@ export const TicketSubmissionForm = () => {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="description" className="text-white">
+            {/* Enhanced Description */}
+            <div className="space-y-3">
+              <Label htmlFor="description" className="text-white text-lg font-semibold">
                 Deskripsi Detail *
               </Label>
               <Textarea
                 {...register('description', { required: 'Deskripsi wajib diisi' })}
-                className="glass-input text-white min-h-[120px]"
+                className="glass-input text-white min-h-[150px] text-lg"
                 placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
               />
               {errors.description && (
@@ -326,40 +343,44 @@ export const TicketSubmissionForm = () => {
               )}
             </div>
 
-            {/* Priority Selection - Horizontal layout */}
-            <div className="space-y-4">
-              <Label className="text-white">Level Prioritas</Label>
+            {/* Enhanced Priority Selection */}
+            <div className="space-y-6">
+              <Label className="text-white text-lg font-semibold">Level Prioritas</Label>
               <RadioGroup
                 value={selectedPriority}
                 onValueChange={(value) => setValue('priority', value as TicketPriority)}
-                className="flex flex-wrap justify-center gap-4"
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
               >
                 {priorityOptions.map((option) => (
-                  <div key={option.value} className="flex items-center space-x-2">
-                    <RadioGroupItem value={option.value} id={option.value} />
+                  <div key={option.value} className="flex items-center space-x-3">
+                    <RadioGroupItem value={option.value} id={option.value} className="w-5 h-5" />
                     <Label
                       htmlFor={option.value}
-                      className={`px-4 py-2 rounded-full border-2 ${option.color} cursor-pointer transition-all duration-200`}
+                      className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105`}
                     >
-                      {option.label.toUpperCase()}
+                      <div className="font-bold text-lg">{option.label.toUpperCase()}</div>
+                      <div className="text-sm opacity-80">{option.description}</div>
                     </Label>
                   </div>
                 ))}
               </RadioGroup>
             </div>
 
-            {/* Requester Information */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold gradient-text">Informasi Pemohon</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="requester_name" className="text-white flex items-center space-x-2">
+            {/* Enhanced Requester Information */}
+            <div className="space-y-6">
+              <h3 className="text-2xl font-bold gradient-text flex items-center">
+                <User className="w-6 h-6 mr-3 text-blue-400" />
+                Informasi Pemohon
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-3">
+                  <Label htmlFor="requester_name" className="text-white flex items-center space-x-2 font-semibold">
                     <User className="w-4 h-4" />
                     <span>Nama *</span>
                   </Label>
                   <Input
                     {...register('requester_name', { required: 'Nama wajib diisi' })}
-                    className="glass-input text-white h-12"
+                    className="glass-input text-white h-14 text-lg"
                     placeholder="Nama lengkap Anda"
                   />
                   {errors.requester_name && (
@@ -367,13 +388,13 @@ export const TicketSubmissionForm = () => {
                   )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="requester_department" className="text-white flex items-center space-x-2">
+                <div className="space-y-3">
+                  <Label htmlFor="requester_department" className="text-white flex items-center space-x-2 font-semibold">
                     <Building className="w-4 h-4" />
                     <span>Departemen *</span>
                   </Label>
                   <Select onValueChange={(value) => setValue('requester_department', value)}>
-                    <SelectTrigger className="glass-input text-white h-12">
+                    <SelectTrigger className="glass-input text-white h-14 text-lg">
                       <SelectValue placeholder="Pilih departemen" />
                     </SelectTrigger>
                     <SelectContent>
@@ -389,14 +410,14 @@ export const TicketSubmissionForm = () => {
                   )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="requester_contact" className="text-white flex items-center space-x-2">
+                <div className="space-y-3">
+                  <Label htmlFor="requester_contact" className="text-white flex items-center space-x-2 font-semibold">
                     <Phone className="w-4 h-4" />
                     <span>Kontak *</span>
                   </Label>
                   <Input
                     {...register('requester_contact', { required: 'Kontak wajib diisi' })}
-                    className="glass-input text-white h-12"
+                    className="glass-input text-white h-14 text-lg"
                     placeholder="Telepon atau email"
                   />
                   {errors.requester_contact && (
@@ -406,30 +427,30 @@ export const TicketSubmissionForm = () => {
               </div>
             </div>
 
-            {/* Requester Notes */}
-            <div className="space-y-2">
-              <Label htmlFor="requester_notes" className="text-white">Catatan Pemohon</Label>
+            {/* Enhanced Requester Notes */}
+            <div className="space-y-3">
+              <Label htmlFor="requester_notes" className="text-white text-lg font-semibold">Catatan Tambahan</Label>
               <Textarea
                 {...register('requester_notes')}
-                className="glass-input text-white"
+                className="glass-input text-white min-h-[100px] text-lg"
                 placeholder="Catatan tambahan dari pemohon..."
               />
             </div>
 
-            {/* Submit Button */}
+            {/* Enhanced Submit Button */}
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full h-14 text-lg bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border-0 font-semibold"
+              className="w-full h-16 text-xl bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border-0 font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  <Loader2 className="w-6 h-6 mr-3 animate-spin" />
                   Mengajukan Permintaan...
                 </>
               ) : (
                 <>
-                  <CheckCircle className="w-5 h-5 mr-2" />
+                  <Send className="w-6 h-6 mr-3" />
                   Ajukan Permintaan Pemeliharaan
                 </>
               )}
