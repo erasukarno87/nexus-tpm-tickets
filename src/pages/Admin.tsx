@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -389,14 +390,14 @@ const Admin = () => {
                             <div>
                               <label className="text-white text-sm">Ditugaskan Kepada</label>
                               <Select 
-                                value={editingTicket.assigned_to || ''} 
-                                onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value})}
+                                value={editingTicket.assigned_to || 'unassigned'} 
+                                onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
                               >
                                 <SelectTrigger className="glass-input text-white">
                                   <SelectValue placeholder="Pilih teknisi" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                  <SelectItem value="">Belum Ditugaskan</SelectItem>
+                                  <SelectItem value="unassigned">Belum Ditugaskan</SelectItem>
                                   {technicians.map((tech) => (
                                     <SelectItem key={tech.id} value={tech.name}>
                                       {tech.name} {tech.specialty && `(${tech.specialty})`}
