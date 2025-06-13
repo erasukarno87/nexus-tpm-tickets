@@ -1,98 +1,62 @@
 
-import React, { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
-import * as THREE from 'three';
-
-function Particles() {
-  const ref = useRef<THREE.Points>(null);
-  
-  const particles = useMemo(() => {
-    const temp = new Float32Array(5000 * 3);
-    for (let i = 0; i < 5000; i++) {
-      const i3 = i * 3;
-      temp[i3] = (Math.random() - 0.5) * 200;
-      temp[i3 + 1] = (Math.random() - 0.5) * 200;
-      temp[i3 + 2] = (Math.random() - 0.5) * 200;
-    }
-    return temp;
-  }, []);
-
-  useFrame((state, delta) => {
-    if (ref.current) {
-      ref.current.rotation.x -= delta / 10;
-      ref.current.rotation.y -= delta / 15;
-    }
-  });
-
-  return (
-    <group rotation={[0, 0, Math.PI / 4]}>
-      <Points ref={ref} positions={particles} stride={3} frustumCulled={false}>
-        <PointMaterial
-          transparent
-          color="#4F46E5"
-          size={0.8}
-          sizeAttenuation={true}
-          depthWrite={false}
-        />
-      </Points>
-    </group>
-  );
-}
-
-function FloatingCubes() {
-  const cubesRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (cubesRef.current) {
-      cubesRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-      cubesRef.current.rotation.y = state.clock.elapsedTime * 0.1;
-    }
-  });
-
-  const cubes = useMemo(() => {
-    const temp = [];
-    for (let i = 0; i < 50; i++) {
-      temp.push({
-        position: [
-          (Math.random() - 0.5) * 100,
-          (Math.random() - 0.5) * 100,
-          (Math.random() - 0.5) * 100,
-        ],
-        scale: Math.random() * 2 + 0.5,
-        rotation: [Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI],
-      });
-    }
-    return temp;
-  }, []);
-
-  return (
-    <group ref={cubesRef}>
-      {cubes.map((cube, index) => (
-        <mesh key={index} position={cube.position as [number, number, number]} scale={cube.scale}>
-          <boxGeometry args={[1, 1, 1]} />
-          <meshStandardMaterial color="#6366F1" transparent opacity={0.3} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
+import React from 'react';
 
 export const Background3D = () => {
   return (
-    <div className="fixed inset-0 -z-10">
-      <Canvas
-        camera={{
-          position: [0, 0, 1],
-          fov: 75,
-        }}
-        style={{ background: 'transparent' }}
-      >
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} />
-        <Particles />
-        <FloatingCubes />
-      </Canvas>
+    <div className="fixed inset-0 -z-10 overflow-hidden">
+      {/* Animated gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 animate-pulse" />
+      
+      {/* Floating particles */}
+      <div className="absolute inset-0">
+        {Array.from({ length: 50 }, (_, i) => (
+          <div
+            key={i}
+            className="absolute w-2 h-2 bg-blue-400 rounded-full opacity-20 animate-bounce"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${3 + Math.random() * 4}s`,
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Floating geometric shapes */}
+      <div className="absolute inset-0">
+        {Array.from({ length: 20 }, (_, i) => (
+          <div
+            key={i}
+            className="absolute border border-purple-500 opacity-10 animate-spin"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              width: `${20 + Math.random() * 40}px`,
+              height: `${20 + Math.random() * 40}px`,
+              animationDelay: `${Math.random() * 10}s`,
+              animationDuration: `${10 + Math.random() * 20}s`,
+            }}
+          />
+        ))}
+      </div>
+      
+      {/* Moving lines */}
+      <div className="absolute inset-0">
+        {Array.from({ length: 10 }, (_, i) => (
+          <div
+            key={i}
+            className="absolute h-px bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-30 animate-pulse"
+            style={{
+              left: '0',
+              right: '0',
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${2 + Math.random() * 3}s`,
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };
