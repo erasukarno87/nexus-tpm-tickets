@@ -9,13 +9,297 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      admin_users: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          name: string
+          password_hash: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          name: string
+          password_hash: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          name?: string
+          password_hash?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      departments: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+        }
+        Relationships: []
+      }
+      locations: {
+        Row: {
+          created_at: string
+          department_id: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          department_id?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+        }
+        Update: {
+          created_at?: string
+          department_id?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "locations_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      machines: {
+        Row: {
+          created_at: string
+          department_id: string | null
+          id: string
+          is_active: boolean | null
+          location_id: string | null
+          machine_code: string
+          manufacturer: string | null
+          model: string | null
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          department_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          location_id?: string | null
+          machine_code: string
+          manufacturer?: string | null
+          model?: string | null
+          name: string
+        }
+        Update: {
+          created_at?: string
+          department_id?: string | null
+          id?: string
+          is_active?: boolean | null
+          location_id?: string | null
+          machine_code?: string
+          manufacturer?: string | null
+          model?: string | null
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machines_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machines_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      technicians: {
+        Row: {
+          created_at: string
+          department_id: string | null
+          email: string | null
+          id: string
+          is_active: boolean | null
+          name: string
+          phone: string | null
+          specialty: string | null
+        }
+        Insert: {
+          created_at?: string
+          department_id?: string | null
+          email?: string | null
+          id?: string
+          is_active?: boolean | null
+          name: string
+          phone?: string | null
+          specialty?: string | null
+        }
+        Update: {
+          created_at?: string
+          department_id?: string | null
+          email?: string | null
+          id?: string
+          is_active?: boolean | null
+          name?: string
+          phone?: string | null
+          specialty?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "technicians_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ticket_logs: {
+        Row: {
+          action: string
+          created_at: string
+          created_by: string
+          description: string
+          id: string
+          ticket_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          created_by: string
+          description: string
+          id?: string
+          ticket_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          created_by?: string
+          description?: string
+          id?: string
+          ticket_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_logs_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          after_photos: Json | null
+          assigned_to: string | null
+          before_photos: Json | null
+          category: string
+          completed_at: string | null
+          created_at: string
+          description: string
+          id: string
+          location: string
+          machine_id: string | null
+          notes: string | null
+          priority: string
+          rejection_reason: string | null
+          requester_contact: string
+          requester_department: string
+          requester_name: string
+          status: string
+          ticket_number: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          after_photos?: Json | null
+          assigned_to?: string | null
+          before_photos?: Json | null
+          category: string
+          completed_at?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          location: string
+          machine_id?: string | null
+          notes?: string | null
+          priority: string
+          rejection_reason?: string | null
+          requester_contact: string
+          requester_department: string
+          requester_name: string
+          status?: string
+          ticket_number: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          after_photos?: Json | null
+          assigned_to?: string | null
+          before_photos?: Json | null
+          category?: string
+          completed_at?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          location?: string
+          machine_id?: string | null
+          notes?: string | null
+          priority?: string
+          rejection_reason?: string | null
+          requester_contact?: string
+          requester_department?: string
+          requester_name?: string
+          status?: string
+          ticket_number?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_ticket_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -7,13 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Search, QrCode, Calendar, User, MapPin, Clock, CheckCircle, AlertCircle, Loader2, Eye } from 'lucide-react';
+import { Search, QrCode, Calendar, User, MapPin, Clock, CheckCircle, AlertTriangle, Loader2, Eye, X } from 'lucide-react';
 
 interface TicketStatus {
   id: string;
   ticket_number: string;
   title: string;
-  status: 'open' | 'in_progress' | 'pending_parts' | 'completed' | 'closed';
+  status: 'open' | 'in_progress' | 'pending_parts' | 'closed' | 'ditolak';
   priority: 'low' | 'medium' | 'high' | 'critical';
   category: 'corrective_action' | 'repair' | 'procurement' | 'support';
   created_at: string;
@@ -26,6 +25,7 @@ interface TicketStatus {
   machine_id?: string;
   description: string;
   notes?: string;
+  rejection_reason?: string;
 }
 
 interface TicketLog {
@@ -37,11 +37,11 @@ interface TicketLog {
 }
 
 const statusConfig = {
-  open: { label: 'Open', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
-  in_progress: { label: 'In Progress', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
-  pending_parts: { label: 'Pending Parts', color: 'bg-orange-500', glow: 'shadow-orange-500/30' },
-  completed: { label: 'Completed', color: 'bg-green-500', glow: 'shadow-green-500/30' },
-  closed: { label: 'Closed', color: 'bg-gray-500', glow: 'shadow-gray-500/30' },
+  open: { label: 'Terbuka', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
+  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
+  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500', glow: 'shadow-orange-500/30' },
+  closed: { label: 'Selesai', color: 'bg-green-500', glow: 'shadow-green-500/30' },
+  ditolak: { label: 'Ditolak', color: 'bg-red-500', glow: 'shadow-red-500/30' },
 };
 
 const priorityConfig = {
@@ -49,6 +49,13 @@ const priorityConfig = {
   medium: { color: 'border-yellow-500 text-yellow-400' },
   high: { color: 'border-orange-500 text-orange-400' },
   critical: { color: 'border-red-500 text-red-400' },
+};
+
+const categoryLabels = {
+  corrective_action: 'Tindakan Korektif',
+  repair: 'Perbaikan',
+  procurement: 'Pengadaan',
+  support: 'Dukungan'
 };
 
 export const TicketTracking = () => {
@@ -64,8 +71,8 @@ export const TicketTracking = () => {
       case 'open': return 10;
       case 'in_progress': return 50;
       case 'pending_parts': return 75;
-      case 'completed': return 100;
       case 'closed': return 100;
+      case 'ditolak': return 0;
       default: return 0;
     }
   };
@@ -74,7 +81,7 @@ export const TicketTracking = () => {
     if (!searchQuery.trim()) {
       toast({
         title: "Error",
-        description: "Please enter a ticket number or search term",
+        description: "Silakan masukkan nomor tiket atau kata kunci pencarian",
         variant: "destructive",
       });
       return;
@@ -83,7 +90,7 @@ export const TicketTracking = () => {
     setIsSearching(true);
     
     try {
-      console.log('Searching for:', searchQuery);
+      console.log('Mencari:', searchQuery);
       
       const { data: tickets, error } = await supabase
         .from('tickets')
@@ -96,21 +103,21 @@ export const TicketTracking = () => {
         throw error;
       }
 
-      console.log('Search results:', tickets);
+      console.log('Hasil pencarian:', tickets);
       setFoundTickets(tickets || []);
       
       if (!tickets || tickets.length === 0) {
         toast({
-          title: "No Results",
-          description: "No tickets found matching your search criteria",
+          title: "Tidak Ada Hasil",
+          description: "Tidak ditemukan tiket yang sesuai dengan kriteria pencarian",
         });
       }
       
     } catch (error: any) {
       console.error('Error searching tickets:', error);
       toast({
-        title: "Search Error",
-        description: error.message || "Failed to search tickets. Please try again.",
+        title: "Error Pencarian",
+        description: error.message || "Gagal mencari tiket. Silakan coba lagi.",
         variant: "destructive",
       });
     } finally {
@@ -138,7 +145,7 @@ export const TicketTracking = () => {
       console.error('Error fetching ticket logs:', error);
       toast({
         title: "Error",
-        description: "Failed to load ticket details",
+        description: "Gagal memuat detail tiket",
         variant: "destructive",
       });
     }
@@ -151,14 +158,15 @@ export const TicketTracking = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
+    return new Date(dateString).toLocaleString('id-ID');
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return <CheckCircle className="w-4 h-4" />;
+      case 'closed': return <CheckCircle className="w-4 h-4" />;
       case 'in_progress': return <Loader2 className="w-4 h-4 animate-spin" />;
-      default: return <AlertCircle className="w-4 h-4" />;
+      case 'ditolak': return <X className="w-4 h-4" />;
+      default: return <AlertTriangle className="w-4 h-4" />;
     }
   };
 
@@ -168,10 +176,10 @@ export const TicketTracking = () => {
       <Card className="glass-card border-0 neon-glow">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold gradient-text mb-2">
-            Track Your Request
+            Lacak Permintaan Anda
           </CardTitle>
           <p className="text-gray-400">
-            Enter your ticket number or search by keywords
+            Masukkan nomor tiket atau cari berdasarkan kata kunci
           </p>
         </CardHeader>
         
@@ -183,7 +191,7 @@ export const TicketTracking = () => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Enter ticket number (e.g., TPM-20241211-0001) or search terms..."
+                placeholder="Masukkan nomor tiket (mis. TPM-20241211-0001) atau kata kunci..."
                 className="glass-input text-white placeholder-gray-400 h-12 pl-12 text-lg"
               />
             </div>
@@ -197,7 +205,7 @@ export const TicketTracking = () => {
               ) : (
                 <>
                   <Search className="w-5 h-5 mr-2" />
-                  Search
+                  Cari
                 </>
               )}
             </Button>
@@ -209,7 +217,7 @@ export const TicketTracking = () => {
               className="glass-input border-dashed hover:border-blue-400"
             >
               <QrCode className="w-5 h-5 mr-2" />
-              Scan QR Code
+              Pindai Kode QR
             </Button>
           </div>
         </CardContent>
@@ -218,7 +226,7 @@ export const TicketTracking = () => {
       {/* Search Results */}
       {foundTickets.length > 0 && (
         <div className="space-y-4">
-          <h3 className="text-xl font-semibold text-white">Search Results</h3>
+          <h3 className="text-xl font-semibold text-white">Hasil Pencarian</h3>
           <div className="grid gap-4">
             {foundTickets.map((ticket) => (
               <Card key={ticket.id} className="glass-card border-0 hover:neon-glow transition-all duration-300">
@@ -243,7 +251,7 @@ export const TicketTracking = () => {
                       className="glass-input border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white"
                     >
                       <Eye className="w-4 h-4 mr-1" />
-                      View Details
+                      Lihat Detail
                     </Button>
                   </div>
 
@@ -254,7 +262,7 @@ export const TicketTracking = () => {
                     </div>
                     <div className="flex items-center space-x-2 text-gray-300">
                       <User className="w-4 h-4 text-green-400" />
-                      <span>{ticket.assigned_to || 'Unassigned'}</span>
+                      <span>{ticket.assigned_to || 'Belum Ditugaskan'}</span>
                     </div>
                     <div className="flex items-center space-x-2 text-gray-300">
                       <Calendar className="w-4 h-4 text-purple-400" />
@@ -264,15 +272,25 @@ export const TicketTracking = () => {
 
                   <div className="space-y-2">
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400">Progress</span>
+                      <span className="text-gray-400">Progres</span>
                       <span className="text-white font-semibold">{calculateProgress(ticket.status)}%</span>
                     </div>
                     <Progress value={calculateProgress(ticket.status)} className="h-2" />
                   </div>
 
-                  <div className={`inline-block px-3 py-1 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-medium mt-4`}>
-                    {ticket.priority.toUpperCase()} PRIORITY
+                  <div className="flex items-center justify-between mt-4">
+                    <div className={`inline-block px-3 py-1 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-medium`}>
+                      PRIORITAS {ticket.priority.toUpperCase()}
+                    </div>
+                    <span className="text-sm text-gray-400">{categoryLabels[ticket.category]}</span>
                   </div>
+
+                  {ticket.status === 'ditolak' && ticket.rejection_reason && (
+                    <div className="mt-4 p-3 bg-red-500/20 border border-red-500 rounded-lg">
+                      <p className="text-red-400 text-sm font-semibold">Alasan Penolakan:</p>
+                      <p className="text-red-300 text-sm">{ticket.rejection_reason}</p>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -295,7 +313,7 @@ export const TicketTracking = () => {
                 onClick={() => setSelectedTicket(null)}
                 className="glass-input"
               >
-                Close
+                Tutup
               </Button>
             </div>
           </CardHeader>
@@ -303,10 +321,10 @@ export const TicketTracking = () => {
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white">Status & Progress</h4>
+                <h4 className="text-lg font-semibold text-white">Status & Progres</h4>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-gray-300">Current Status:</span>
+                    <span className="text-gray-300">Status Saat Ini:</span>
                     <Badge className={`${statusConfig[selectedTicket.status].color} ${statusConfig[selectedTicket.status].glow} shadow-lg border-0`}>
                       {getStatusIcon(selectedTicket.status)}
                       <span className="ml-1">{statusConfig[selectedTicket.status].label}</span>
@@ -314,7 +332,7 @@ export const TicketTracking = () => {
                   </div>
                   <div className="space-y-2">
                     <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-400">Completion Progress</span>
+                      <span className="text-gray-400">Progres Penyelesaian</span>
                       <span className="text-white font-semibold">{calculateProgress(selectedTicket.status)}%</span>
                     </div>
                     <Progress value={calculateProgress(selectedTicket.status)} className="h-3" />
@@ -323,32 +341,32 @@ export const TicketTracking = () => {
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-white">Details</h4>
+                <h4 className="text-lg font-semibold text-white">Detail</h4>
                 <div className="space-y-3 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Priority:</span>
+                    <span className="text-gray-400">Prioritas:</span>
                     <span className={`font-semibold ${priorityConfig[selectedTicket.priority].color.split(' ')[1]}`}>
                       {selectedTicket.priority.toUpperCase()}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Category:</span>
-                    <span className="text-white">{selectedTicket.category.replace('_', ' ').toUpperCase()}</span>
+                    <span className="text-gray-400">Kategori:</span>
+                    <span className="text-white">{categoryLabels[selectedTicket.category]}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Location:</span>
+                    <span className="text-gray-400">Lokasi:</span>
                     <span className="text-white">{selectedTicket.location}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Machine ID:</span>
+                    <span className="text-gray-400">ID Mesin:</span>
                     <span className="text-white">{selectedTicket.machine_id || 'N/A'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Assigned To:</span>
-                    <span className="text-white">{selectedTicket.assigned_to || 'Unassigned'}</span>
+                    <span className="text-gray-400">Ditugaskan Kepada:</span>
+                    <span className="text-white">{selectedTicket.assigned_to || 'Belum Ditugaskan'}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Requester:</span>
+                    <span className="text-gray-400">Pemohon:</span>
                     <span className="text-white">{selectedTicket.requester_name} ({selectedTicket.requester_department})</span>
                   </div>
                 </div>
@@ -356,18 +374,24 @@ export const TicketTracking = () => {
             </div>
 
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-white">Description</h4>
+              <h4 className="text-lg font-semibold text-white">Deskripsi</h4>
               <p className="text-gray-300 p-4 glass-card rounded-lg">{selectedTicket.description}</p>
               {selectedTicket.notes && (
                 <>
-                  <h4 className="text-lg font-semibold text-white">Additional Notes</h4>
+                  <h4 className="text-lg font-semibold text-white">Catatan Tambahan</h4>
                   <p className="text-gray-300 p-4 glass-card rounded-lg">{selectedTicket.notes}</p>
+                </>
+              )}
+              {selectedTicket.rejection_reason && selectedTicket.status === 'ditolak' && (
+                <>
+                  <h4 className="text-lg font-semibold text-white">Alasan Penolakan</h4>
+                  <p className="text-red-300 p-4 glass-card rounded-lg">{selectedTicket.rejection_reason}</p>
                 </>
               )}
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Activity Timeline</h4>
+              <h4 className="text-lg font-semibold text-white mb-4">Linimasa Aktivitas</h4>
               <div className="space-y-4">
                 {ticketLogs.map((entry, index) => (
                   <div key={entry.id} className="flex items-start space-x-4 p-4 glass-card rounded-lg">
@@ -378,7 +402,7 @@ export const TicketTracking = () => {
                         <span className="text-sm text-gray-400">{formatDate(entry.created_at)}</span>
                       </div>
                       <p className="text-gray-300 text-sm">{entry.description}</p>
-                      <p className="text-xs text-gray-500 mt-1">by {entry.created_by}</p>
+                      <p className="text-xs text-gray-500 mt-1">oleh {entry.created_by}</p>
                     </div>
                   </div>
                 ))}
@@ -393,14 +417,14 @@ export const TicketTracking = () => {
         <Card className="glass-card border-0 border-dashed">
           <CardContent className="text-center py-12">
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Track Your TPM Request</h3>
+            <h3 className="text-xl font-semibold text-white mb-2">Lacak Permintaan TPM Anda</h3>
             <p className="text-gray-400 mb-4">
-              Enter your ticket number or search terms to find your maintenance request status
+              Masukkan nomor tiket atau kata kunci untuk menemukan status permintaan pemeliharaan Anda
             </p>
             <div className="text-sm text-gray-500 space-y-1">
-              <p>• Ticket numbers follow the format: TPM-YYYYMMDD-XXXX</p>
-              <p>• You can also search by machine ID, location, or description keywords</p>
-              <p>• Use the QR code scanner for quick access from mobile devices</p>
+              <p>• Nomor tiket mengikuti format: TPM-YYYYMMDD-XXXX</p>
+              <p>• Anda juga dapat mencari berdasarkan ID mesin, lokasi, atau kata kunci deskripsi</p>
+              <p>• Gunakan scanner kode QR untuk akses cepat dari perangkat mobile</p>
             </div>
           </CardContent>
         </Card>

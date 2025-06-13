@@ -1,11 +1,16 @@
+
 import React, { useState, useEffect } from 'react';
+import { LoginForm } from '@/components/LoginForm';
+import { Dashboard } from '@/components/Dashboard';
+import { MasterData } from '@/components/MasterData';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { ImageUpload } from '@/components/ImageUpload';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -22,14 +27,16 @@ import {
   CheckCircle,
   Clock,
   AlertTriangle,
-  Image
+  LogOut,
+  BarChart3,
+  Database
 } from 'lucide-react';
 
 interface Ticket {
   id: string;
   ticket_number: string;
   title: string;
-  status: 'open' | 'in_progress' | 'pending_parts' | 'completed' | 'closed';
+  status: 'open' | 'in_progress' | 'pending_parts' | 'closed' | 'ditolak';
   priority: 'low' | 'medium' | 'high' | 'critical';
   category: 'corrective_action' | 'repair' | 'procurement' | 'support';
   created_at: string;
@@ -41,15 +48,15 @@ interface Ticket {
   machine_id?: string;
   description: string;
   notes?: string;
-  after_photos?: string[];
+  rejection_reason?: string;
 }
 
 const statusConfig = {
-  open: { label: 'Open', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
-  in_progress: { label: 'In Progress', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
-  pending_parts: { label: 'Pending Parts', color: 'bg-orange-500', glow: 'shadow-orange-500/30' },
-  completed: { label: 'Completed', color: 'bg-green-500', glow: 'shadow-green-500/30' },
-  closed: { label: 'Closed', color: 'bg-gray-500', glow: 'shadow-gray-500/30' },
+  open: { label: 'Terbuka', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
+  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
+  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500', glow: 'shadow-orange-500/30' },
+  closed: { label: 'Selesai', color: 'bg-green-500', glow: 'shadow-green-500/30' },
+  ditolak: { label: 'Ditolak', color: 'bg-red-500', glow: 'shadow-red-500/30' },
 };
 
 const priorityConfig = {
@@ -60,6 +67,7 @@ const priorityConfig = {
 };
 
 const Admin = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -70,12 +78,33 @@ const Admin = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchTickets();
+    const loggedIn = localStorage.getItem('tpm_admin_logged_in');
+    if (loggedIn === 'true') {
+      setIsLoggedIn(true);
+      fetchTickets();
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   useEffect(() => {
     filterTickets();
   }, [tickets, searchQuery, statusFilter, priorityFilter]);
+
+  const handleLoginSuccess = () => {
+    setIsLoggedIn(true);
+    fetchTickets();
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('tpm_admin_logged_in');
+    localStorage.removeItem('tpm_admin_user');
+    setIsLoggedIn(false);
+    toast({
+      title: "Logout Berhasil",
+      description: "Anda telah keluar dari panel admin.",
+    });
+  };
 
   const fetchTickets = async () => {
     try {
@@ -86,17 +115,11 @@ const Admin = () => {
 
       if (error) throw error;
       
-      // Transform the data to ensure after_photos is properly typed
-      const transformedData = (data || []).map(ticket => ({
-        ...ticket,
-        after_photos: Array.isArray(ticket.after_photos) ? ticket.after_photos : []
-      })) as Ticket[];
-      
-      setTickets(transformedData);
+      setTickets(data || []);
     } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to fetch tickets",
+        description: "Gagal memuat tiket",
         variant: "destructive",
       });
     } finally {
@@ -136,13 +159,12 @@ const Admin = () => {
 
       if (error) throw error;
 
-      // Add log entry
       await supabase
         .from('ticket_logs')
         .insert({
           ticket_id: ticketId,
-          action: 'Updated',
-          description: `Ticket updated by admin`,
+          action: 'Diperbarui',
+          description: `Tiket diperbarui oleh admin`,
           created_by: 'Admin'
         });
 
@@ -150,13 +172,13 @@ const Admin = () => {
       setEditingTicket(null);
       
       toast({
-        title: "Success",
-        description: "Ticket updated successfully",
+        title: "Berhasil",
+        description: "Tiket berhasil diperbarui",
       });
     } catch (error: any) {
       toast({
         title: "Error",
-        description: "Failed to update ticket",
+        description: "Gagal memperbarui tiket",
         variant: "destructive",
       });
     }
@@ -164,22 +186,26 @@ const Admin = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return <CheckCircle className="w-4 h-4" />;
+      case 'closed': return <CheckCircle className="w-4 h-4" />;
       case 'in_progress': return <Clock className="w-4 h-4" />;
       default: return <AlertTriangle className="w-4 h-4" />;
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
+    return new Date(dateString).toLocaleString('id-ID');
   };
+
+  if (!isLoggedIn) {
+    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+  }
 
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Settings className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
-          <p className="text-white text-xl">Loading Admin Panel...</p>
+          <p className="text-white text-xl">Memuat Panel Admin...</p>
         </div>
       </div>
     );
@@ -194,238 +220,264 @@ const Admin = () => {
       <div className="relative z-10">
         {/* Header */}
         <header className="text-center py-8 px-4">
-          <div className="max-w-6xl mx-auto">
-            <h1 className="text-4xl md:text-6xl font-bold gradient-text mb-4">
-              TPM Admin Panel
-            </h1>
-            <p className="text-xl text-gray-300">
-              Manage and monitor all maintenance requests
-            </p>
+          <div className="max-w-6xl mx-auto flex justify-between items-center">
+            <div>
+              <h1 className="text-4xl md:text-6xl font-bold gradient-text mb-4">
+                Panel Admin TPM
+              </h1>
+              <p className="text-xl text-gray-300">
+                Kelola dan pantau semua permintaan pemeliharaan
+              </p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <ThemeToggle />
+              <Button
+                onClick={handleLogout}
+                variant="outline"
+                className="glass-input border-red-500 text-red-400 hover:bg-red-500 hover:text-white"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Keluar
+              </Button>
+            </div>
           </div>
         </header>
 
-        {/* Filters and Search */}
-        <div className="max-w-6xl mx-auto px-4 mb-8">
-          <Card className="glass-card border-0 neon-glow">
-            <CardContent className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <Input
-                    placeholder="Search tickets..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="glass-input text-white pl-10"
-                  />
-                </div>
-                
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="glass-input text-white">
-                    <SelectValue placeholder="Filter by status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="open">Open</SelectItem>
-                    <SelectItem value="in_progress">In Progress</SelectItem>
-                    <SelectItem value="pending_parts">Pending Parts</SelectItem>
-                    <SelectItem value="completed">Completed</SelectItem>
-                    <SelectItem value="closed">Closed</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-                  <SelectTrigger className="glass-input text-white">
-                    <SelectValue placeholder="Filter by priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Priority</SelectItem>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="critical">Critical</SelectItem>
-                  </SelectContent>
-                </Select>
-
-                <div className="flex items-center space-x-2 text-gray-300">
-                  <Users className="w-4 h-4" />
-                  <span>Total: {filteredTickets.length}</span>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Tickets List */}
+        {/* Main Content */}
         <div className="max-w-6xl mx-auto px-4 pb-12">
-          <div className="space-y-4">
-            {filteredTickets.map((ticket) => (
-              <Card key={ticket.id} className="glass-card border-0 hover:neon-glow transition-all duration-300">
+          <Tabs defaultValue="dashboard" className="w-full">
+            <TabsList className="grid w-full grid-cols-3 glass-card mb-8">
+              <TabsTrigger value="dashboard" className="data-[state=active]:bg-blue-600">
+                <BarChart3 className="w-4 h-4 mr-2" />
+                Dashboard
+              </TabsTrigger>
+              <TabsTrigger value="tickets" className="data-[state=active]:bg-blue-600">
+                <FileText className="w-4 h-4 mr-2" />
+                Kelola Tiket
+              </TabsTrigger>
+              <TabsTrigger value="master-data" className="data-[state=active]:bg-blue-600">
+                <Database className="w-4 h-4 mr-2" />
+                Data Master
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="dashboard">
+              <Dashboard />
+            </TabsContent>
+
+            <TabsContent value="tickets">
+              {/* Filters and Search */}
+              <Card className="glass-card border-0 neon-glow mb-8">
                 <CardContent className="p-6">
-                  {editingTicket?.id === ticket.id ? (
-                    // Edit Mode
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <label className="text-white text-sm">Status</label>
-                          <Select 
-                            value={editingTicket.status} 
-                            onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
-                          >
-                            <SelectTrigger className="glass-input text-white">
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="open">Open</SelectItem>
-                              <SelectItem value="in_progress">In Progress</SelectItem>
-                              <SelectItem value="pending_parts">Pending Parts</SelectItem>
-                              <SelectItem value="completed">Completed</SelectItem>
-                              <SelectItem value="closed">Closed</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        
-                        <div>
-                          <label className="text-white text-sm">Assigned To</label>
-                          <Input
-                            value={editingTicket.assigned_to || ''}
-                            onChange={(e) => setEditingTicket({...editingTicket, assigned_to: e.target.value})}
-                            className="glass-input text-white"
-                            placeholder="Assign technician"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="text-white text-sm">Notes</label>
-                        <Textarea
-                          value={editingTicket.notes || ''}
-                          onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
-                          className="glass-input text-white"
-                          placeholder="Add notes..."
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-white text-sm mb-2 block">
-                          <Image className="w-4 h-4 inline mr-2" />
-                          After Repair Photos (Optional Evidence)
-                        </label>
-                        <ImageUpload
-                          existingImages={Array.isArray(editingTicket.after_photos) ? editingTicket.after_photos as string[] : []}
-                          onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
-                          maxImages={5}
-                        />
-                      </div>
-
-                      <div className="flex space-x-2">
-                        <Button
-                          onClick={() => updateTicket(ticket.id, editingTicket)}
-                          className="bg-green-600 hover:bg-green-700"
-                        >
-                          <Save className="w-4 h-4 mr-2" />
-                          Save
-                        </Button>
-                        <Button
-                          variant="outline"
-                          onClick={() => setEditingTicket(null)}
-                          className="glass-input"
-                        >
-                          <X className="w-4 h-4 mr-2" />
-                          Cancel
-                        </Button>
-                      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div className="relative">
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Input
+                        placeholder="Cari tiket..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="glass-input text-white pl-10"
+                      />
                     </div>
-                  ) : (
-                    // View Mode
-                    <div>
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="space-y-2">
-                          <div className="flex items-center space-x-3">
-                            <h3 className="text-xl font-semibold text-white">{ticket.title}</h3>
-                            <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0`}>
-                              {getStatusIcon(ticket.status)}
-                              <span className="ml-1">{statusConfig[ticket.status].label}</span>
-                            </Badge>
-                          </div>
-                          <p className="text-lg font-mono text-blue-400">{ticket.ticket_number}</p>
-                        </div>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => setEditingTicket(ticket)}
-                          className="glass-input border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white"
-                        >
-                          <Edit3 className="w-4 h-4 mr-1" />
-                          Edit
-                        </Button>
-                      </div>
+                    
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger className="glass-input text-white">
+                        <SelectValue placeholder="Filter berdasarkan status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Semua Status</SelectItem>
+                        <SelectItem value="open">Terbuka</SelectItem>
+                        <SelectItem value="in_progress">Sedang Proses</SelectItem>
+                        <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
+                        <SelectItem value="closed">Selesai</SelectItem>
+                        <SelectItem value="ditolak">Ditolak</SelectItem>
+                      </SelectContent>
+                    </Select>
 
-                      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 text-sm">
-                        <div className="flex items-center space-x-2 text-gray-300">
-                          <MapPin className="w-4 h-4 text-blue-400" />
-                          <span>{ticket.location}</span>
-                        </div>
-                        <div className="flex items-center space-x-2 text-gray-300">
-                          <User className="w-4 h-4 text-green-400" />
-                          <span>{ticket.assigned_to || 'Unassigned'}</span>
-                        </div>
-                        <div className="flex items-center space-x-2 text-gray-300">
-                          <Calendar className="w-4 h-4 text-purple-400" />
-                          <span>{formatDate(ticket.created_at)}</span>
-                        </div>
-                        <div className={`inline-block px-2 py-1 rounded border ${priorityConfig[ticket.priority].color} text-xs`}>
-                          {ticket.priority.toUpperCase()}
-                        </div>
-                      </div>
+                    <Select value={priorityFilter} onValueChange={setPriorityFilter}>
+                      <SelectTrigger className="glass-input text-white">
+                        <SelectValue placeholder="Filter berdasarkan prioritas" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Semua Prioritas</SelectItem>
+                        <SelectItem value="low">Rendah</SelectItem>
+                        <SelectItem value="medium">Sedang</SelectItem>
+                        <SelectItem value="high">Tinggi</SelectItem>
+                        <SelectItem value="critical">Kritis</SelectItem>
+                      </SelectContent>
+                    </Select>
 
-                      <p className="text-gray-300 text-sm mb-2">{ticket.description}</p>
-                      
-                      {/* Display after photos if available */}
-                      {ticket.after_photos && Array.isArray(ticket.after_photos) && ticket.after_photos.length > 0 && (
-                        <div className="mt-4">
-                          <h4 className="text-white text-sm mb-2 flex items-center">
-                            <Image className="w-4 h-4 mr-2" />
-                            After Repair Evidence ({ticket.after_photos.length} photos)
-                          </h4>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                            {ticket.after_photos.map((photo: string, index: number) => (
-                              <img
-                                key={index}
-                                src={photo}
-                                alt={`After repair ${index + 1}`}
-                                className="w-full h-20 object-cover rounded border-2 border-gray-300 cursor-pointer hover:border-blue-400 transition-colors"
-                                onClick={() => window.open(photo, '_blank')}
+                    <div className="flex items-center space-x-2 text-gray-300">
+                      <Users className="w-4 h-4" />
+                      <span>Total: {filteredTickets.length}</span>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Tickets List */}
+              <div className="space-y-4">
+                {filteredTickets.map((ticket) => (
+                  <Card key={ticket.id} className="glass-card border-0 hover:neon-glow transition-all duration-300">
+                    <CardContent className="p-6">
+                      {editingTicket?.id === ticket.id ? (
+                        // Edit Mode
+                        <div className="space-y-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <label className="text-white text-sm">Status</label>
+                              <Select 
+                                value={editingTicket.status} 
+                                onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
+                              >
+                                <SelectTrigger className="glass-input text-white">
+                                  <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="open">Terbuka</SelectItem>
+                                  <SelectItem value="in_progress">Sedang Proses</SelectItem>
+                                  <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
+                                  <SelectItem value="closed">Selesai</SelectItem>
+                                  <SelectItem value="ditolak">Ditolak</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            
+                            <div>
+                              <label className="text-white text-sm">Ditugaskan Kepada</label>
+                              <Input
+                                value={editingTicket.assigned_to || ''}
+                                onChange={(e) => setEditingTicket({...editingTicket, assigned_to: e.target.value})}
+                                className="glass-input text-white"
+                                placeholder="Tugaskan teknisi"
                               />
-                            ))}
+                            </div>
+                          </div>
+
+                          {editingTicket.status === 'ditolak' && (
+                            <div>
+                              <label className="text-white text-sm">Alasan Penolakan *</label>
+                              <Textarea
+                                value={editingTicket.rejection_reason || ''}
+                                onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
+                                className="glass-input text-white"
+                                placeholder="Masukkan alasan penolakan..."
+                                required
+                              />
+                            </div>
+                          )}
+
+                          <div>
+                            <label className="text-white text-sm">Catatan</label>
+                            <Textarea
+                              value={editingTicket.notes || ''}
+                              onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
+                              className="glass-input text-white"
+                              placeholder="Tambahkan catatan..."
+                            />
+                          </div>
+
+                          <div className="flex space-x-2">
+                            <Button
+                              onClick={() => updateTicket(ticket.id, editingTicket)}
+                              className="bg-green-600 hover:bg-green-700"
+                            >
+                              <Save className="w-4 h-4 mr-2" />
+                              Simpan
+                            </Button>
+                            <Button
+                              variant="outline"
+                              onClick={() => setEditingTicket(null)}
+                              className="glass-input"
+                            >
+                              <X className="w-4 h-4 mr-2" />
+                              Batal
+                            </Button>
+                          </div>
+                        </div>
+                      ) : (
+                        // View Mode
+                        <div>
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="space-y-2">
+                              <div className="flex items-center space-x-3">
+                                <h3 className="text-xl font-semibold text-white">{ticket.title}</h3>
+                                <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0`}>
+                                  {getStatusIcon(ticket.status)}
+                                  <span className="ml-1">{statusConfig[ticket.status].label}</span>
+                                </Badge>
+                              </div>
+                              <p className="text-lg font-mono text-blue-400">{ticket.ticket_number}</p>
+                            </div>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setEditingTicket(ticket)}
+                              className="glass-input border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white"
+                            >
+                              <Edit3 className="w-4 h-4 mr-1" />
+                              Edit
+                            </Button>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 text-sm">
+                            <div className="flex items-center space-x-2 text-gray-300">
+                              <MapPin className="w-4 h-4 text-blue-400" />
+                              <span>{ticket.location}</span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-gray-300">
+                              <User className="w-4 h-4 text-green-400" />
+                              <span>{ticket.assigned_to || 'Belum Ditugaskan'}</span>
+                            </div>
+                            <div className="flex items-center space-x-2 text-gray-300">
+                              <Calendar className="w-4 h-4 text-purple-400" />
+                              <span>{formatDate(ticket.created_at)}</span>
+                            </div>
+                            <div className={`inline-block px-2 py-1 rounded border ${priorityConfig[ticket.priority].color} text-xs`}>
+                              {ticket.priority.toUpperCase()}
+                            </div>
+                          </div>
+
+                          <p className="text-gray-300 text-sm mb-2">{ticket.description}</p>
+                          
+                          {ticket.status === 'ditolak' && ticket.rejection_reason && (
+                            <div className="mt-4 p-3 bg-red-500/20 border border-red-500 rounded-lg">
+                              <p className="text-red-400 text-sm font-semibold">Alasan Penolakan:</p>
+                              <p className="text-red-300 text-sm">{ticket.rejection_reason}</p>
+                            </div>
+                          )}
+
+                          <div className="text-xs text-gray-500 mt-2">
+                            Pemohon: {ticket.requester_name} ({ticket.requester_department})
+                            {ticket.machine_id && ` | Mesin: ${ticket.machine_id}`}
                           </div>
                         </div>
                       )}
+                    </CardContent>
+                  </Card>
+                ))}
 
-                      <div className="text-xs text-gray-500 mt-2">
-                        Requester: {ticket.requester_name} ({ticket.requester_department})
-                        {ticket.machine_id && ` | Machine: ${ticket.machine_id}`}
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
+                {filteredTickets.length === 0 && (
+                  <Card className="glass-card border-0 border-dashed">
+                    <CardContent className="text-center py-12">
+                      <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-white mb-2">Tidak Ada Tiket Ditemukan</h3>
+                      <p className="text-gray-400">
+                        {searchQuery || statusFilter !== 'all' || priorityFilter !== 'all' 
+                          ? 'Coba sesuaikan filter Anda' 
+                          : 'Belum ada tiket yang diajukan'
+                        }
+                      </p>
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </TabsContent>
 
-            {filteredTickets.length === 0 && (
-              <Card className="glass-card border-0 border-dashed">
-                <CardContent className="text-center py-12">
-                  <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-white mb-2">No Tickets Found</h3>
-                  <p className="text-gray-400">
-                    {searchQuery || statusFilter !== 'all' || priorityFilter !== 'all' 
-                      ? 'Try adjusting your filters' 
-                      : 'No tickets have been submitted yet'
-                    }
-                  </p>
-                </CardContent>
-              </Card>
-            )}
-          </div>
+            <TabsContent value="master-data">
+              <MasterData />
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </div>
