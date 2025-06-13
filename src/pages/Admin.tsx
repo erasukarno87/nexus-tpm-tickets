@@ -3,6 +3,7 @@ import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
 import { MasterData } from '@/components/MasterData';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { Background3D } from '@/components/Background3D';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -50,6 +51,14 @@ interface Ticket {
   rejection_reason?: string;
 }
 
+interface Technician {
+  id: string;
+  name: string;
+  email?: string;
+  specialty?: string;
+  is_active: boolean;
+}
+
 const statusConfig = {
   open: { label: 'Terbuka', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
   in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
@@ -69,6 +78,7 @@ const Admin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
+  const [technicians, setTechnicians] = useState<Technician[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
@@ -81,6 +91,7 @@ const Admin = () => {
     if (loggedIn === 'true') {
       setIsLoggedIn(true);
       fetchTickets();
+      fetchTechnicians();
     } else {
       setIsLoading(false);
     }
@@ -93,6 +104,7 @@ const Admin = () => {
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     fetchTickets();
+    fetchTechnicians();
   };
 
   const handleLogout = () => {
@@ -103,6 +115,21 @@ const Admin = () => {
       title: "Logout Berhasil",
       description: "Anda telah keluar dari panel admin.",
     });
+  };
+
+  const fetchTechnicians = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('technicians')
+        .select('*')
+        .eq('is_active', true)
+        .order('name');
+
+      if (error) throw error;
+      setTechnicians(data || []);
+    } catch (error: any) {
+      console.error('Error fetching technicians:', error);
+    }
   };
 
   const fetchTickets = async () => {
@@ -204,24 +231,33 @@ const Admin = () => {
   };
 
   if (!isLoggedIn) {
-    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+    return (
+      <div className="relative min-h-screen">
+        <Background3D />
+        <div className="relative z-10">
+          <LoginForm onLoginSuccess={handleLoginSuccess} />
+        </div>
+      </div>
+    );
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <Settings className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
-          <p className="text-white text-xl">Memuat Panel Admin...</p>
+      <div className="relative min-h-screen">
+        <Background3D />
+        <div className="min-h-screen flex items-center justify-center relative z-10">
+          <div className="text-center">
+            <Settings className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
+            <p className="text-white text-xl">Memuat Panel Admin...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Particle Background */}
-      <div className="particle-bg fixed inset-0 z-0"></div>
+    <div className="relative min-h-screen overflow-hidden">
+      <Background3D />
       
       {/* Main Content */}
       <div className="relative z-10">
@@ -352,12 +388,22 @@ const Admin = () => {
                             
                             <div>
                               <label className="text-white text-sm">Ditugaskan Kepada</label>
-                              <Input
-                                value={editingTicket.assigned_to || ''}
-                                onChange={(e) => setEditingTicket({...editingTicket, assigned_to: e.target.value})}
-                                className="glass-input text-white"
-                                placeholder="Tugaskan teknisi"
-                              />
+                              <Select 
+                                value={editingTicket.assigned_to || ''} 
+                                onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value})}
+                              >
+                                <SelectTrigger className="glass-input text-white">
+                                  <SelectValue placeholder="Pilih teknisi" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="">Belum Ditugaskan</SelectItem>
+                                  {technicians.map((tech) => (
+                                    <SelectItem key={tech.id} value={tech.name}>
+                                      {tech.name} {tech.specialty && `(${tech.specialty})`}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
                             </div>
                           </div>
 
@@ -375,12 +421,12 @@ const Admin = () => {
                           )}
 
                           <div>
-                            <label className="text-white text-sm">Catatan</label>
+                            <label className="text-white text-sm">Catatan Admin</label>
                             <Textarea
                               value={editingTicket.notes || ''}
                               onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
                               className="glass-input text-white"
-                              placeholder="Tambahkan catatan..."
+                              placeholder="Tambahkan catatan admin..."
                             />
                           </div>
 
