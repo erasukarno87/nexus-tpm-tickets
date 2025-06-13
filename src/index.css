@@ -6,6 +6,51 @@
 
 :root {
   font-family: "Inter", sans-serif;
+  
+  /* Light theme variables */
+  --background: 0 0% 100%;
+  --foreground: 222.2% 84% 4.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 222.2% 84% 4.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 222.2% 84% 4.9%;
+  --primary: 222.2% 47.4% 11.2%;
+  --primary-foreground: 210% 40% 98%;
+  --secondary: 210% 40% 96%;
+  --secondary-foreground: 222.2% 47.4% 11.2%;
+  --muted: 210% 40% 96%;
+  --muted-foreground: 215.4% 16.3% 46.9%;
+  --accent: 210% 40% 96%;
+  --accent-foreground: 222.2% 47.4% 11.2%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 210% 40% 98%;
+  --border: 214.3% 31.8% 91.4%;
+  --input: 214.3% 31.8% 91.4%;
+  --ring: 222.2% 84% 4.9%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* Dark theme variables */
+  --background: 222.2% 84% 4.9%;
+  --foreground: 210% 40% 98%;
+  --card: 222.2% 84% 4.9%;
+  --card-foreground: 210% 40% 98%;
+  --popover: 222.2% 84% 4.9%;
+  --popover-foreground: 210% 40% 98%;
+  --primary: 210% 40% 98%;
+  --primary-foreground: 222.2% 47.4% 11.2%;
+  --secondary: 217.2% 32.6% 17.5%;
+  --secondary-foreground: 210% 40% 98%;
+  --muted: 217.2% 32.6% 17.5%;
+  --muted-foreground: 215% 20.2% 65.1%;
+  --accent: 217.2% 32.6% 17.5%;
+  --accent-foreground: 210% 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210% 40% 98%;
+  --border: 217.2% 32.6% 17.5%;
+  --input: 217.2% 32.6% 17.5%;
+  --ring: 212.7% 26.8% 83.9%;
 }
 
 * {
@@ -25,6 +70,7 @@ html, body {
   }
   body {
     @apply bg-background text-foreground;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
@@ -45,12 +91,24 @@ html, body {
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    transition: all 0.3s ease;
+  }
+
+  .dark .glass-card {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .glass-input {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .dark .glass-input {
+    background: rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.1);
   }
 
   .glass-input:focus {
@@ -59,12 +117,17 @@ html, body {
     box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
   }
 
+  .dark .glass-input:focus {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
   /* Neon glow effect */
   .neon-glow {
     box-shadow: 
       0 0 5px rgba(99, 102, 241, 0.3),
       0 0 10px rgba(99, 102, 241, 0.2),
       0 0 15px rgba(99, 102, 241, 0.1);
+    transition: box-shadow 0.3s ease;
   }
 
   .neon-glow:hover {
@@ -72,32 +135,6 @@ html, body {
       0 0 10px rgba(99, 102, 241, 0.4),
       0 0 20px rgba(99, 102, 241, 0.3),
       0 0 30px rgba(99, 102, 241, 0.2);
-  }
-
-  /* Form enhancements */
-  .form-section {
-    @apply space-y-4 p-6 glass-card rounded-lg;
-  }
-
-  .form-field {
-    @apply space-y-2;
-  }
-
-  .form-label {
-    @apply text-sm font-medium text-gray-300 flex items-center space-x-2;
-  }
-
-  .form-input {
-    @apply glass-input text-white placeholder-gray-400 focus:outline-none transition-all duration-200;
-  }
-
-  /* Button enhancements */
-  .btn-primary {
-    @apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105;
-  }
-
-  .btn-secondary {
-    @apply glass-input border-gray-500 text-gray-300 hover:border-blue-400 hover:text-blue-400 font-medium py-2 px-4 rounded-lg transition-all duration-200;
   }
 
   /* Card enhancements */
@@ -123,33 +160,48 @@ html, body {
       0 0 20px rgba(99, 102, 241, 0.3),
       0 0 30px rgba(99, 102, 241, 0.2);
   }
-
-  /* Priority indicators */
-  .priority-indicator {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
-  }
-
-  /* Status indicators */
-  .status-indicator {
-    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border;
-  }
-
-  /* Navigation enhancements */
-  .nav-tab {
-    @apply glass-input border-gray-600 text-gray-300 hover:border-blue-400 hover:text-blue-400 transition-all duration-200;
-  }
-
-  .nav-tab.active {
-    @apply bg-blue-600 border-blue-600 text-white;
-  }
-
-  /* Focus improvements */
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-900;
-  }
 }
 
 @layer utilities {
+  /* Custom animations for background */
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(180deg);
+    }
+  }
+
+  @keyframes drift {
+    0% {
+      transform: translateX(-100px);
+    }
+    100% {
+      transform: translateX(calc(100vw + 100px));
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.1;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.3;
+      transform: scale(1.1);
+    }
+  }
+
   /* Apply animations to background elements */
   .animate-float {
     animation: float 6s ease-in-out infinite;
@@ -163,88 +215,49 @@ html, body {
     animation: pulse-glow 4s ease-in-out infinite;
   }
 
-  .animate-fadeIn {
-    animation: fadeIn 0.5s ease-out;
-  }
-
-  /* Status and priority colors */
-  .status-open { @apply bg-blue-500/20 text-blue-400 border-blue-500; }
-  .status-in_progress { @apply bg-yellow-500/20 text-yellow-400 border-yellow-500; }
-  .status-pending_parts { @apply bg-orange-500/20 text-orange-400 border-orange-500; }
-  .status-closed { @apply bg-green-500/20 text-green-400 border-green-500; }
-  .status-ditolak { @apply bg-red-500/20 text-red-400 border-red-500; }
-
-  .priority-low { @apply bg-gray-500/20 text-gray-400 border-gray-500; }
-  .priority-medium { @apply bg-yellow-500/20 text-yellow-400 border-yellow-500; }
-  .priority-high { @apply bg-orange-500/20 text-orange-400 border-orange-500; }
-  .priority-critical { @apply bg-red-500/20 text-red-400 border-red-500; }
-
   /* Loading states */
   .loading-shimmer {
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
     background-size: 200% 100%;
     animation: shimmer 1.5s infinite;
   }
-}
 
-/* Custom animations for background */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
   }
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
-  50% {
-    transform: translateY(-20px) rotate(180deg);
-  }
-}
 
-@keyframes drift {
-  0% {
-    transform: translateX(-100px);
-  }
-  100% {
-    transform: translateX(calc(100vw + 100px));
+  .animate-fadeIn {
+    animation: fadeIn 0.5s ease-out;
   }
 }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.3;
-    transform: scale(1.1);
-  }
-}
+/* Status and priority colors */
+.status-open { @apply bg-blue-500/20 text-blue-400 border-blue-500; }
+.status-in_progress { @apply bg-yellow-500/20 text-yellow-400 border-yellow-500; }
+.status-pending_parts { @apply bg-orange-500/20 text-orange-400 border-orange-500; }
+.status-closed { @apply bg-green-500/20 text-green-400 border-green-500; }
+.status-ditolak { @apply bg-red-500/20 text-red-400 border-red-500; }
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.priority-low { @apply bg-gray-500/20 text-gray-400 border-gray-500; }
+.priority-medium { @apply bg-yellow-500/20 text-yellow-400 border-yellow-500; }
+.priority-high { @apply bg-orange-500/20 text-orange-400 border-orange-500; }
+.priority-critical { @apply bg-red-500/20 text-red-400 border-red-500; }
 
 /* Scrollbar styling */
 ::-webkit-scrollbar {
@@ -278,30 +291,5 @@ html, body {
   
   .glass-card {
     margin: 1rem;
-  }
-}
-
-/* Dark mode enhancements */
-@media (prefers-color-scheme: dark) {
-  .glass-card {
-    background: rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-  
-  .glass-input {
-    background: rgba(0, 0, 0, 0.2);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-}
-
-/* Print styles */
-@media print {
-  .no-print {
-    display: none !important;
-  }
-  
-  .print-friendly {
-    background: white !important;
-    color: black !important;
   }
 }

@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -45,6 +44,7 @@ interface Location {
   name: string;
   description?: string;
   department_id?: string;
+  line_area?: string;
   is_active: boolean;
   created_at: string;
 }
@@ -55,6 +55,7 @@ interface Machine {
   name: string;
   location_id?: string;
   department_id?: string;
+  line_area?: string;
   model?: string;
   manufacturer?: string;
   is_active: boolean;
@@ -220,6 +221,126 @@ export const MasterData = () => {
     }
   };
 
+  const handleSaveLocation = async (data: any) => {
+    try {
+      if (editingItem?.id) {
+        // Update
+        const { error } = await supabase
+          .from('locations')
+          .update(data)
+          .eq('id', editingItem.id);
+        if (error) throw error;
+      } else {
+        // Insert
+        const { error } = await supabase
+          .from('locations')
+          .insert(data);
+        if (error) throw error;
+      }
+
+      await fetchAllMasterData();
+      setEditingItem(null);
+      setEditingType('');
+      
+      toast({
+        title: "Berhasil!",
+        description: "Data lokasi berhasil disimpan.",
+      });
+    } catch (error: any) {
+      console.error('Error saving data:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Gagal menyimpan data",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleSaveMachine = async (data: any) => {
+    try {
+      if (editingItem?.id) {
+        // Update
+        const { error } = await supabase
+          .from('machines')
+          .update(data)
+          .eq('id', editingItem.id);
+        if (error) throw error;
+      } else {
+        // Insert
+        const { error } = await supabase
+          .from('machines')
+          .insert(data);
+        if (error) throw error;
+      }
+
+      await fetchAllMasterData();
+      setEditingItem(null);
+      setEditingType('');
+      
+      toast({
+        title: "Berhasil!",
+        description: "Data mesin berhasil disimpan.",
+      });
+    } catch (error: any) {
+      console.error('Error saving data:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Gagal menyimpan data",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteLocation = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('locations')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      await fetchAllMasterData();
+      
+      toast({
+        title: "Berhasil!",
+        description: "Data berhasil dihapus.",
+      });
+    } catch (error: any) {
+      console.error('Error deleting data:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Gagal menghapus data",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteMachine = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('machines')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      await fetchAllMasterData();
+      
+      toast({
+        title: "Berhasil!",
+        description: "Data berhasil dihapus.",
+      });
+    } catch (error: any) {
+      console.error('Error deleting data:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Gagal menghapus data",
+        variant: "destructive",
+      });
+    }
+  };
+
   const DepartmentForm = () => (
     <Card className="glass-card border-0">
       <CardContent className="p-6 space-y-4">
@@ -330,6 +451,193 @@ export const MasterData = () => {
               phone: editingItem?.phone || null,
               department_id: editingItem?.department_id || null,
               specialty: editingItem?.specialty || null,
+              is_active: true
+            })}
+            className="bg-green-600 hover:bg-green-700"
+          >
+            <Save className="w-4 h-4 mr-2" />
+            Simpan
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => { setEditingItem(null); setEditingType(''); }}
+            className="glass-input"
+          >
+            <X className="w-4 h-4 mr-2" />
+            Batal
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const LocationForm = () => (
+    <Card className="glass-card border-0">
+      <CardContent className="p-6 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label className="text-white">Nama Lokasi *</Label>
+            <Input
+              value={editingItem?.name || ''}
+              onChange={(e) => setEditingItem({...editingItem, name: e.target.value})}
+              className="glass-input text-white"
+              placeholder="Masukkan nama lokasi"
+            />
+          </div>
+          <div>
+            <Label className="text-white">Line/Area *</Label>
+            <Input
+              value={editingItem?.line_area || ''}
+              onChange={(e) => setEditingItem({...editingItem, line_area: e.target.value})}
+              className="glass-input text-white"
+              placeholder="Masukkan line/area (contoh: Line A, Area 1)"
+            />
+          </div>
+        </div>
+        <div>
+          <Label className="text-white">Departemen</Label>
+          <Select value={editingItem?.department_id || ''} onValueChange={(value) => setEditingItem({...editingItem, department_id: value})}>
+            <SelectTrigger className="glass-input text-white">
+              <SelectValue placeholder="Pilih departemen" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="unassigned">Tidak ada departemen</SelectItem>
+              {departments.map((dept) => (
+                <SelectItem key={dept.id} value={dept.id}>{dept.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-white">Deskripsi</Label>
+          <Textarea
+            value={editingItem?.description || ''}
+            onChange={(e) => setEditingItem({...editingItem, description: e.target.value})}
+            className="glass-input text-white"
+            placeholder="Masukkan deskripsi lokasi"
+          />
+        </div>
+        <div className="flex space-x-2">
+          <Button
+            onClick={() => handleSaveLocation({
+              name: editingItem?.name,
+              line_area: editingItem?.line_area,
+              department_id: editingItem?.department_id === 'unassigned' ? null : editingItem?.department_id,
+              description: editingItem?.description || null,
+              is_active: true
+            })}
+            className="bg-green-600 hover:bg-green-700"
+          >
+            <Save className="w-4 h-4 mr-2" />
+            Simpan
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => { setEditingItem(null); setEditingType(''); }}
+            className="glass-input"
+          >
+            <X className="w-4 h-4 mr-2" />
+            Batal
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+
+  const MachineForm = () => (
+    <Card className="glass-card border-0">
+      <CardContent className="p-6 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label className="text-white">Kode Mesin *</Label>
+            <Input
+              value={editingItem?.machine_code || ''}
+              onChange={(e) => setEditingItem({...editingItem, machine_code: e.target.value})}
+              className="glass-input text-white"
+              placeholder="Masukkan kode mesin"
+            />
+          </div>
+          <div>
+            <Label className="text-white">Nama Mesin *</Label>
+            <Input
+              value={editingItem?.name || ''}
+              onChange={(e) => setEditingItem({...editingItem, name: e.target.value})}
+              className="glass-input text-white"
+              placeholder="Masukkan nama mesin"
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label className="text-white">Line/Area *</Label>
+            <Input
+              value={editingItem?.line_area || ''}
+              onChange={(e) => setEditingItem({...editingItem, line_area: e.target.value})}
+              className="glass-input text-white"
+              placeholder="Masukkan line/area (contoh: Line A, Area 1)"
+            />
+          </div>
+          <div>
+            <Label className="text-white">Lokasi</Label>
+            <Select value={editingItem?.location_id || ''} onValueChange={(value) => setEditingItem({...editingItem, location_id: value})}>
+              <SelectTrigger className="glass-input text-white">
+                <SelectValue placeholder="Pilih lokasi" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="unassigned">Tidak ada lokasi</SelectItem>
+                {locations.map((loc) => (
+                  <SelectItem key={loc.id} value={loc.id}>
+                    {loc.name} {loc.line_area && `(${loc.line_area})`}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <Label className="text-white">Model</Label>
+            <Input
+              value={editingItem?.model || ''}
+              onChange={(e) => setEditingItem({...editingItem, model: e.target.value})}
+              className="glass-input text-white"
+              placeholder="Masukkan model mesin"
+            />
+          </div>
+          <div>
+            <Label className="text-white">Manufaktur</Label>
+            <Input
+              value={editingItem?.manufacturer || ''}
+              onChange={(e) => setEditingItem({...editingItem, manufacturer: e.target.value})}
+              className="glass-input text-white"
+              placeholder="Masukkan nama manufaktur"
+            />
+          </div>
+        </div>
+        <div>
+          <Label className="text-white">Departemen</Label>
+          <Select value={editingItem?.department_id || ''} onValueChange={(value) => setEditingItem({...editingItem, department_id: value})}>
+            <SelectTrigger className="glass-input text-white">
+              <SelectValue placeholder="Pilih departemen" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="unassigned">Tidak ada departemen</SelectItem>
+              {departments.map((dept) => (
+                <SelectItem key={dept.id} value={dept.id}>{dept.name}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex space-x-2">
+          <Button
+            onClick={() => handleSaveMachine({
+              machine_code: editingItem?.machine_code,
+              name: editingItem?.name,
+              line_area: editingItem?.line_area,
+              location_id: editingItem?.location_id === 'unassigned' ? null : editingItem?.location_id,
+              department_id: editingItem?.department_id === 'unassigned' ? null : editingItem?.department_id,
+              model: editingItem?.model || null,
+              manufacturer: editingItem?.manufacturer || null,
               is_active: true
             })}
             className="bg-green-600 hover:bg-green-700"
@@ -493,16 +801,108 @@ export const MasterData = () => {
         </TabsContent>
 
         <TabsContent value="locations" className="space-y-4">
-          <div className="text-center p-8">
-            <MapPin className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-400">Tab Lokasi - Implementasi serupa dengan Departemen</p>
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-semibold text-white">Daftar Lokasi</h3>
+            <Button
+              onClick={() => { setEditingItem({}); setEditingType('locations'); }}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Tambah Lokasi
+            </Button>
+          </div>
+
+          {editingType === 'locations' && <LocationForm />}
+
+          <div className="grid gap-4">
+            {locations.map((location) => (
+              <Card key={location.id} className="glass-card border-0">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="text-lg font-semibold text-white">{location.name}</h4>
+                      <p className="text-blue-400 text-sm font-medium">{location.line_area}</p>
+                      <p className="text-gray-400 text-sm">{location.description}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Dept: {departments.find(d => d.id === location.department_id)?.name || 'N/A'}
+                      </p>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => { setEditingItem(location); setEditingType('locations'); }}
+                        className="glass-input border-blue-500 text-blue-400"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDeleteLocation(location.id)}
+                        className="glass-input border-red-500 text-red-400"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </TabsContent>
 
         <TabsContent value="machines" className="space-y-4">
-          <div className="text-center p-8">
-            <Settings className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-400">Tab Mesin - Implementasi serupa dengan Teknisi</p>
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-semibold text-white">Daftar Mesin</h3>
+            <Button
+              onClick={() => { setEditingItem({}); setEditingType('machines'); }}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Tambah Mesin
+            </Button>
+          </div>
+
+          {editingType === 'machines' && <MachineForm />}
+
+          <div className="grid gap-4">
+            {machines.map((machine) => (
+              <Card key={machine.id} className="glass-card border-0">
+                <CardContent className="p-6">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <h4 className="text-lg font-semibold text-white">{machine.name}</h4>
+                      <p className="text-blue-400 text-sm font-mono">{machine.machine_code}</p>
+                      <p className="text-green-400 text-sm font-medium">{machine.line_area}</p>
+                      <p className="text-gray-400 text-sm">{machine.model} - {machine.manufacturer}</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Lokasi: {locations.find(l => l.id === machine.location_id)?.name || 'N/A'} | 
+                        Dept: {departments.find(d => d.id === machine.department_id)?.name || 'N/A'}
+                      </p>
+                    </div>
+                    <div className="flex space-x-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => { setEditingItem(machine); setEditingType('machines'); }}
+                        className="glass-input border-blue-500 text-blue-400"
+                      >
+                        <Edit3 className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleDeleteMachine(machine.id)}
+                        className="glass-input border-red-500 text-red-400"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </TabsContent>
       </Tabs>
