@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -115,7 +114,15 @@ const Admin = () => {
 
       if (error) throw error;
       
-      setTickets(data || []);
+      // Type casting untuk memastikan compatibility dengan interface
+      const typedTickets = data?.map(ticket => ({
+        ...ticket,
+        status: ticket.status as Ticket['status'],
+        priority: ticket.priority as Ticket['priority'],
+        category: ticket.category as Ticket['category']
+      })) || [];
+      
+      setTickets(typedTickets);
     } catch (error: any) {
       toast({
         title: "Error",

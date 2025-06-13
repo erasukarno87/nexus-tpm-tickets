@@ -100,19 +100,19 @@ export const MasterData = () => {
     }
   };
 
-  const handleSave = async (tableName: string, data: any) => {
+  const handleSaveDepartment = async (data: any) => {
     try {
       if (editingItem?.id) {
         // Update
         const { error } = await supabase
-          .from(tableName)
+          .from('departments')
           .update(data)
           .eq('id', editingItem.id);
         if (error) throw error;
       } else {
         // Insert
         const { error } = await supabase
-          .from(tableName)
+          .from('departments')
           .insert(data);
         if (error) throw error;
       }
@@ -123,7 +123,7 @@ export const MasterData = () => {
       
       toast({
         title: "Berhasil!",
-        description: `Data ${tableName} berhasil disimpan.`,
+        description: "Data departemen berhasil disimpan.",
       });
     } catch (error: any) {
       console.error('Error saving data:', error);
@@ -135,10 +135,45 @@ export const MasterData = () => {
     }
   };
 
-  const handleDelete = async (tableName: string, id: string) => {
+  const handleSaveTechnician = async (data: any) => {
+    try {
+      if (editingItem?.id) {
+        // Update
+        const { error } = await supabase
+          .from('technicians')
+          .update(data)
+          .eq('id', editingItem.id);
+        if (error) throw error;
+      } else {
+        // Insert
+        const { error } = await supabase
+          .from('technicians')
+          .insert(data);
+        if (error) throw error;
+      }
+
+      await fetchAllMasterData();
+      setEditingItem(null);
+      setEditingType('');
+      
+      toast({
+        title: "Berhasil!",
+        description: "Data teknisi berhasil disimpan.",
+      });
+    } catch (error: any) {
+      console.error('Error saving data:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Gagal menyimpan data",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteDepartment = async (id: string) => {
     try {
       const { error } = await supabase
-        .from(tableName)
+        .from('departments')
         .delete()
         .eq('id', id);
       
@@ -148,7 +183,32 @@ export const MasterData = () => {
       
       toast({
         title: "Berhasil!",
-        description: `Data berhasil dihapus.`,
+        description: "Data berhasil dihapus.",
+      });
+    } catch (error: any) {
+      console.error('Error deleting data:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Gagal menghapus data",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteTechnician = async (id: string) => {
+    try {
+      const { error } = await supabase
+        .from('technicians')
+        .delete()
+        .eq('id', id);
+      
+      if (error) throw error;
+      
+      await fetchAllMasterData();
+      
+      toast({
+        title: "Berhasil!",
+        description: "Data berhasil dihapus.",
       });
     } catch (error: any) {
       console.error('Error deleting data:', error);
@@ -183,7 +243,7 @@ export const MasterData = () => {
         </div>
         <div className="flex space-x-2">
           <Button
-            onClick={() => handleSave('departments', {
+            onClick={() => handleSaveDepartment({
               name: editingItem?.name,
               description: editingItem?.description || null,
               is_active: true
@@ -264,7 +324,7 @@ export const MasterData = () => {
         </div>
         <div className="flex space-x-2">
           <Button
-            onClick={() => handleSave('technicians', {
+            onClick={() => handleSaveTechnician({
               name: editingItem?.name,
               email: editingItem?.email || null,
               phone: editingItem?.phone || null,
@@ -366,7 +426,7 @@ export const MasterData = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleDelete('departments', dept.id)}
+                        onClick={() => handleDeleteDepartment(dept.id)}
                         className="glass-input border-red-500 text-red-400"
                       >
                         <Trash2 className="w-4 h-4" />
@@ -419,7 +479,7 @@ export const MasterData = () => {
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleDelete('technicians', tech.id)}
+                        onClick={() => handleDeleteTechnician(tech.id)}
                         className="glass-input border-red-500 text-red-400"
                       >
                         <Trash2 className="w-4 h-4" />

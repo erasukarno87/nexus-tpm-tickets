@@ -104,7 +104,16 @@ export const TicketTracking = () => {
       }
 
       console.log('Hasil pencarian:', tickets);
-      setFoundTickets(tickets || []);
+      
+      // Type casting untuk memastikan compatibility dengan interface
+      const typedTickets = tickets?.map(ticket => ({
+        ...ticket,
+        status: ticket.status as TicketStatus['status'],
+        priority: ticket.priority as TicketStatus['priority'],
+        category: ticket.category as TicketStatus['category']
+      })) || [];
+      
+      setFoundTickets(typedTickets);
       
       if (!tickets || tickets.length === 0) {
         toast({
