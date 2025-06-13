@@ -9,130 +9,16 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      ticket_logs: {
-        Row: {
-          action: string
-          created_at: string
-          created_by: string
-          description: string
-          id: string
-          ticket_id: string
-        }
-        Insert: {
-          action: string
-          created_at?: string
-          created_by: string
-          description: string
-          id?: string
-          ticket_id: string
-        }
-        Update: {
-          action?: string
-          created_at?: string
-          created_by?: string
-          description?: string
-          id?: string
-          ticket_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "ticket_logs_ticket_id_fkey"
-            columns: ["ticket_id"]
-            isOneToOne: false
-            referencedRelation: "tickets"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      tickets: {
-        Row: {
-          after_photos: Json | null
-          assigned_to: string | null
-          before_photos: Json | null
-          category: Database["public"]["Enums"]["ticket_category"]
-          completed_at: string | null
-          created_at: string
-          description: string
-          id: string
-          location: string
-          machine_id: string | null
-          notes: string | null
-          priority: Database["public"]["Enums"]["ticket_priority"]
-          requester_contact: string
-          requester_department: string
-          requester_name: string
-          status: Database["public"]["Enums"]["ticket_status"]
-          ticket_number: string
-          title: string
-          updated_at: string
-        }
-        Insert: {
-          after_photos?: Json | null
-          assigned_to?: string | null
-          before_photos?: Json | null
-          category: Database["public"]["Enums"]["ticket_category"]
-          completed_at?: string | null
-          created_at?: string
-          description: string
-          id?: string
-          location: string
-          machine_id?: string | null
-          notes?: string | null
-          priority?: Database["public"]["Enums"]["ticket_priority"]
-          requester_contact: string
-          requester_department: string
-          requester_name: string
-          status?: Database["public"]["Enums"]["ticket_status"]
-          ticket_number: string
-          title: string
-          updated_at?: string
-        }
-        Update: {
-          after_photos?: Json | null
-          assigned_to?: string | null
-          before_photos?: Json | null
-          category?: Database["public"]["Enums"]["ticket_category"]
-          completed_at?: string | null
-          created_at?: string
-          description?: string
-          id?: string
-          location?: string
-          machine_id?: string | null
-          notes?: string | null
-          priority?: Database["public"]["Enums"]["ticket_priority"]
-          requester_contact?: string
-          requester_department?: string
-          requester_name?: string
-          status?: Database["public"]["Enums"]["ticket_status"]
-          ticket_number?: string
-          title?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      generate_ticket_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
+      [_ in never]: never
     }
     Enums: {
-      ticket_category:
-        | "corrective_action"
-        | "repair"
-        | "procurement"
-        | "support"
-      ticket_priority: "low" | "medium" | "high" | "critical"
-      ticket_status:
-        | "open"
-        | "in_progress"
-        | "pending_parts"
-        | "completed"
-        | "closed"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -247,21 +133,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      ticket_category: [
-        "corrective_action",
-        "repair",
-        "procurement",
-        "support",
-      ],
-      ticket_priority: ["low", "medium", "high", "critical"],
-      ticket_status: [
-        "open",
-        "in_progress",
-        "pending_parts",
-        "completed",
-        "closed",
-      ],
-    },
+    Enums: {},
   },
 } as const
