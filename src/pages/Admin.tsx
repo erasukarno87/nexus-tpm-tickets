@@ -47,6 +47,7 @@ interface Ticket {
   updated_at: string;
   assigned_to?: string;
   location: string;
+  line_area_name?: string;
   requester_name: string;
   requester_department: string;
   machine_id?: string;
@@ -544,8 +545,8 @@ const Admin = () => {
                                           <p className="text-gray-900 dark:text-white">{categoryLabels[ticket.category]}</p>
                                         </div>
                                         <div>
-                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Lokasi</label>
-                                          <p className="text-gray-900 dark:text-white">{ticket.location}</p>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Line/Area</label>
+                                          <p className="text-gray-900 dark:text-white">{ticket.line_area_name || ticket.location}</p>
                                         </div>
                                         <div>
                                           <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Teknisi</label>
@@ -628,8 +629,8 @@ const Admin = () => {
                               <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
                                 <MapPin className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                                 <div>
-                                  <p className="text-xs text-gray-600 dark:text-gray-400">Lokasi</p>
-                                  <p className="text-gray-900 dark:text-white font-semibold">{ticket.location}</p>
+                                  <p className="text-xs text-gray-600 dark:text-gray-400">Line/Area</p>
+                                  <p className="text-gray-900 dark:text-white font-semibold">{ticket.line_area_name || ticket.location}</p>
                                 </div>
                               </div>
                               <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
