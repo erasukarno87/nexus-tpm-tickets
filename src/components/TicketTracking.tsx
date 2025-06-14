@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,6 +69,76 @@ export const TicketTracking = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
+  // Check for stored ticket number from localStorage
+  useEffect(() => {
+    const storedTicketNumber = localStorage.getItem('searchTicketNumber');
+    if (storedTicketNumber) {
+      console.log('Found stored ticket number:', storedTicketNumber);
+      setSearchQuery(storedTicketNumber);
+      // Clear the stored ticket number after using it
+      localStorage.removeItem('searchTicketNumber');
+      // Automatically search for the ticket
+      setTimeout(() => {
+        handleSearchWithTicketNumber(storedTicketNumber);
+      }, 100);
+    }
+  }, []);
+
+  const handleSearchWithTicketNumber = async (ticketNumber: string) => {
+    setIsSearching(true);
+    
+    try {
+      console.log('Auto-searching for ticket:', ticketNumber);
+      
+      const { data: tickets, error } = await supabase
+        .from('tickets')
+        .select('*')
+        .or(`ticket_number.ilike.%${ticketNumber}%,title.ilike.%${ticketNumber}%`)
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Search error:', error);
+        throw error;
+      }
+
+      console.log('Auto-search results:', tickets);
+      
+      // Type casting untuk memastikan compatibility dengan interface
+      const typedTickets = tickets?.map(ticket => ({
+        ...ticket,
+        status: ticket.status as TicketStatus['status'],
+        priority: ticket.priority as TicketStatus['priority'],
+        category: ticket.category as TicketStatus['category'],
+        before_photos: (ticket.before_photos as string[]) || [],
+        after_photos: (ticket.after_photos as string[]) || []
+      })) || [];
+      
+      setFoundTickets(typedTickets);
+      
+      if (!tickets || tickets.length === 0) {
+        toast({
+          title: "Tidak Ada Hasil",
+          description: "Tidak ditemukan tiket yang sesuai dengan kriteria pencarian",
+        });
+      } else {
+        toast({
+          title: "Tiket Ditemukan",
+          description: `Ditemukan ${tickets.length} tiket yang sesuai`,
+        });
+      }
+      
+    } catch (error: any) {
+      console.error('Error auto-searching tickets:', error);
+      toast({
+        title: "Error Pencarian",
+        description: error.message || "Gagal mencari tiket. Silakan coba lagi.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSearching(false);
+    }
+  };
+
   const calculateProgress = (status: string): number => {
     switch (status) {
       case 'open': return 10;
@@ -132,53 +202,7 @@ export const TicketTracking = () => {
       return;
     }
     
-    setIsSearching(true);
-    
-    try {
-      console.log('Mencari:', searchQuery);
-      
-      const { data: tickets, error } = await supabase
-        .from('tickets')
-        .select('*')
-        .or(`ticket_number.ilike.%${searchQuery}%,title.ilike.%${searchQuery}%`)
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Search error:', error);
-        throw error;
-      }
-
-      console.log('Hasil pencarian:', tickets);
-      
-      // Type casting untuk memastikan compatibility dengan interface
-      const typedTickets = tickets?.map(ticket => ({
-        ...ticket,
-        status: ticket.status as TicketStatus['status'],
-        priority: ticket.priority as TicketStatus['priority'],
-        category: ticket.category as TicketStatus['category'],
-        before_photos: (ticket.before_photos as string[]) || [],
-        after_photos: (ticket.after_photos as string[]) || []
-      })) || [];
-      
-      setFoundTickets(typedTickets);
-      
-      if (!tickets || tickets.length === 0) {
-        toast({
-          title: "Tidak Ada Hasil",
-          description: "Tidak ditemukan tiket yang sesuai dengan kriteria pencarian",
-        });
-      }
-      
-    } catch (error: any) {
-      console.error('Error searching tickets:', error);
-      toast({
-        title: "Error Pencarian",
-        description: error.message || "Gagal mencari tiket. Silakan coba lagi.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSearching(false);
-    }
+    await handleSearchWithTicketNumber(searchQuery.trim());
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
