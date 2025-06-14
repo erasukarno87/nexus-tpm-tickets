@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -167,7 +168,6 @@ export const TicketSubmissionForm = () => {
         title: data.title,
         description: data.description,
         priority: data.priority,
-        location: '',
         requester_name: data.requester_name,
         requester_department: data.requester_department,
         requester_contact: data.requester_contact || '',
