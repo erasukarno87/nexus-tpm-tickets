@@ -26,7 +26,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       // Generate unique filename
       const fileExt = file.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
-      const filePath = `ticket-images/${fileName}`;
+      const filePath = `${fileName}`;
 
       console.log('Uploading file to Supabase Storage:', filePath);
 
@@ -138,14 +138,15 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     const imageUrl = images[index];
     
     // Extract file path from URL for deletion
-    if (imageUrl.includes('ticket-images/')) {
+    if (imageUrl.includes('/ticket-images/')) {
       try {
-        const filePath = imageUrl.split('/ticket-images/')[1];
-        console.log('Deleting file from storage:', `ticket-images/${filePath}`);
+        const urlParts = imageUrl.split('/ticket-images/');
+        const filePath = urlParts[1];
+        console.log('Deleting file from storage:', filePath);
         
         const { error } = await supabase.storage
           .from('ticket-images')
-          .remove([`ticket-images/${filePath}`]);
+          .remove([filePath]);
         
         if (error) {
           console.error('Error deleting file:', error);
