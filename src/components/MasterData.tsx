@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -54,7 +53,7 @@ export const MasterData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // State untuk form data - direct state management
+  // Form state untuk setiap form - langsung tanpa objek formData
   const [departmentName, setDepartmentName] = useState('');
   const [lineAreaName, setLineAreaName] = useState('');
   const [lineAreaDepartment, setLineAreaDepartment] = useState('none');
@@ -66,9 +65,9 @@ export const MasterData = () => {
     fetchAllMasterData();
   }, []);
 
-  // Reset form data ketika editing type berubah
+  // Reset form ketika editing berubah
   useEffect(() => {
-    if (editingItem) {
+    if (editingItem && editingType) {
       if (editingType === 'departments') {
         setDepartmentName(editingItem.name || '');
       } else if (editingType === 'line-areas') {
@@ -80,7 +79,7 @@ export const MasterData = () => {
         setTechnicianPhone(editingItem.phone || '');
       }
     } else {
-      // Reset all form data when not editing
+      // Reset semua form saat tidak editing
       setDepartmentName('');
       setLineAreaName('');
       setLineAreaDepartment('none');
@@ -121,14 +120,12 @@ export const MasterData = () => {
       };
 
       if (editingItem?.id) {
-        // Update
         const { error } = await supabase
           .from('departments')
           .update(data)
           .eq('id', editingItem.id);
         if (error) throw error;
       } else {
-        // Insert
         const { error } = await supabase
           .from('departments')
           .insert(data);
@@ -136,9 +133,7 @@ export const MasterData = () => {
       }
 
       await fetchAllMasterData();
-      setEditingItem(null);
-      setEditingType('');
-      setDepartmentName('');
+      resetForm();
       
       toast({
         title: "Berhasil!",
@@ -164,14 +159,12 @@ export const MasterData = () => {
       };
 
       if (editingItem?.id) {
-        // Update
         const { error } = await supabase
           .from('line_areas')
           .update(data)
           .eq('id', editingItem.id);
         if (error) throw error;
       } else {
-        // Insert
         const { error } = await supabase
           .from('line_areas')
           .insert(data);
@@ -179,11 +172,7 @@ export const MasterData = () => {
       }
 
       await fetchAllMasterData();
-      setEditingItem(null);
-      setEditingType('');
-      setLineAreaName('');
-      setLineAreaDepartment('none');
-      setLineAreaDescription('');
+      resetForm();
       
       toast({
         title: "Berhasil!",
@@ -208,14 +197,12 @@ export const MasterData = () => {
       };
 
       if (editingItem?.id) {
-        // Update
         const { error } = await supabase
           .from('technicians')
           .update(data)
           .eq('id', editingItem.id);
         if (error) throw error;
       } else {
-        // Insert
         const { error } = await supabase
           .from('technicians')
           .insert(data);
@@ -223,10 +210,7 @@ export const MasterData = () => {
       }
 
       await fetchAllMasterData();
-      setEditingItem(null);
-      setEditingType('');
-      setTechnicianName('');
-      setTechnicianPhone('');
+      resetForm();
       
       toast({
         title: "Berhasil!",
@@ -510,9 +494,8 @@ export const MasterData = () => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Daftar Departemen</h3>
               <Button
                 onClick={() => { 
-                  setEditingItem({ name: '' }); 
+                  setEditingItem({}); 
                   setEditingType('departments'); 
-                  setDepartmentName('');
                 }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
@@ -541,7 +524,6 @@ export const MasterData = () => {
                           onClick={() => { 
                             setEditingItem(dept); 
                             setEditingType('departments'); 
-                            setDepartmentName(dept.name);
                           }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
@@ -568,11 +550,8 @@ export const MasterData = () => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Daftar Line/Area</h3>
               <Button
                 onClick={() => { 
-                  setEditingItem({ name: '', department_id: 'none', description: '' }); 
+                  setEditingItem({}); 
                   setEditingType('line-areas'); 
-                  setLineAreaName('');
-                  setLineAreaDepartment('none');
-                  setLineAreaDescription('');
                 }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
@@ -607,9 +586,6 @@ export const MasterData = () => {
                           onClick={() => { 
                             setEditingItem(area); 
                             setEditingType('line-areas'); 
-                            setLineAreaName(area.name);
-                            setLineAreaDepartment(area.department_id || 'none');
-                            setLineAreaDescription(area.description || '');
                           }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
@@ -636,10 +612,8 @@ export const MasterData = () => {
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Daftar Teknisi</h3>
               <Button
                 onClick={() => { 
-                  setEditingItem({ name: '', phone: '' }); 
+                  setEditingItem({}); 
                   setEditingType('technicians'); 
-                  setTechnicianName('');
-                  setTechnicianPhone('');
                 }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
@@ -671,8 +645,6 @@ export const MasterData = () => {
                           onClick={() => { 
                             setEditingItem(tech); 
                             setEditingType('technicians'); 
-                            setTechnicianName(tech.name);
-                            setTechnicianPhone(tech.phone || '');
                           }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
