@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -65,10 +64,10 @@ const categoryOptions = [
 ];
 
 const priorityOptions = [
-  { value: 'low', label: 'Rendah', color: 'border-green-500 text-green-400 bg-green-500/10 dark:text-green-400 dark:bg-green-500/10', description: 'Tidak mengganggu produksi' },
-  { value: 'medium', label: 'Sedang', color: 'border-yellow-500 text-yellow-600 bg-yellow-500/10 dark:text-yellow-400 dark:bg-yellow-500/10', description: 'Berpotensi mengganggu produksi' },
-  { value: 'high', label: 'Tinggi', color: 'border-orange-500 text-orange-600 bg-orange-500/10 dark:text-orange-400 dark:bg-orange-500/10', description: 'Mengganggu produksi secara signifikan' },
-  { value: 'critical', label: 'Kritis', color: 'border-red-500 text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-500/10', description: 'Menghentikan produksi' },
+  { value: 'low', label: 'Rendah', color: 'border-green-500 text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-500/10', description: 'Tidak mengganggu produksi' },
+  { value: 'medium', label: 'Sedang', color: 'border-yellow-500 text-yellow-600 bg-yellow-50 dark:text-yellow-400 dark:bg-yellow-500/10', description: 'Berpotensi mengganggu produksi' },
+  { value: 'high', label: 'Tinggi', color: 'border-orange-500 text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-500/10', description: 'Mengganggu produksi secara signifikan' },
+  { value: 'critical', label: 'Kritis', color: 'border-red-500 text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-500/10', description: 'Menghentikan produksi' },
 ];
 
 export const TicketSubmissionForm = () => {
@@ -102,7 +101,15 @@ export const TicketSubmissionForm = () => {
       ]);
 
       if (deptResult.data) setDepartments(deptResult.data);
-      if (machResult.data) setMachines(machResult.data);
+      if (machResult.data) {
+        // Transform data to include machine_code
+        const transformedMachines = machResult.data.map(item => ({
+          id: item.id,
+          machine_code: item.id, // Using id as machine_code for now
+          name: item.name
+        }));
+        setMachines(transformedMachines);
+      }
     } catch (error) {
       console.error('Error fetching master data:', error);
     }
@@ -248,239 +255,240 @@ export const TicketSubmissionForm = () => {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900">
       <ModernBackground />
-      <Card className="glass-card border-0 neon-glow relative z-10">
-        <CardHeader className="text-center pb-8">
-          <div className="flex items-center justify-center mb-6">
-            <FileText className="w-12 h-12 text-blue-400 mr-4 animate-pulse" />
-            <CardTitle className="text-4xl font-bold gradient-text text-glow">
-              Ajukan Permintaan Pemeliharaan
-            </CardTitle>
-            <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
-          </div>
-          <p className="text-gray-800 dark:text-gray-300 text-xl">
-            Lengkapi formulir di bawah untuk meminta bantuan TPM
-          </p>
-          <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
-        </CardHeader>
+      <div className="container mx-auto px-4 py-8 relative z-10">
+        <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+          <CardHeader className="text-center pb-8 bg-white dark:bg-gray-800">
+            <div className="flex items-center justify-center mb-6">
+              <FileText className="w-12 h-12 text-blue-600 mr-4" />
+              <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white">
+                Ajukan Permintaan Pemeliharaan
+              </CardTitle>
+              <Sparkles className="w-12 h-12 text-purple-600 ml-4" />
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 text-xl">
+              Lengkapi formulir di bawah untuk meminta bantuan TPM
+            </p>
+            <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-full"></div>
+          </CardHeader>
 
-        <CardContent className="px-8 pb-8">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-            {/* Enhanced Category Selection */}
-            <div className="space-y-6">
-              <Label className="text-2xl font-bold text-gray-800 dark:text-white flex items-center">
-                <Settings className="w-6 h-6 mr-3 text-blue-400" />
-                Jenis Permintaan
-              </Label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {categoryOptions.map((option) => {
-                  const Icon = option.icon;
-                  const isSelected = selectedCategory === option.value;
-                  return (
-                    <div
-                      key={option.value}
-                      onClick={() => setValue('category', option.value as TicketCategory)}
-                      className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
-                        isSelected 
-                          ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-2xl neon-glow` 
-                          : 'glass-card border-gray-600 hover:border-blue-400 hover:neon-glow'
-                      }`}
-                    >
-                      <div className="flex items-center space-x-4 mb-3">
-                        <Icon className="w-8 h-8" />
-                        <span className="font-bold text-lg">{option.label}</span>
+          <CardContent className="px-8 pb-8 bg-white dark:bg-gray-800">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
+              {/* Enhanced Category Selection */}
+              <div className="space-y-6">
+                <Label className="text-2xl font-bold text-black dark:text-white flex items-center">
+                  <Settings className="w-6 h-6 mr-3 text-blue-600" />
+                  Jenis Permintaan
+                </Label>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {categoryOptions.map((option) => {
+                    const Icon = option.icon;
+                    const isSelected = selectedCategory === option.value;
+                    return (
+                      <div
+                        key={option.value}
+                        onClick={() => setValue('category', option.value as TicketCategory)}
+                        className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
+                          isSelected 
+                            ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-xl` 
+                            : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:border-blue-500 text-black dark:text-white'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-4 mb-3">
+                          <Icon className="w-8 h-8" />
+                          <span className="font-bold text-lg">{option.label}</span>
+                        </div>
+                        <p className="text-sm opacity-90">{option.description}</p>
                       </div>
-                      <p className="text-sm opacity-90">{option.description}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Enhanced Title and Line/Area */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-3">
-                <Label htmlFor="title" className="text-gray-800 dark:text-white flex items-center space-x-2 text-lg font-semibold">
-                  <FileText className="w-5 h-5 text-blue-400" />
-                  <span>Judul Masalah *</span>
-                </Label>
-                <Input
-                  {...register('title', { required: 'Judul wajib diisi' })}
-                  className="glass-input text-gray-800 dark:text-white h-14 text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
-                  placeholder="Deskripsi singkat masalah"
-                />
-                {errors.title && (
-                  <p className="text-red-400 text-sm">{errors.title.message}</p>
-                )}
+                    );
+                  })}
+                </div>
               </div>
 
-              <div className="space-y-3">
-                <Label htmlFor="machine_id" className="text-gray-800 dark:text-white flex items-center space-x-2 text-lg font-semibold">
-                  <Settings className="w-5 h-5 text-green-400" />
-                  <span>Line/Area</span>
-                </Label>
-                <Select onValueChange={(value) => setValue('machine_id', value)}>
-                  <SelectTrigger className="glass-input text-gray-800 dark:text-white h-14 text-lg">
-                    <SelectValue placeholder="Pilih Line/Area" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
-                    {machines.map((machine) => (
-                      <SelectItem key={machine.id} value={machine.id} className="text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                        {machine.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            {/* Enhanced Description */}
-            <div className="space-y-3">
-              <Label htmlFor="description" className="text-gray-800 dark:text-white text-lg font-semibold">
-                Deskripsi Detail *
-              </Label>
-              <Textarea
-                {...register('description', { required: 'Deskripsi wajib diisi' })}
-                className="glass-input text-gray-800 dark:text-white min-h-[150px] text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
-                placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
-              />
-              {errors.description && (
-                <p className="text-red-400 text-sm">{errors.description.message}</p>
-              )}
-            </div>
-
-            {/* Enhanced Priority Selection */}
-            <div className="space-y-6">
-              <Label className="text-gray-800 dark:text-white text-lg font-semibold">Level Prioritas</Label>
-              <RadioGroup
-                value={selectedPriority}
-                onValueChange={(value) => setValue('priority', value as TicketPriority)}
-                className="grid grid-cols-1 md:grid-cols-2 gap-4"
-              >
-                {priorityOptions.map((option) => (
-                  <div key={option.value} className="flex items-center space-x-3">
-                    <RadioGroupItem value={option.value} id={option.value} className="w-5 h-5" />
-                    <Label
-                      htmlFor={option.value}
-                      className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105`}
-                    >
-                      <div className="font-bold text-lg">{option.label.toUpperCase()}</div>
-                      <div className="text-sm opacity-80">{option.description}</div>
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-
-            {/* Enhanced Requester Information */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold gradient-text flex items-center">
-                <User className="w-6 h-6 mr-3 text-blue-400" />
-                Informasi Pemohon
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Enhanced Title and Line/Area */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
-                  <Label htmlFor="requester_name" className="text-gray-800 dark:text-white flex items-center space-x-2 font-semibold">
-                    <User className="w-4 h-4" />
-                    <span>Nama *</span>
+                  <Label htmlFor="title" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
+                    <FileText className="w-5 h-5 text-blue-600" />
+                    <span>Judul Masalah *</span>
                   </Label>
                   <Input
-                    {...register('requester_name', { required: 'Nama wajib diisi' })}
-                    className="glass-input text-gray-800 dark:text-white h-14 text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
-                    placeholder="Nama lengkap Anda"
+                    {...register('title', { required: 'Judul wajib diisi' })}
+                    className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                    placeholder="Deskripsi singkat masalah"
                   />
-                  {errors.requester_name && (
-                    <p className="text-red-400 text-sm">{errors.requester_name.message}</p>
+                  {errors.title && (
+                    <p className="text-red-500 text-sm">{errors.title.message}</p>
                   )}
                 </div>
 
                 <div className="space-y-3">
-                  <Label htmlFor="requester_department" className="text-gray-800 dark:text-white flex items-center space-x-2 font-semibold">
-                    <Building className="w-4 h-4" />
-                    <span>Departemen *</span>
+                  <Label htmlFor="machine_id" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
+                    <Settings className="w-5 h-5 text-green-600" />
+                    <span>Line/Area</span>
                   </Label>
-                  <Select onValueChange={(value) => setValue('requester_department', value)}>
-                    <SelectTrigger className="glass-input text-gray-800 dark:text-white h-14 text-lg">
-                      <SelectValue placeholder="Pilih departemen" />
+                  <Select onValueChange={(value) => setValue('machine_id', value)}>
+                    <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
+                      <SelectValue placeholder="Pilih Line/Area" />
                     </SelectTrigger>
                     <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
-                      {departments.map((dept) => (
-                        <SelectItem key={dept.id} value={dept.name} className="text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                          {dept.name}
+                      {machines.map((machine) => (
+                        <SelectItem key={machine.id} value={machine.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                          {machine.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
-                  {errors.requester_department && (
-                    <p className="text-red-400 text-sm">Departemen wajib dipilih</p>
-                  )}
-                </div>
-
-                <div className="space-y-3">
-                  <Label htmlFor="requester_contact" className="text-gray-800 dark:text-white flex items-center space-x-2 font-semibold">
-                    <Phone className="w-4 h-4" />
-                    <span>Kontak *</span>
-                  </Label>
-                  <Input
-                    {...register('requester_contact', { required: 'Kontak wajib diisi' })}
-                    className="glass-input text-gray-800 dark:text-white h-14 text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
-                    placeholder="Telepon atau email"
-                  />
-                  {errors.requester_contact && (
-                    <p className="text-red-400 text-sm">{errors.requester_contact.message}</p>
-                  )}
                 </div>
               </div>
-            </div>
 
-            {/* Enhanced Requester Notes */}
-            <div className="space-y-3">
-              <Label htmlFor="requester_notes" className="text-gray-800 dark:text-white text-lg font-semibold">Catatan Tambahan</Label>
-              <Textarea
-                {...register('requester_notes')}
-                className="glass-input text-gray-800 dark:text-white min-h-[100px] text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
-                placeholder="Catatan tambahan dari pemohon..."
-              />
-            </div>
+              {/* Enhanced Description */}
+              <div className="space-y-3">
+                <Label htmlFor="description" className="text-black dark:text-white text-lg font-semibold">
+                  Deskripsi Detail *
+                </Label>
+                <Textarea
+                  {...register('description', { required: 'Deskripsi wajib diisi' })}
+                  className="bg-white dark:bg-gray-700 text-black dark:text-white min-h-[150px] text-lg border-gray-300 dark:border-gray-600"
+                  placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
+                />
+                {errors.description && (
+                  <p className="text-red-500 text-sm">{errors.description.message}</p>
+                )}
+              </div>
 
-            {/* Image Upload Section */}
-            <div className="space-y-6">
-              <Label className="text-gray-800 dark:text-white text-lg font-semibold flex items-center">
-                <Camera className="w-5 h-5 mr-2 text-blue-400" />
-                Foto Kondisi Sekarang (Opsional)
-              </Label>
-              <div className="p-6 glass-card rounded-xl border border-gray-300 dark:border-gray-600">
-                <ImageUpload
-                  onImagesChange={setBeforeImages}
-                  existingImages={beforeImages}
-                  maxImages={5}
+              {/* Enhanced Priority Selection */}
+              <div className="space-y-6">
+                <Label className="text-black dark:text-white text-lg font-semibold">Level Prioritas</Label>
+                <RadioGroup
+                  value={selectedPriority}
+                  onValueChange={(value) => setValue('priority', value as TicketPriority)}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                >
+                  {priorityOptions.map((option) => (
+                    <div key={option.value} className="flex items-center space-x-3">
+                      <RadioGroupItem value={option.value} id={option.value} className="w-5 h-5" />
+                      <Label
+                        htmlFor={option.value}
+                        className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105`}
+                      >
+                        <div className="font-bold text-lg">{option.label.toUpperCase()}</div>
+                        <div className="text-sm opacity-80">{option.description}</div>
+                      </Label>
+                    </div>
+                  ))}
+                </RadioGroup>
+              </div>
+
+              {/* Enhanced Requester Information */}
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-black dark:text-white flex items-center">
+                  <User className="w-6 h-6 mr-3 text-blue-600" />
+                  Informasi Pemohon
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-3">
+                    <Label htmlFor="requester_name" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <User className="w-4 h-4" />
+                      <span>Nama *</span>
+                    </Label>
+                    <Input
+                      {...register('requester_name', { required: 'Nama wajib diisi' })}
+                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                      placeholder="Nama lengkap Anda"
+                    />
+                    {errors.requester_name && (
+                      <p className="text-red-500 text-sm">{errors.requester_name.message}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="requester_department" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <Building className="w-4 h-4" />
+                      <span>Departemen *</span>
+                    </Label>
+                    <Select onValueChange={(value) => setValue('requester_department', value)}>
+                      <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
+                        <SelectValue placeholder="Pilih departemen" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
+                        {departments.map((dept) => (
+                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            {dept.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.requester_department && (
+                      <p className="text-red-500 text-sm">Departemen wajib dipilih</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <Phone className="w-4 h-4" />
+                      <span>Kontak *</span>
+                    </Label>
+                    <Input
+                      {...register('requester_contact', { required: 'Kontak wajib diisi' })}
+                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                      placeholder="Telepon atau email"
+                    />
+                    {errors.requester_contact && (
+                      <p className="text-red-500 text-sm">{errors.requester_contact.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Enhanced Requester Notes */}
+              <div className="space-y-3">
+                <Label htmlFor="requester_notes" className="text-black dark:text-white text-lg font-semibold">Catatan Tambahan</Label>
+                <Textarea
+                  {...register('requester_notes')}
+                  className="bg-white dark:bg-gray-700 text-black dark:text-white min-h-[100px] text-lg border-gray-300 dark:border-gray-600"
+                  placeholder="Catatan tambahan dari pemohon..."
                 />
               </div>
-            </div>
 
-            {/* Enhanced Submit Button */}
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full h-16 text-xl bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border-0 font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-6 h-6 mr-3 animate-spin" />
-                  Mengajukan Permintaan...
-                </>
-              ) : (
-                <>
-                  <Send className="w-6 h-6 mr-3" />
-                  Ajukan Permintaan Pemeliharaan
-                </>
-              )}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+              {/* Image Upload Section */}
+              <div className="space-y-6">
+                <Label className="text-black dark:text-white text-lg font-semibold flex items-center">
+                  <Camera className="w-5 h-5 mr-2 text-blue-600" />
+                  Foto Kondisi Sekarang (Opsional)
+                </Label>
+                <div className="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600">
+                  <ImageUpload
+                    onImagesChange={setBeforeImages}
+                    existingImages={beforeImages}
+                    maxImages={5}
+                  />
+                </div>
+              </div>
+
+              {/* Enhanced Submit Button */}
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full h-16 text-xl bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border-0 font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-6 h-6 mr-3 animate-spin" />
+                    Mengajukan Permintaan...
+                  </>
+                ) : (
+                  <>
+                    <Send className="w-6 h-6 mr-3" />
+                    Ajukan Permintaan Pemeliharaan
+                  </>
+                )}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
-
