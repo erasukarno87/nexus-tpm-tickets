@@ -301,24 +301,24 @@ const Admin = () => {
         <div className="max-w-6xl mx-auto px-4 pb-12">
           <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
             <Tabs defaultValue="dashboard" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-white/10 backdrop-blur-sm border border-white/20 mb-8 p-2 h-16 dark:bg-gray-900/50">
+              <TabsList className="grid w-full grid-cols-3 bg-white/90 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 mb-8 p-2 h-16">
                 <TabsTrigger 
                   value="dashboard" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200"
                 >
                   <BarChart3 className="w-5 h-5 mr-2" />
                   Dashboard
                 </TabsTrigger>
                 <TabsTrigger 
                   value="tickets" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200"
                 >
                   <FileText className="w-5 h-5 mr-2" />
                   Kelola Tiket
                 </TabsTrigger>
                 <TabsTrigger 
                   value="master-data" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200"
                 >
                   <Database className="w-5 h-5 mr-2" />
                   Data Master
@@ -331,7 +331,7 @@ const Admin = () => {
 
               <TabsContent value="tickets" className="animate-fadeIn">
                 {/* Enhanced Filters and Search */}
-                <Card className="bg-white/10 backdrop-blur-sm border border-white/20 mb-8 dark:bg-gray-900/30">
+                <Card className="bg-white/95 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 mb-8 shadow-lg">
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="relative">
@@ -340,12 +340,12 @@ const Admin = () => {
                           placeholder="Cari tiket..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="bg-white/10 backdrop-blur-sm border border-white/20 text-gray-900 dark:text-white pl-12 h-12 text-lg"
+                          className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white pl-12 h-12 text-lg"
                         />
                       </div>
                       
                       <Select value={statusFilter} onValueChange={setStatusFilter}>
-                        <SelectTrigger className="bg-white/10 backdrop-blur-sm border border-white/20 text-gray-900 dark:text-white h-12">
+                        <SelectTrigger className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white h-12">
                           <SelectValue placeholder="Filter berdasarkan status" />
                         </SelectTrigger>
                         <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
@@ -359,7 +359,7 @@ const Admin = () => {
                       </Select>
 
                       <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-                        <SelectTrigger className="bg-white/10 backdrop-blur-sm border border-white/20 text-gray-900 dark:text-white h-12">
+                        <SelectTrigger className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white h-12">
                           <SelectValue placeholder="Filter berdasarkan prioritas" />
                         </SelectTrigger>
                         <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
@@ -371,8 +371,8 @@ const Admin = () => {
                         </SelectContent>
                       </Select>
 
-                      <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg p-3 border border-blue-500/30">
-                        <Users className="w-5 h-5 text-blue-400" />
+                      <div className="flex items-center space-x-2 text-gray-800 dark:text-gray-200 bg-gradient-to-r from-blue-100 dark:from-blue-500/20 to-purple-100 dark:to-purple-500/20 rounded-lg p-3 border border-blue-200 dark:border-blue-500/30">
+                        <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         <span className="font-semibold">Total: {filteredTickets.length}</span>
                       </div>
                     </div>
@@ -384,7 +384,7 @@ const Admin = () => {
                   {filteredTickets.map((ticket, index) => (
                     <Card 
                       key={ticket.id} 
-                      className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-500 dark:bg-gray-900/30 dark:hover:bg-gray-900/50"
+                      className="bg-white/95 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 hover:shadow-lg transition-all duration-500"
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       <CardContent className="p-6">
@@ -393,12 +393,12 @@ const Admin = () => {
                           <div className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                               <div>
-                                <label className="text-white text-sm font-semibold mb-2 block">Status</label>
+                                <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Status</label>
                                 <Select 
                                   value={editingTicket.status} 
                                   onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
                                 >
-                                  <SelectTrigger className="glass-input text-white h-12">
+                                  <SelectTrigger className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white h-12">
                                     <SelectValue />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -412,12 +412,12 @@ const Admin = () => {
                               </div>
                               
                               <div>
-                                <label className="text-white text-sm font-semibold mb-2 block">Ditugaskan Kepada</label>
+                                <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Ditugaskan Kepada</label>
                                 <Select 
                                   value={editingTicket.assigned_to || 'unassigned'} 
                                   onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
                                 >
-                                  <SelectTrigger className="glass-input text-white h-12">
+                                  <SelectTrigger className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white h-12">
                                     <SelectValue placeholder="Pilih teknisi" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -434,11 +434,11 @@ const Admin = () => {
 
                             {editingTicket.status === 'ditolak' && (
                               <div>
-                                <label className="text-white text-sm font-semibold mb-2 block">Alasan Penolakan *</label>
+                                <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Alasan Penolakan *</label>
                                 <Textarea
                                   value={editingTicket.rejection_reason || ''}
                                   onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
-                                  className="glass-input text-white min-h-[100px]"
+                                  className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white min-h-[100px]"
                                   placeholder="Masukkan alasan penolakan..."
                                   required
                                 />
@@ -446,11 +446,11 @@ const Admin = () => {
                             )}
 
                             <div>
-                              <label className="text-white text-sm font-semibold mb-2 block">Catatan Admin</label>
+                              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Catatan Admin</label>
                               <Textarea
                                 value={editingTicket.notes || ''}
                                 onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
-                                className="glass-input text-white min-h-[100px]"
+                                className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white min-h-[100px]"
                                 placeholder="Tambahkan catatan admin..."
                               />
                             </div>
@@ -458,7 +458,7 @@ const Admin = () => {
                             <div className="flex space-x-4">
                               <Button
                                 onClick={() => updateTicket(ticket.id, editingTicket)}
-                                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105"
+                                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 text-white"
                               >
                                 <Save className="w-4 h-4 mr-2" />
                                 Simpan Perubahan
@@ -466,7 +466,7 @@ const Admin = () => {
                               <Button
                                 variant="outline"
                                 onClick={() => setEditingTicket(null)}
-                                className="glass-input border-gray-500 hover:bg-gray-500 hover:text-white transition-all duration-300"
+                                className="bg-white dark:bg-white/10 border-gray-500 hover:bg-gray-500 hover:text-white transition-all duration-300"
                               >
                                 <X className="w-4 h-4 mr-2" />
                                 Batal
@@ -479,19 +479,19 @@ const Admin = () => {
                             <div className="flex items-start justify-between mb-6">
                               <div className="space-y-3">
                                 <div className="flex items-center space-x-4">
-                                  <h3 className="text-xl font-bold text-white">{ticket.title}</h3>
-                                  <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0 px-3 py-1`}>
+                                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{ticket.title}</h3>
+                                  <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0 px-3 py-1 text-white`}>
                                     {getStatusIcon(ticket.status)}
                                     <span className="ml-2 font-semibold">{statusConfig[ticket.status].label}</span>
                                   </Badge>
                                 </div>
-                                <p className="text-lg font-mono text-blue-400 font-bold">{ticket.ticket_number}</p>
+                                <p className="text-lg font-mono text-blue-600 dark:text-blue-400 font-bold">{ticket.ticket_number}</p>
                               </div>
                               <Button
                                 variant="outline"
                                 size="sm"
                                 onClick={() => setEditingTicket(ticket)}
-                                className="glass-input border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105"
+                                className="bg-white dark:bg-white/10 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105"
                               >
                                 <Edit3 className="w-4 h-4 mr-2" />
                                 Edit Tiket
@@ -499,25 +499,25 @@ const Admin = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                              <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
-                                <MapPin className="w-5 h-5 text-blue-400" />
+                              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">
+                                <MapPin className="w-5 h-5 text-blue-500 dark:text-blue-400" />
                                 <div>
-                                  <p className="text-xs text-gray-400">Lokasi</p>
-                                  <p className="text-white font-semibold">{ticket.location}</p>
+                                  <p className="text-xs text-gray-600 dark:text-gray-400">Lokasi</p>
+                                  <p className="text-gray-900 dark:text-white font-semibold">{ticket.location}</p>
                                 </div>
                               </div>
-                              <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
-                                <User className="w-5 h-5 text-green-400" />
+                              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">
+                                <User className="w-5 h-5 text-green-500 dark:text-green-400" />
                                 <div>
-                                  <p className="text-xs text-gray-400">Teknisi</p>
-                                  <p className="text-white font-semibold">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
+                                  <p className="text-xs text-gray-600 dark:text-gray-400">Teknisi</p>
+                                  <p className="text-gray-900 dark:text-white font-semibold">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
                                 </div>
                               </div>
-                              <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
-                                <Calendar className="w-5 h-5 text-purple-400" />
+                              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">
+                                <Calendar className="w-5 h-5 text-purple-500 dark:text-purple-400" />
                                 <div>
-                                  <p className="text-xs text-gray-400">Dibuat</p>
-                                  <p className="text-white font-semibold text-xs">{formatDate(ticket.created_at)}</p>
+                                  <p className="text-xs text-gray-600 dark:text-gray-400">Dibuat</p>
+                                  <p className="text-gray-900 dark:text-white font-semibold text-xs">{formatDate(ticket.created_at)}</p>
                                 </div>
                               </div>
                               <div className="flex items-center justify-center p-3">
@@ -527,18 +527,18 @@ const Admin = () => {
                               </div>
                             </div>
 
-                            <div className="p-4 glass-card rounded-lg mb-4">
-                              <p className="text-gray-200 leading-relaxed">{ticket.description}</p>
+                            <div className="p-4 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg mb-4">
+                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed">{ticket.description}</p>
                             </div>
                             
                             {ticket.status === 'ditolak' && ticket.rejection_reason && (
-                              <div className="mt-4 p-4 bg-red-500/20 border-2 border-red-500 rounded-lg neon-glow">
-                                <p className="text-red-400 text-sm font-bold mb-2">⚠️ Alasan Penolakan:</p>
-                                <p className="text-red-300">{ticket.rejection_reason}</p>
+                              <div className="mt-4 p-4 bg-red-100 dark:bg-red-500/20 border-2 border-red-300 dark:border-red-500 rounded-lg">
+                                <p className="text-red-600 dark:text-red-400 text-sm font-bold mb-2">⚠️ Alasan Penolakan:</p>
+                                <p className="text-red-700 dark:text-red-300">{ticket.rejection_reason}</p>
                               </div>
                             )}
 
-                            <div className="text-sm text-gray-400 mt-4 p-3 glass-card rounded-lg">
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">
                               <strong>Pemohon:</strong> {ticket.requester_name} ({ticket.requester_department})
                               {ticket.machine_id && <span> | <strong>Mesin:</strong> {ticket.machine_id}</span>}
                             </div>
@@ -549,7 +549,7 @@ const Admin = () => {
                   ))}
 
                   {filteredTickets.length === 0 && (
-                    <Card className="bg-white/10 backdrop-blur-sm border border-white/20 border-dashed dark:bg-gray-900/30">
+                    <Card className="bg-white/95 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 border-dashed">
                       <CardContent className="text-center py-16">
                         <FileText className="w-20 h-20 text-gray-400 mx-auto mb-6 animate-pulse" />
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Tidak Ada Tiket Ditemukan</h3>
