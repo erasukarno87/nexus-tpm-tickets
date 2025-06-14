@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -94,23 +93,36 @@ export const TicketSubmissionForm = () => {
 
   const fetchMasterData = async () => {
     try {
+      console.log('Fetching master data...');
+      
       const [deptResult, machResult] = await Promise.all([
-        supabase.from('departments').select('id, name').eq('is_active', true),
-        supabase.from('line_areas').select('id, name').eq('is_active', true)
+        supabase.from('departments').select('id, name').eq('is_active', true).order('name'),
+        supabase.from('machines').select('id, machine_code, name').eq('is_active', true).order('name')
       ]);
 
-      if (deptResult.data) setDepartments(deptResult.data);
-      if (machResult.data) {
-        // Transform data to include machine_code
-        const transformedMachines = machResult.data.map(item => ({
-          id: item.id,
-          machine_code: item.id, // Using id as machine_code for now
-          name: item.name
-        }));
-        setMachines(transformedMachines);
+      console.log('Department result:', deptResult);
+      console.log('Machine result:', machResult);
+
+      if (deptResult.error) {
+        console.error('Error fetching departments:', deptResult.error);
+      } else {
+        console.log('Departments data:', deptResult.data);
+        setDepartments(deptResult.data || []);
+      }
+
+      if (machResult.error) {
+        console.error('Error fetching machines:', machResult.error);
+      } else {
+        console.log('Machines data:', machResult.data);
+        setMachines(machResult.data || []);
       }
     } catch (error) {
       console.error('Error fetching master data:', error);
+      toast({
+        title: "Error",
+        description: "Gagal memuat data master",
+        variant: "destructive",
+      });
     }
   };
 
@@ -305,7 +317,7 @@ export const TicketSubmissionForm = () => {
                 </div>
               </div>
 
-              {/* Enhanced Requester Information - Moved before Title and Line/Area */}
+              {/* Enhanced Requester Information */}
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-black dark:text-white flex items-center">
                   <User className="w-6 h-6 mr-3 text-blue-600" />
@@ -337,11 +349,17 @@ export const TicketSubmissionForm = () => {
                         <SelectValue placeholder="Pilih departemen" />
                       </SelectTrigger>
                       <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
-                        {departments.map((dept) => (
-                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {dept.name}
+                        {departments.length > 0 ? (
+                          departments.map((dept) => (
+                            <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                              {dept.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="loading" disabled className="text-gray-500">
+                            Memuat departemen...
                           </SelectItem>
-                        ))}
+                        )}
                       </SelectContent>
                     </Select>
                     {errors.requester_department && (
@@ -366,7 +384,7 @@ export const TicketSubmissionForm = () => {
                 </div>
               </div>
 
-              {/* Enhanced Title and Line/Area - Moved after Requester Information */}
+              {/* Enhanced Title and Line/Area */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
                   <Label htmlFor="title" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
@@ -386,24 +404,30 @@ export const TicketSubmissionForm = () => {
                 <div className="space-y-3">
                   <Label htmlFor="machine_id" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
                     <Settings className="w-5 h-5 text-green-600" />
-                    <span>Line/Area</span>
+                    <span>Mesin</span>
                   </Label>
                   <Select onValueChange={(value) => setValue('machine_id', value)}>
                     <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
-                      <SelectValue placeholder="Pilih Line/Area" />
+                      <SelectValue placeholder="Pilih Mesin" />
                     </SelectTrigger>
                     <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
-                      {machines.map((machine) => (
-                        <SelectItem key={machine.id} value={machine.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                          {machine.name}
+                      {machines.length > 0 ? (
+                        machines.map((machine) => (
+                          <SelectItem key={machine.id} value={machine.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            {machine.machine_code} - {machine.name}
+                          </SelectItem>
+                        ))
+                      ) : (
+                        <SelectItem value="loading" disabled className="text-gray-500">
+                          Memuat mesin...
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
               </div>
 
-              {/* Image Upload Section - Moved before Description */}
+              {/* Image Upload Section */}
               <div className="space-y-6">
                 <Label className="text-black dark:text-white text-lg font-semibold flex items-center">
                   <Camera className="w-5 h-5 mr-2 text-blue-600" />
