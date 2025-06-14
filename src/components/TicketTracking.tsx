@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,7 @@ import { Progress } from '@/components/ui/progress';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { Search, QrCode, Calendar, User, MapPin, Clock, CheckCircle, AlertTriangle, Loader2, Eye, X } from 'lucide-react';
+import { Search, QrCode, Calendar, User, Clock, CheckCircle, AlertTriangle, Loader2, Eye, X } from 'lucide-react';
 
 interface TicketStatus {
   id: string;
@@ -20,7 +21,6 @@ interface TicketStatus {
   updated_at: string;
   completed_at?: string;
   assigned_to?: string;
-  location: string;
   line_area_name?: string;
   requester_name: string;
   requester_department: string;
@@ -157,7 +157,6 @@ export const TicketTracking = () => {
         status: ticket.status as TicketStatus['status'],
         priority: ticket.priority as TicketStatus['priority'],
         category: ticket.category as TicketStatus['category'],
-        location: ticket.line_area_name || 'Area tidak diketahui',
         before_photos: (ticket.before_photos as string[]) || [],
         after_photos: (ticket.after_photos as string[]) || []
       })) || [];
@@ -425,11 +424,7 @@ export const TicketTracking = () => {
                     </Dialog>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-                      <MapPin className="w-4 h-4 text-blue-500 dark:text-blue-400" />
-                      <span>{ticket.location}</span>
-                    </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
                       <User className="w-4 h-4 text-green-500 dark:text-green-400" />
                       <span>{ticket.assigned_to || 'Belum Ditugaskan'}</span>

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -23,7 +24,6 @@ import {
   Save, 
   X,
   Calendar,
-  MapPin,
   User,
   CheckCircle,
   Clock,
@@ -46,11 +46,9 @@ interface Ticket {
   created_at: string;
   updated_at: string;
   assigned_to?: string;
-  location: string;
   line_area_name?: string;
   requester_name: string;
   requester_department: string;
-  machine_id?: string;
   description: string;
   notes?: string;
   rejection_reason?: string;
@@ -161,7 +159,6 @@ const Admin = () => {
         status: ticket.status as Ticket['status'],
         priority: ticket.priority as Ticket['priority'],
         category: ticket.category as Ticket['category'],
-        location: ticket.line_area_name || 'Area tidak diketahui',
         before_photos: (ticket.before_photos as string[]) || [],
         after_photos: (ticket.after_photos as string[]) || []
       })) || [];
@@ -185,8 +182,7 @@ const Admin = () => {
       filtered = filtered.filter(ticket => 
         ticket.ticket_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
         ticket.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        ticket.requester_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        ticket.location.toLowerCase().includes(searchQuery.toLowerCase())
+        ticket.requester_name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -593,7 +589,7 @@ const Admin = () => {
                                         </div>
                                         <div>
                                           <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Line/Area</label>
-                                          <p className="text-gray-900 dark:text-white">{ticket.line_area_name || ticket.location}</p>
+                                          <p className="text-gray-900 dark:text-white">{ticket.line_area_name || 'Tidak Ada'}</p>
                                         </div>
                                         <div>
                                           <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Teknisi</label>
@@ -607,12 +603,6 @@ const Admin = () => {
                                           <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Departemen</label>
                                           <p className="text-gray-900 dark:text-white">{ticket.requester_department}</p>
                                         </div>
-                                        {ticket.machine_id && (
-                                          <div>
-                                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">ID Mesin</label>
-                                            <p className="text-gray-900 dark:text-white">{ticket.machine_id}</p>
-                                          </div>
-                                        )}
                                         <div>
                                           <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Tanggal Dibuat</label>
                                           <p className="text-gray-900 dark:text-white">{formatDate(ticket.created_at)}</p>
@@ -662,14 +652,7 @@ const Admin = () => {
                               </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
-                                <MapPin className="w-5 h-5 text-blue-500 dark:text-blue-400" />
-                                <div>
-                                  <p className="text-xs text-gray-600 dark:text-gray-400">Line/Area</p>
-                                  <p className="text-gray-900 dark:text-white font-semibold">{ticket.line_area_name || ticket.location}</p>
-                                </div>
-                              </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                               <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
                                 <User className="w-5 h-5 text-green-500 dark:text-green-400" />
                                 <div>
@@ -704,7 +687,6 @@ const Admin = () => {
 
                             <div className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
                               <strong>Pemohon:</strong> {ticket.requester_name} ({ticket.requester_department})
-                              {ticket.machine_id && <span> | <strong>Mesin:</strong> {ticket.machine_id}</span>}
                             </div>
                           </div>
                         )}
