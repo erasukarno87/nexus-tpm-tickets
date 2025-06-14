@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
@@ -134,11 +135,11 @@
 
 /* Improved form styling with better transparency for 3D background visibility */
 .form-card {
-  @apply bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg;
+  @apply bg-white/3 backdrop-blur-md border border-white/15 rounded-lg;
 }
 
 .dark .form-card {
-  @apply bg-gray-900/10;
+  @apply bg-gray-900/8;
 }
 
 /* Better dropdown styling with proper colors and transparency */
@@ -147,38 +148,38 @@
 }
 
 .dropdown-content {
-  @apply bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-md;
+  @apply bg-white/85 backdrop-blur-md border border-gray-200 shadow-lg rounded-md;
 }
 
 .dark .dropdown-content {
-  @apply bg-gray-800/80 backdrop-blur-sm border-gray-700;
+  @apply bg-gray-800/85 backdrop-blur-md border-gray-700;
 }
 
 /* Input field improvements with better transparency */
 .input-field {
-  @apply bg-white/10 backdrop-blur-sm border border-gray-300/50 text-gray-800 placeholder:text-gray-600;
+  @apply bg-white/8 backdrop-blur-md border border-gray-300/40 text-gray-800 placeholder:text-gray-600;
 }
 
 .dark .input-field {
-  @apply bg-gray-900/20 backdrop-blur-sm border-gray-600/50 text-white placeholder:text-gray-400;
+  @apply bg-gray-900/15 backdrop-blur-md border-gray-600/40 text-white placeholder:text-gray-400;
 }
 
-/* Glass card styling with enhanced transparency */
+/* Glass card styling with enhanced transparency - 5% background */
 .glass-card {
-  @apply bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg;
+  @apply bg-white/5 backdrop-blur-lg border border-white/12 rounded-lg;
 }
 
 .dark .glass-card {
-  @apply bg-gray-900/10 border-gray-700/30;
+  @apply bg-gray-900/8 border-gray-700/25;
 }
 
-/* Glass input styling with better transparency */
+/* Glass input styling with better transparency - 8% background */
 .glass-input {
-  @apply bg-white/10 backdrop-blur-sm border border-gray-300/50 text-gray-800 placeholder:text-gray-600;
+  @apply bg-white/8 backdrop-blur-md border border-gray-300/40 text-gray-800 placeholder:text-gray-600;
 }
 
 .dark .glass-input {
-  @apply bg-gray-900/20 backdrop-blur-sm border-gray-600/50 text-white placeholder:text-gray-400;
+  @apply bg-gray-900/15 backdrop-blur-md border-gray-600/40 text-white placeholder:text-gray-400;
 }
 
 /* Button improvements with transparency */
@@ -187,11 +188,11 @@
 }
 
 .btn-secondary {
-  @apply bg-white/10 backdrop-blur-sm border border-gray-300/50 text-gray-800 hover:bg-white/20;
+  @apply bg-white/8 backdrop-blur-md border border-gray-300/40 text-gray-800 hover:bg-white/15;
 }
 
 .dark .btn-secondary {
-  @apply bg-gray-900/20 backdrop-blur-sm border-gray-600/50 text-white hover:bg-gray-900/30;
+  @apply bg-gray-900/15 backdrop-blur-md border-gray-600/40 text-white hover:bg-gray-900/25;
 }
 
 /* Neon glow effect */
@@ -229,17 +230,17 @@
 
 /* Improved select dropdown styling with transparency */
 [data-radix-select-content] {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(209, 213, 219, 0.5);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(209, 213, 219, 0.4);
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .dark [data-radix-select-content] {
-  background: rgba(31, 41, 55, 0.9);
-  backdrop-filter: blur(10px);
-  border-color: rgba(75, 85, 99, 0.5);
+  background: rgba(31, 41, 55, 0.92);
+  backdrop-filter: blur(12px);
+  border-color: rgba(75, 85, 99, 0.4);
 }
 
 [data-radix-select-item] {
@@ -252,65 +253,90 @@
 }
 
 [data-radix-select-item]:hover {
-  background-color: rgba(243, 244, 246, 0.8);
+  background-color: rgba(243, 244, 246, 0.7);
 }
 
 .dark [data-radix-select-item]:hover {
-  background-color: rgba(55, 65, 81, 0.8);
+  background-color: rgba(55, 65, 81, 0.7);
 }
 
-/* Global transparent container for all pages to show 3D background */
+/* Global transparent container for all pages to show 3D background - 2% background */
 .page-container {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.02) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
   border-radius: 1rem !important;
 }
 
 .dark .page-container {
-  background: rgba(0, 0, 0, 0.05) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: rgba(0, 0, 0, 0.03) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
 }
 
-/* Specific transparency for the form container to show 3D background */
+/* Specific transparency for the form container to show 3D background - 1% background */
 #radix-\:r1\:-content-submit > div > div.container.mx-auto.px-4.py-8.relative.z-10 > div {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.01) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
   border-radius: 1rem !important;
 }
 
 .dark #radix-\:r1\:-content-submit > div > div.container.mx-auto.px-4.py-8.relative.z-10 > div {
-  background: rgba(0, 0, 0, 0.05) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: rgba(0, 0, 0, 0.02) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
 }
 
-/* Admin page transparency */
+/* Admin page transparency - 3% background */
 .admin-container {
   background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(255, 255, 255, 0.08) !important;
   border-radius: 1rem !important;
 }
 
 .dark .admin-container {
   background: rgba(0, 0, 0, 0.05) !important;
-  backdrop-filter: blur(8px) !important;
+  backdrop-filter: blur(10px) !important;
   border: 1px solid rgba(255, 255, 255, 0.05) !important;
 }
 
-/* Dashboard and other component containers */
+/* Dashboard and other component containers - 4% background */
 .dashboard-container, .master-data-container, .ticket-container {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.10) !important;
   border-radius: 1rem !important;
 }
 
 .dark .dashboard-container, .dark .master-data-container, .dark .ticket-container {
-  background: rgba(0, 0, 0, 0.05) !important;
+  background: rgba(0, 0, 0, 0.06) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Tab content transparency - 2% background */
+[data-radix-tabs-content] {
+  background: rgba(255, 255, 255, 0.02) !important;
   backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  border-radius: 0.75rem !important;
+}
+
+.dark [data-radix-tabs-content] {
+  background: rgba(0, 0, 0, 0.03) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* Card components transparency - 6% background */
+[data-radix-card], .card {
+  background: rgba(255, 255, 255, 0.06) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.dark [data-radix-card], .dark .card {
+  background: rgba(0, 0, 0, 0.08) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
 }
