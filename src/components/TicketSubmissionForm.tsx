@@ -42,7 +42,6 @@ interface TicketFormData {
   requester_name: string;
   requester_department: string;
   requester_contact: string;
-  requester_notes?: string;
 }
 
 interface Department {
@@ -131,7 +130,7 @@ export const TicketSubmissionForm = () => {
         requester_name: data.requester_name,
         requester_department: data.requester_department,
         requester_contact: data.requester_contact,
-        notes: data.requester_notes || null,
+        notes: null,
         ticket_number: '',
         before_photos: beforeImages,
       };
@@ -343,6 +342,21 @@ export const TicketSubmissionForm = () => {
                 </div>
               </div>
 
+              {/* Image Upload Section - Moved before Description */}
+              <div className="space-y-6">
+                <Label className="text-black dark:text-white text-lg font-semibold flex items-center">
+                  <Camera className="w-5 h-5 mr-2 text-blue-600" />
+                  Foto Kondisi Sekarang (Opsional)
+                </Label>
+                <div className="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600">
+                  <ImageUpload
+                    onImagesChange={setBeforeImages}
+                    existingImages={beforeImages}
+                    maxImages={5}
+                  />
+                </div>
+              </div>
+
               {/* Enhanced Description */}
               <div className="space-y-3">
                 <Label htmlFor="description" className="text-black dark:text-white text-lg font-semibold">
@@ -439,31 +453,6 @@ export const TicketSubmissionForm = () => {
                       <p className="text-red-500 text-sm">{errors.requester_contact.message}</p>
                     )}
                   </div>
-                </div>
-              </div>
-
-              {/* Enhanced Requester Notes */}
-              <div className="space-y-3">
-                <Label htmlFor="requester_notes" className="text-black dark:text-white text-lg font-semibold">Catatan Tambahan</Label>
-                <Textarea
-                  {...register('requester_notes')}
-                  className="bg-white dark:bg-gray-700 text-black dark:text-white min-h-[100px] text-lg border-gray-300 dark:border-gray-600"
-                  placeholder="Catatan tambahan dari pemohon..."
-                />
-              </div>
-
-              {/* Image Upload Section */}
-              <div className="space-y-6">
-                <Label className="text-black dark:text-white text-lg font-semibold flex items-center">
-                  <Camera className="w-5 h-5 mr-2 text-blue-600" />
-                  Foto Kondisi Sekarang (Opsional)
-                </Label>
-                <div className="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600">
-                  <ImageUpload
-                    onImagesChange={setBeforeImages}
-                    existingImages={beforeImages}
-                    maxImages={5}
-                  />
                 </div>
               </div>
 
