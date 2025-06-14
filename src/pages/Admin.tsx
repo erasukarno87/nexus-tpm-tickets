@@ -55,6 +55,8 @@ interface Ticket {
   notes?: string;
   rejection_reason?: string;
   current_condition_image?: string;
+  before_photos?: string[];
+  after_photos?: string[];
 }
 
 interface Technician {
@@ -240,6 +242,31 @@ const Admin = () => {
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleString('id-ID');
+  };
+
+  const renderPhotos = (photos: string[] | null, title: string) => {
+    if (!photos || photos.length === 0) return null;
+
+    return (
+      <div>
+        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{title}</label>
+        <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+          {photos.map((photo, index) => (
+            <div key={index} className="relative group">
+              <img 
+                src={photo} 
+                alt={`${title} ${index + 1}`}
+                className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
+                onClick={() => window.open(photo, '_blank')}
+              />
+              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
+                <Eye className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   if (!isLoggedIn) {
@@ -579,19 +606,9 @@ const Admin = () => {
                                         </p>
                                       </div>
 
-                                      {ticket.current_condition_image && (
-                                        <div>
-                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Foto Kondisi Sekarang</label>
-                                          <div className="mt-2">
-                                            <img 
-                                              src={ticket.current_condition_image} 
-                                              alt="Kondisi Sekarang" 
-                                              className="max-w-full h-auto rounded-lg border border-gray-200 dark:border-gray-600 shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
-                                              onClick={() => window.open(ticket.current_condition_image, '_blank')}
-                                            />
-                                          </div>
-                                        </div>
-                                      )}
+                                      {renderPhotos(ticket.before_photos as string[], "Foto Sebelum")}
+                                      
+                                      {renderPhotos(ticket.after_photos as string[], "Foto Sesudah")}
 
                                       {ticket.notes && (
                                         <div>
