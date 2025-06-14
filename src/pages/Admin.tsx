@@ -160,7 +160,9 @@ const Admin = () => {
         ...ticket,
         status: ticket.status as Ticket['status'],
         priority: ticket.priority as Ticket['priority'],
-        category: ticket.category as Ticket['category']
+        category: ticket.category as Ticket['category'],
+        before_photos: (ticket.before_photos as string[]) || [],
+        after_photos: (ticket.after_photos as string[]) || []
       })) || [];
       
       setTickets(typedTickets);
