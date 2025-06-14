@@ -23,7 +23,6 @@ interface TicketStatus {
   location: string;
   requester_name: string;
   requester_department: string;
-  machine_id?: string;
   description: string;
   notes?: string;
   rejection_reason?: string;
@@ -96,7 +95,7 @@ export const TicketTracking = () => {
       const { data: tickets, error } = await supabase
         .from('tickets')
         .select('*')
-        .or(`ticket_number.ilike.%${searchQuery}%,title.ilike.%${searchQuery}%,machine_id.ilike.%${searchQuery}%`)
+        .or(`ticket_number.ilike.%${searchQuery}%,title.ilike.%${searchQuery}%`)
         .order('created_at', { ascending: false });
 
       if (error) {
@@ -368,10 +367,6 @@ export const TicketTracking = () => {
                     <span className="text-gray-900 dark:text-white">{selectedTicket.location}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">ID Mesin:</span>
-                    <span className="text-gray-900 dark:text-white">{selectedTicket.machine_id || 'N/A'}</span>
-                  </div>
-                  <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-400">Ditugaskan Kepada:</span>
                     <span className="text-gray-900 dark:text-white">{selectedTicket.assigned_to || 'Belum Ditugaskan'}</span>
                   </div>
@@ -433,7 +428,7 @@ export const TicketTracking = () => {
             </p>
             <div className="text-sm text-gray-500 dark:text-gray-500 space-y-1">
               <p>• Nomor tiket mengikuti format: TPM-YYYYMMDD-XXXX</p>
-              <p>• Anda juga dapat mencari berdasarkan ID mesin, lokasi, atau kata kunci deskripsi</p>
+              <p>• Anda juga dapat mencari berdasarkan kata kunci deskripsi</p>
               <p>• Gunakan scanner kode QR untuk akses cepat dari perangkat mobile</p>
             </div>
           </CardContent>

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -37,7 +38,6 @@ interface TicketFormData {
   title: string;
   description: string;
   priority: TicketPriority;
-  machine_id?: string;
   requester_name: string;
   requester_department: string;
   requester_contact: string;
@@ -45,12 +45,6 @@ interface TicketFormData {
 
 interface Department {
   id: string;
-  name: string;
-}
-
-interface Machine {
-  id: string;
-  machine_code: string;
   name: string;
 }
 
@@ -73,7 +67,6 @@ export const TicketSubmissionForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [submittedTicket, setSubmittedTicket] = useState<any>(null);
   const [departments, setDepartments] = useState<Department[]>([]);
-  const [machines, setMachines] = useState<Machine[]>([]);
   const [beforeImages, setBeforeImages] = useState<string[]>([]);
   const { toast } = useToast();
 
@@ -95,26 +88,19 @@ export const TicketSubmissionForm = () => {
     try {
       console.log('Fetching master data...');
       
-      const [deptResult, machResult] = await Promise.all([
-        supabase.from('departments').select('id, name').eq('is_active', true).order('name'),
-        supabase.from('machines').select('id, machine_code, name').eq('is_active', true).order('name')
-      ]);
+      const { data: deptResult, error: deptError } = await supabase
+        .from('departments')
+        .select('id, name')
+        .eq('is_active', true)
+        .order('name');
 
-      console.log('Department result:', deptResult);
-      console.log('Machine result:', machResult);
+      console.log('Department result:', deptResult, deptError);
 
-      if (deptResult.error) {
-        console.error('Error fetching departments:', deptResult.error);
+      if (deptError) {
+        console.error('Error fetching departments:', deptError);
       } else {
-        console.log('Departments data:', deptResult.data);
-        setDepartments(deptResult.data || []);
-      }
-
-      if (machResult.error) {
-        console.error('Error fetching machines:', machResult.error);
-      } else {
-        console.log('Machines data:', machResult.data);
-        setMachines(machResult.data || []);
+        console.log('Departments data:', deptResult);
+        setDepartments(deptResult || []);
       }
     } catch (error) {
       console.error('Error fetching master data:', error);
@@ -137,7 +123,6 @@ export const TicketSubmissionForm = () => {
         title: data.title,
         description: data.description,
         priority: data.priority,
-        machine_id: data.machine_id || null,
         location: '',
         requester_name: data.requester_name,
         requester_department: data.requester_department,
@@ -384,47 +369,20 @@ export const TicketSubmissionForm = () => {
                 </div>
               </div>
 
-              {/* Enhanced Title and Line/Area */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-3">
-                  <Label htmlFor="title" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
-                    <FileText className="w-5 h-5 text-blue-600" />
-                    <span>Judul Masalah *</span>
-                  </Label>
-                  <Input
-                    {...register('title', { required: 'Judul wajib diisi' })}
-                    className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
-                    placeholder="Deskripsi singkat masalah"
-                  />
-                  {errors.title && (
-                    <p className="text-red-500 text-sm">{errors.title.message}</p>
-                  )}
-                </div>
-
-                <div className="space-y-3">
-                  <Label htmlFor="machine_id" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
-                    <Settings className="w-5 h-5 text-green-600" />
-                    <span>Mesin</span>
-                  </Label>
-                  <Select onValueChange={(value) => setValue('machine_id', value)}>
-                    <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
-                      <SelectValue placeholder="Pilih Mesin" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
-                      {machines.length > 0 ? (
-                        machines.map((machine) => (
-                          <SelectItem key={machine.id} value={machine.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {machine.machine_code} - {machine.name}
-                          </SelectItem>
-                        ))
-                      ) : (
-                        <SelectItem value="loading" disabled className="text-gray-500">
-                          Memuat mesin...
-                        </SelectItem>
-                      )}
-                    </SelectContent>
-                  </Select>
-                </div>
+              {/* Enhanced Title */}
+              <div className="space-y-3">
+                <Label htmlFor="title" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
+                  <FileText className="w-5 h-5 text-blue-600" />
+                  <span>Judul Masalah *</span>
+                </Label>
+                <Input
+                  {...register('title', { required: 'Judul wajib diisi' })}
+                  className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                  placeholder="Deskripsi singkat masalah"
+                />
+                {errors.title && (
+                  <p className="text-red-500 text-sm">{errors.title.message}</p>
+                )}
               </div>
 
               {/* Image Upload Section */}
