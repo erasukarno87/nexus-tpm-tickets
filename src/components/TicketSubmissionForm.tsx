@@ -305,7 +305,68 @@ export const TicketSubmissionForm = () => {
                 </div>
               </div>
 
-              {/* Enhanced Title and Line/Area */}
+              {/* Enhanced Requester Information - Moved before Title and Line/Area */}
+              <div className="space-y-6">
+                <h3 className="text-2xl font-bold text-black dark:text-white flex items-center">
+                  <User className="w-6 h-6 mr-3 text-blue-600" />
+                  Informasi Pemohon
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-3">
+                    <Label htmlFor="requester_name" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <User className="w-4 h-4" />
+                      <span>Nama *</span>
+                    </Label>
+                    <Input
+                      {...register('requester_name', { required: 'Nama wajib diisi' })}
+                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                      placeholder="Nama lengkap Anda"
+                    />
+                    {errors.requester_name && (
+                      <p className="text-red-500 text-sm">{errors.requester_name.message}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="requester_department" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <Building className="w-4 h-4" />
+                      <span>Departemen *</span>
+                    </Label>
+                    <Select onValueChange={(value) => setValue('requester_department', value)}>
+                      <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
+                        <SelectValue placeholder="Pilih departemen" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
+                        {departments.map((dept) => (
+                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            {dept.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {errors.requester_department && (
+                      <p className="text-red-500 text-sm">Departemen wajib dipilih</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <Phone className="w-4 h-4" />
+                      <span>Kontak *</span>
+                    </Label>
+                    <Input
+                      {...register('requester_contact', { required: 'Kontak wajib diisi' })}
+                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                      placeholder="Telepon atau email"
+                    />
+                    {errors.requester_contact && (
+                      <p className="text-red-500 text-sm">{errors.requester_contact.message}</p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Enhanced Title and Line/Area - Moved after Requester Information */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-3">
                   <Label htmlFor="title" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
@@ -393,67 +454,6 @@ export const TicketSubmissionForm = () => {
                     </div>
                   ))}
                 </RadioGroup>
-              </div>
-
-              {/* Enhanced Requester Information */}
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-black dark:text-white flex items-center">
-                  <User className="w-6 h-6 mr-3 text-blue-600" />
-                  Informasi Pemohon
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div className="space-y-3">
-                    <Label htmlFor="requester_name" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <User className="w-4 h-4" />
-                      <span>Nama *</span>
-                    </Label>
-                    <Input
-                      {...register('requester_name', { required: 'Nama wajib diisi' })}
-                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
-                      placeholder="Nama lengkap Anda"
-                    />
-                    {errors.requester_name && (
-                      <p className="text-red-500 text-sm">{errors.requester_name.message}</p>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label htmlFor="requester_department" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <Building className="w-4 h-4" />
-                      <span>Departemen *</span>
-                    </Label>
-                    <Select onValueChange={(value) => setValue('requester_department', value)}>
-                      <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
-                        <SelectValue placeholder="Pilih departemen" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
-                        {departments.map((dept) => (
-                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                            {dept.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    {errors.requester_department && (
-                      <p className="text-red-500 text-sm">Departemen wajib dipilih</p>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <Phone className="w-4 h-4" />
-                      <span>Kontak *</span>
-                    </Label>
-                    <Input
-                      {...register('requester_contact', { required: 'Kontak wajib diisi' })}
-                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
-                      placeholder="Telepon atau email"
-                    />
-                    {errors.requester_contact && (
-                      <p className="text-red-500 text-sm">{errors.requester_contact.message}</p>
-                    )}
-                  </div>
-                </div>
               </div>
 
               {/* Enhanced Submit Button */}
