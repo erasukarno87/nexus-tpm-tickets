@@ -11,6 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -31,7 +32,8 @@ import {
   BarChart3,
   Database,
   Shield,
-  Sparkles
+  Sparkles,
+  Eye
 } from 'lucide-react';
 
 interface Ticket {
@@ -51,6 +53,7 @@ interface Ticket {
   description: string;
   notes?: string;
   rejection_reason?: string;
+  current_condition_image?: string;
 }
 
 interface Technician {
@@ -74,6 +77,13 @@ const priorityConfig = {
   critical: { color: 'border-red-500 text-red-400' },
 };
 
+const categoryLabels = {
+  corrective_action: 'Tindakan Korektif',
+  repair: 'Perbaikan',
+  procurement: 'Pengadaan',
+  support: 'Dukungan'
+};
+
 const Admin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -83,6 +93,7 @@ const Admin = () => {
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [priorityFilter, setPriorityFilter] = useState<string>('all');
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
+  const [viewingTicket, setViewingTicket] = useState<Ticket | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
@@ -485,15 +496,129 @@ const Admin = () => {
                                 </div>
                                 <p className="text-lg font-mono text-blue-600 dark:text-blue-400 font-bold">{ticket.ticket_number}</p>
                               </div>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setEditingTicket(ticket)}
-                                className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105"
-                              >
-                                <Edit3 className="w-4 h-4 mr-2" />
-                                Edit Tiket
-                              </Button>
+                              <div className="flex space-x-2">
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
+                                      onClick={() => setViewingTicket(ticket)}
+                                      className="bg-white dark:bg-gray-800 border-green-500 text-green-600 dark:text-green-400 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105"
+                                    >
+                                      <Eye className="w-4 h-4 mr-2" />
+                                      View Detail
+                                    </Button>
+                                  </DialogTrigger>
+                                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                                    <DialogHeader>
+                                      <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                        Detail Tiket: {ticket.title}
+                                      </DialogTitle>
+                                    </DialogHeader>
+                                    <div className="space-y-6 mt-6">
+                                      <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Nomor Tiket</label>
+                                          <p className="text-lg font-mono text-blue-600 dark:text-blue-400">{ticket.ticket_number}</p>
+                                        </div>
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Status</label>
+                                          <div className="mt-1">
+                                            <Badge className={`${statusConfig[ticket.status].color} text-white`}>
+                                              {getStatusIcon(ticket.status)}
+                                              <span className="ml-1">{statusConfig[ticket.status].label}</span>
+                                            </Badge>
+                                          </div>
+                                        </div>
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Prioritas</label>
+                                          <div className={`mt-1 inline-block px-3 py-1 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-bold`}>
+                                            {ticket.priority.toUpperCase()}
+                                          </div>
+                                        </div>
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Kategori</label>
+                                          <p className="text-gray-900 dark:text-white">{categoryLabels[ticket.category]}</p>
+                                        </div>
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Lokasi</label>
+                                          <p className="text-gray-900 dark:text-white">{ticket.location}</p>
+                                        </div>
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Teknisi</label>
+                                          <p className="text-gray-900 dark:text-white">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
+                                        </div>
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Pemohon</label>
+                                          <p className="text-gray-900 dark:text-white">{ticket.requester_name}</p>
+                                        </div>
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Departemen</label>
+                                          <p className="text-gray-900 dark:text-white">{ticket.requester_department}</p>
+                                        </div>
+                                        {ticket.machine_id && (
+                                          <div>
+                                            <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">ID Mesin</label>
+                                            <p className="text-gray-900 dark:text-white">{ticket.machine_id}</p>
+                                          </div>
+                                        )}
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Tanggal Dibuat</label>
+                                          <p className="text-gray-900 dark:text-white">{formatDate(ticket.created_at)}</p>
+                                        </div>
+                                      </div>
+
+                                      <div>
+                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Deskripsi</label>
+                                        <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
+                                          {ticket.description}
+                                        </p>
+                                      </div>
+
+                                      {ticket.current_condition_image && (
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Foto Kondisi Sekarang</label>
+                                          <div className="mt-2">
+                                            <img 
+                                              src={ticket.current_condition_image} 
+                                              alt="Kondisi Sekarang" 
+                                              className="max-w-full h-auto rounded-lg border border-gray-200 dark:border-gray-600 shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+                                              onClick={() => window.open(ticket.current_condition_image, '_blank')}
+                                            />
+                                          </div>
+                                        </div>
+                                      )}
+
+                                      {ticket.notes && (
+                                        <div>
+                                          <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Catatan Admin</label>
+                                          <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
+                                            {ticket.notes}
+                                          </p>
+                                        </div>
+                                      )}
+
+                                      {ticket.status === 'ditolak' && ticket.rejection_reason && (
+                                        <div>
+                                          <label className="text-sm font-semibold text-red-600 dark:text-red-400">Alasan Penolakan</label>
+                                          <p className="text-red-700 dark:text-red-300 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg mt-2">
+                                            {ticket.rejection_reason}
+                                          </p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </DialogContent>
+                                </Dialog>
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => setEditingTicket(ticket)}
+                                  className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105"
+                                >
+                                  <Edit3 className="w-4 h-4 mr-2" />
+                                  Edit Tiket
+                                </Button>
+                              </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
