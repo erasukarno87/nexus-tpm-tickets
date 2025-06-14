@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -22,7 +21,6 @@ import {
 interface Department {
   id: string;
   name: string;
-  description?: string;
   is_active: boolean;
   created_at: string;
 }
@@ -203,20 +201,10 @@ export const MasterData = () => {
             placeholder="Masukkan nama departemen"
           />
         </div>
-        <div>
-          <Label className="text-gray-900 dark:text-white">Deskripsi</Label>
-          <Textarea
-            value={editingItem?.description || ''}
-            onChange={(e) => setEditingItem({...editingItem, description: e.target.value})}
-            className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-            placeholder="Masukkan deskripsi departemen"
-          />
-        </div>
         <div className="flex space-x-2">
           <Button
             onClick={() => handleSaveDepartment({
               name: editingItem?.name,
-              description: editingItem?.description || null,
               is_active: true
             })}
             className="bg-green-600 hover:bg-green-700 text-white"
@@ -361,7 +349,6 @@ export const MasterData = () => {
                     <div className="flex justify-between items-start">
                       <div>
                         <h4 className="text-lg font-semibold text-gray-900 dark:text-white">{dept.name}</h4>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">{dept.description}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
                           Dibuat: {new Date(dept.created_at).toLocaleDateString('id-ID')}
                         </p>
