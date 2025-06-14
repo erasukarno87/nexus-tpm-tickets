@@ -135,11 +135,14 @@
 
 /* Improved form styling with better transparency for 3D background visibility */
 .form-card {
-  @apply bg-white/3 backdrop-blur-md border border-white/15 rounded-lg;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.5rem;
 }
 
 .dark .form-card {
-  @apply bg-gray-900/8;
+  background: rgba(17, 24, 39, 0.08);
 }
 
 /* Better dropdown styling with proper colors and transparency */
@@ -148,38 +151,70 @@
 }
 
 .dropdown-content {
-  @apply bg-white/85 backdrop-blur-md border border-gray-200 shadow-lg rounded-md;
+  @apply bg-white/90 backdrop-blur-md border border-gray-200 shadow-lg rounded-md;
 }
 
 .dark .dropdown-content {
-  @apply bg-gray-800/85 backdrop-blur-md border-gray-700;
+  @apply bg-gray-800/90 backdrop-blur-md border-gray-700;
 }
 
 /* Input field improvements with better transparency */
 .input-field {
-  @apply bg-white/8 backdrop-blur-md border border-gray-300/40 text-gray-800 placeholder:text-gray-600;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(209, 213, 219, 0.4);
+  color: rgb(31, 41, 55);
+}
+
+.input-field::placeholder {
+  color: rgb(107, 114, 128);
 }
 
 .dark .input-field {
-  @apply bg-gray-900/15 backdrop-blur-md border-gray-600/40 text-white placeholder:text-gray-400;
+  background: rgba(17, 24, 39, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(75, 85, 99, 0.4);
+  color: white;
+}
+
+.dark .input-field::placeholder {
+  color: rgb(156, 163, 175);
 }
 
 /* Glass card styling with enhanced transparency - 5% background */
 .glass-card {
-  @apply bg-white/5 backdrop-blur-lg border border-white/12 rounded-lg;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
 }
 
 .dark .glass-card {
-  @apply bg-gray-900/8 border-gray-700/25;
+  background: rgba(17, 24, 39, 0.08);
+  border: 1px solid rgba(75, 85, 99, 0.25);
 }
 
 /* Glass input styling with better transparency - 8% background */
 .glass-input {
-  @apply bg-white/8 backdrop-blur-md border border-gray-300/40 text-gray-800 placeholder:text-gray-600;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(209, 213, 219, 0.4);
+  color: rgb(31, 41, 55);
+}
+
+.glass-input::placeholder {
+  color: rgb(107, 114, 128);
 }
 
 .dark .glass-input {
-  @apply bg-gray-900/15 backdrop-blur-md border-gray-600/40 text-white placeholder:text-gray-400;
+  background: rgba(17, 24, 39, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(75, 85, 99, 0.4);
+  color: white;
+}
+
+.dark .glass-input::placeholder {
+  color: rgb(156, 163, 175);
 }
 
 /* Button improvements with transparency */
@@ -188,11 +223,25 @@
 }
 
 .btn-secondary {
-  @apply bg-white/8 backdrop-blur-md border border-gray-300/40 text-gray-800 hover:bg-white/15;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(209, 213, 219, 0.4);
+  color: rgb(31, 41, 55);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .dark .btn-secondary {
-  @apply bg-gray-900/15 backdrop-blur-md border-gray-600/40 text-white hover:bg-gray-900/25;
+  background: rgba(17, 24, 39, 0.15);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(75, 85, 99, 0.4);
+  color: white;
+}
+
+.dark .btn-secondary:hover {
+  background: rgba(17, 24, 39, 0.25);
 }
 
 /* Neon glow effect */
