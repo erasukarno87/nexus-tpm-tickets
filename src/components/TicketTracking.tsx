@@ -157,6 +157,7 @@ export const TicketTracking = () => {
         status: ticket.status as TicketStatus['status'],
         priority: ticket.priority as TicketStatus['priority'],
         category: ticket.category as TicketStatus['category'],
+        location: ticket.line_area_name || 'Area tidak diketahui',
         before_photos: (ticket.before_photos as string[]) || [],
         after_photos: (ticket.after_photos as string[]) || []
       })) || [];

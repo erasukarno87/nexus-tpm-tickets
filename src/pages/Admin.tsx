@@ -161,6 +161,7 @@ const Admin = () => {
         status: ticket.status as Ticket['status'],
         priority: ticket.priority as Ticket['priority'],
         category: ticket.category as Ticket['category'],
+        location: ticket.line_area_name || 'Area tidak diketahui',
         before_photos: (ticket.before_photos as string[]) || [],
         after_photos: (ticket.after_photos as string[]) || []
       })) || [];
