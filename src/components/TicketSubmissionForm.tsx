@@ -225,14 +225,14 @@ export const TicketSubmissionForm = () => {
     setShowSuccess(false);
     setSubmittedTicket(null);
     
-    // Find and click the tracking tab trigger
-    const trackingTab = document.querySelector('[value="track"]') as HTMLElement;
+    // Find and click the tracking tab trigger using data-value attribute
+    const trackingTab = document.querySelector('[data-value="track"]') as HTMLElement;
     if (trackingTab) {
       trackingTab.click();
       
       // Wait a bit for the tab to switch, then populate the search field
       setTimeout(() => {
-        const searchInput = document.querySelector('[placeholder*="nomor tiket"]') as HTMLInputElement;
+        const searchInput = document.querySelector('input[placeholder*="nomor tiket"], input[placeholder*="Masukkan nomor tiket"]') as HTMLInputElement;
         if (searchInput && submittedTicket) {
           searchInput.value = submittedTicket.ticket_number;
           // Trigger input event to update the search query state
@@ -243,7 +243,7 @@ export const TicketSubmissionForm = () => {
           const changeEvent = new Event('change', { bubbles: true });
           searchInput.dispatchEvent(changeEvent);
         }
-      }, 200);
+      }, 300);
     }
   };
 
