@@ -279,24 +279,6 @@ export const TicketSubmissionForm = () => {
     );
   }
 
-  const switchToTrackingTab = () => {
-    setShowSuccess(false);
-    setSubmittedTicket(null);
-    
-    const trackingTab = document.querySelector('[data-value="track"]') as HTMLElement;
-    if (trackingTab) {
-      trackingTab.click();
-      
-      setTimeout(() => {
-        const searchInput = document.querySelector('input[placeholder*="nomor tiket"]') as HTMLInputElement;
-        if (searchInput && submittedTicket) {
-          searchInput.value = submittedTicket.ticket_number;
-          searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-      }, 100);
-    }
-  };
-
   return (
     <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900">
       <ModernBackground />
