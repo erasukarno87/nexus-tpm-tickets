@@ -1,5 +1,4 @@
 
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
@@ -71,7 +70,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-transparent text-foreground;
   }
 }
 
@@ -134,66 +133,66 @@
   animation: float 6s ease-in-out infinite;
 }
 
-/* Improved form styling */
+/* Improved form styling with better transparency for 3D background visibility */
 .form-card {
-  @apply bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg;
+  @apply bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg;
 }
 
 .dark .form-card {
-  @apply bg-gray-900/30;
+  @apply bg-gray-900/10;
 }
 
-/* Better dropdown styling with proper colors */
+/* Better dropdown styling with proper colors and transparency */
 [data-radix-popper-content-wrapper] {
   z-index: 9999 !important;
 }
 
 .dropdown-content {
-  @apply bg-white border border-gray-200 shadow-lg rounded-md;
+  @apply bg-white/80 backdrop-blur-sm border border-gray-200 shadow-lg rounded-md;
 }
 
 .dark .dropdown-content {
-  @apply bg-gray-800 border-gray-700;
+  @apply bg-gray-800/80 backdrop-blur-sm border-gray-700;
 }
 
-/* Input field improvements with better text colors */
+/* Input field improvements with better transparency */
 .input-field {
-  @apply bg-white/10 backdrop-blur-sm border border-gray-300 text-gray-800 placeholder:text-gray-600;
+  @apply bg-white/10 backdrop-blur-sm border border-gray-300/50 text-gray-800 placeholder:text-gray-600;
 }
 
 .dark .input-field {
-  @apply bg-gray-900/30 border-gray-600 text-white placeholder:text-gray-400;
+  @apply bg-gray-900/20 backdrop-blur-sm border-gray-600/50 text-white placeholder:text-gray-400;
 }
 
-/* Glass card styling */
+/* Glass card styling with enhanced transparency */
 .glass-card {
-  @apply bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg;
+  @apply bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg;
 }
 
 .dark .glass-card {
-  @apply bg-gray-900/30 border-gray-700;
+  @apply bg-gray-900/10 border-gray-700/30;
 }
 
-/* Glass input styling with proper contrast */
+/* Glass input styling with better transparency */
 .glass-input {
-  @apply bg-white/20 backdrop-blur-sm border border-gray-300 text-gray-800 placeholder:text-gray-600;
+  @apply bg-white/10 backdrop-blur-sm border border-gray-300/50 text-gray-800 placeholder:text-gray-600;
 }
 
 .dark .glass-input {
-  @apply bg-gray-900/30 border-gray-600 text-white placeholder:text-gray-400;
+  @apply bg-gray-900/20 backdrop-blur-sm border-gray-600/50 text-white placeholder:text-gray-400;
 }
 
-/* Button improvements */
+/* Button improvements with transparency */
 .btn-primary {
-  @apply bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white;
+  @apply bg-gradient-to-r from-blue-600/90 to-purple-600/90 hover:from-blue-700/90 hover:to-purple-700/90 text-white backdrop-blur-sm;
 }
 
 .btn-secondary {
-  @apply bg-white/10 backdrop-blur-sm border border-gray-300 text-gray-800 hover:bg-white/20;
+  @apply bg-white/10 backdrop-blur-sm border border-gray-300/50 text-gray-800 hover:bg-white/20;
 }
 
 .dark .btn-secondary {
-  @apply bg-gray-900/30 border-gray-600 text-white hover:bg-gray-900/50;
+  @apply bg-gray-900/20 backdrop-blur-sm border-gray-600/50 text-white hover:bg-gray-900/30;
 }
 
 /* Neon glow effect */
@@ -229,17 +228,19 @@
   }
 }
 
-/* Improved select dropdown styling */
+/* Improved select dropdown styling with transparency */
 [data-radix-select-content] {
-  background: white;
-  border: 1px solid rgb(209, 213, 219);
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(209, 213, 219, 0.5);
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .dark [data-radix-select-content] {
-  background: rgb(31, 41, 55);
-  border-color: rgb(75, 85, 99);
+  background: rgba(31, 41, 55, 0.9);
+  backdrop-filter: blur(10px);
+  border-color: rgba(75, 85, 99, 0.5);
 }
 
 [data-radix-select-item] {
@@ -252,10 +253,9 @@
 }
 
 [data-radix-select-item]:hover {
-  background-color: rgb(243, 244, 246);
+  background-color: rgba(243, 244, 246, 0.8);
 }
 
 .dark [data-radix-select-item]:hover {
-  background-color: rgb(55, 65, 81);
+  background-color: rgba(55, 65, 81, 0.8);
 }
-

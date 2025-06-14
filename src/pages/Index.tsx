@@ -10,7 +10,7 @@ import { FileText, Search, Settings, Sparkles } from 'lucide-react';
 
 const Index = () => {
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden bg-transparent">
       <ModernBackground />
       
       {/* Main Content */}
@@ -36,7 +36,7 @@ const Index = () => {
               <Button
                 onClick={() => window.location.href = '/admin'}
                 variant="outline"
-                className="border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105 dark:border-blue-500 dark:text-blue-400"
+                className="border-blue-500/50 text-blue-400 hover:bg-blue-500/20 hover:text-white transition-all duration-300 hover:scale-105 dark:border-blue-500/50 dark:text-blue-400 bg-transparent backdrop-blur-sm"
               >
                 <Settings className="w-4 h-4 mr-2" />
                 Admin Panel
@@ -45,21 +45,21 @@ const Index = () => {
           </div>
         </header>
 
-        {/* Main Content with enhanced animations */}
+        {/* Main Content with enhanced animations and transparency */}
         <div className="max-w-5xl mx-auto px-4 pb-12">
           <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
             <Tabs defaultValue="submit" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-white/90 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 mb-8 p-2 h-16">
+              <TabsList className="grid w-full grid-cols-2 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-gray-200/30 dark:border-white/10 mb-8 p-2 h-16">
                 <TabsTrigger 
                   value="submit" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/80 data-[state=active]:to-purple-600/80 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200 backdrop-blur-sm"
                 >
                   <FileText className="w-5 h-5 mr-2" />
                   Ajukan Permintaan
                 </TabsTrigger>
                 <TabsTrigger 
                   value="track" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600/80 data-[state=active]:to-blue-600/80 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200 backdrop-blur-sm"
                 >
                   <Search className="w-5 h-5 mr-2" />
                   Lacak Tiket
