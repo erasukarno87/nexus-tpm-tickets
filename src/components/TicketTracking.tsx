@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -80,7 +81,7 @@ export const TicketTracking = () => {
       // Automatically search for the ticket
       setTimeout(() => {
         handleSearchWithTicketNumber(storedTicketNumber);
-      }, 100);
+      }, 500); // Increased delay to ensure state is updated
     }
   }, []);
 
