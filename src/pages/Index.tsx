@@ -4,14 +4,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TicketSubmissionForm } from '@/components/TicketSubmissionForm';
 import { TicketTracking } from '@/components/TicketTracking';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { ModernBackground } from '@/components/ModernBackground';
+import { GlobalBackground } from '@/components/GlobalBackground';
 import { Button } from '@/components/ui/button';
 import { FileText, Search, Settings, Sparkles } from 'lucide-react';
 
 const Index = () => {
   return (
     <div className="relative min-h-screen overflow-hidden bg-transparent">
-      <ModernBackground />
+      <GlobalBackground />
       
       {/* Main Content */}
       <div className="relative z-10">
@@ -47,7 +47,7 @@ const Index = () => {
 
         {/* Main Content with enhanced animations and transparency */}
         <div className="max-w-5xl mx-auto px-4 pb-12">
-          <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
+          <div className="animate-fadeIn page-container p-8" style={{ animationDelay: '0.3s' }}>
             <Tabs defaultValue="submit" className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-gray-200/30 dark:border-white/10 mb-8 p-2 h-16">
                 <TabsTrigger 
@@ -89,3 +89,4 @@ const Index = () => {
 };
 
 export default Index;
+
