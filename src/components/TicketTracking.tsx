@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -182,7 +183,7 @@ export const TicketTracking = () => {
   return (
     <div className="space-y-8">
       {/* Search Interface */}
-      <Card className="bg-white/95 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 shadow-lg">
+      <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-lg">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
             Lacak Permintaan Anda
@@ -195,13 +196,13 @@ export const TicketTracking = () => {
         <CardContent className="space-y-6">
           <div className="flex space-x-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Masukkan nomor tiket (mis. TPM-20241211-0001) atau kata kunci..."
-                className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 h-12 pl-12 text-lg"
+                className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 h-12 pl-12 text-lg"
               />
             </div>
             <Button
@@ -223,7 +224,7 @@ export const TicketTracking = () => {
           <div className="text-center">
             <Button
               variant="outline"
-              className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 border-dashed hover:border-blue-400 text-gray-800 dark:text-gray-200"
+              className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 border-dashed hover:border-blue-400 text-gray-800 dark:text-gray-200"
             >
               <QrCode className="w-5 h-5 mr-2" />
               Pindai Kode QR
@@ -238,7 +239,7 @@ export const TicketTracking = () => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Hasil Pencarian</h3>
           <div className="grid gap-4">
             {foundTickets.map((ticket) => (
-              <Card key={ticket.id} className="bg-white/95 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 hover:shadow-lg transition-all duration-300">
+              <Card key={ticket.id} className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="space-y-2">
@@ -257,7 +258,7 @@ export const TicketTracking = () => {
                       variant="outline"
                       size="sm"
                       onClick={() => handleViewDetails(ticket)}
-                      className="bg-white dark:bg-white/10 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white"
+                      className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white"
                     >
                       <Eye className="w-4 h-4 mr-1" />
                       Lihat Detail
@@ -309,7 +310,7 @@ export const TicketTracking = () => {
 
       {/* Detailed Ticket View Modal */}
       {selectedTicket && (
-        <Card className="bg-white/95 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 shadow-xl">
+        <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-xl">
           <CardHeader>
             <div className="flex justify-between items-start">
               <div>
@@ -320,7 +321,7 @@ export const TicketTracking = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setSelectedTicket(null)}
-                className="bg-white dark:bg-white/10 border border-gray-300 dark:border-white/20 text-gray-800 dark:text-gray-200"
+                className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200"
               >
                 Tutup
               </Button>
@@ -384,11 +385,11 @@ export const TicketTracking = () => {
 
             <div className="space-y-4">
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Deskripsi</h4>
-              <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">{selectedTicket.description}</p>
+              <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.description}</p>
               {selectedTicket.notes && (
                 <>
                   <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Catatan Tambahan</h4>
-                  <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">{selectedTicket.notes}</p>
+                  <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.notes}</p>
                 </>
               )}
               {selectedTicket.rejection_reason && selectedTicket.status === 'ditolak' && (
@@ -403,7 +404,7 @@ export const TicketTracking = () => {
               <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Linimasa Aktivitas</h4>
               <div className="space-y-4">
                 {ticketLogs.map((entry, index) => (
-                  <div key={entry.id} className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg">
+                  <div key={entry.id} className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
                     <div className="w-3 h-3 rounded-full bg-blue-500 mt-1 flex-shrink-0"></div>
                     <div className="flex-1">
                       <div className="flex items-center justify-between mb-1">
@@ -423,7 +424,7 @@ export const TicketTracking = () => {
 
       {/* Instructions */}
       {foundTickets.length === 0 && !isSearching && (
-        <Card className="bg-white/95 dark:bg-white/10 backdrop-blur-sm border border-gray-200 dark:border-white/20 border-dashed">
+        <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 border-dashed">
           <CardContent className="text-center py-12">
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Lacak Permintaan TPM Anda</h3>
