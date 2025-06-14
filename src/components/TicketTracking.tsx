@@ -1,10 +1,10 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { Search, QrCode, Calendar, User, MapPin, Clock, CheckCircle, AlertTriangle, Loader2, Eye, X } from 'lucide-react';
@@ -64,6 +64,7 @@ export const TicketTracking = () => {
   const [foundTickets, setFoundTickets] = useState<TicketStatus[]>([]);
   const [selectedTicket, setSelectedTicket] = useState<TicketStatus | null>(null);
   const [ticketLogs, setTicketLogs] = useState<TicketLog[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
   const calculateProgress = (status: string): number => {
@@ -134,8 +135,28 @@ export const TicketTracking = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleString('id-ID');
+  };
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'closed': return <CheckCircle className="w-4 h-4" />;
+      case 'in_progress': return <Loader2 className="w-4 h-4 animate-spin" />;
+      case 'ditolak': return <X className="w-4 h-4" />;
+      default: return <AlertTriangle className="w-4 h-4" />;
+    }
+  };
+
   const handleViewDetails = async (ticket: TicketStatus) => {
     setSelectedTicket(ticket);
+    setIsModalOpen(true);
     
     try {
       const { data: logs, error } = await supabase
@@ -157,25 +178,6 @@ export const TicketTracking = () => {
         description: "Gagal memuat detail tiket",
         variant: "destructive",
       });
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSearch();
-    }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString('id-ID');
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'closed': return <CheckCircle className="w-4 h-4" />;
-      case 'in_progress': return <Loader2 className="w-4 h-4 animate-spin" />;
-      case 'ditolak': return <X className="w-4 h-4" />;
-      default: return <AlertTriangle className="w-4 h-4" />;
     }
   };
 
@@ -253,15 +255,121 @@ export const TicketTracking = () => {
                       </div>
                       <p className="text-lg font-mono text-blue-600 dark:text-blue-400">{ticket.ticket_number}</p>
                     </div>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleViewDetails(ticket)}
-                      className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white"
-                    >
-                      <Eye className="w-4 h-4 mr-1" />
-                      Lihat Detail
-                    </Button>
+                    
+                    <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleViewDetails(ticket)}
+                          className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white"
+                        >
+                          <Eye className="w-4 h-4 mr-1" />
+                          Lihat Detail
+                        </Button>
+                      </DialogTrigger>
+                      
+                      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                        <DialogHeader>
+                          <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                            Detail Tiket: {selectedTicket?.title}
+                          </DialogTitle>
+                          <DialogDescription className="text-gray-600 dark:text-gray-400">
+                            Informasi lengkap tentang tiket {selectedTicket?.ticket_number}
+                          </DialogDescription>
+                        </DialogHeader>
+                        
+                        {selectedTicket && (
+                          <div className="space-y-6 mt-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                              <div className="space-y-4">
+                                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Status & Progres</h4>
+                                <div className="space-y-3">
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-gray-700 dark:text-gray-300">Status Saat Ini:</span>
+                                    <Badge className={`${statusConfig[selectedTicket.status].color} ${statusConfig[selectedTicket.status].glow} shadow-lg border-0 text-white`}>
+                                      {getStatusIcon(selectedTicket.status)}
+                                      <span className="ml-1">{statusConfig[selectedTicket.status].label}</span>
+                                    </Badge>
+                                  </div>
+                                  <div className="space-y-2">
+                                    <div className="flex justify-between items-center text-sm">
+                                      <span className="text-gray-600 dark:text-gray-400">Progres Penyelesaian</span>
+                                      <span className="text-gray-900 dark:text-white font-semibold">{calculateProgress(selectedTicket.status)}%</span>
+                                    </div>
+                                    <Progress value={calculateProgress(selectedTicket.status)} className="h-3" />
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div className="space-y-4">
+                                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Detail</h4>
+                                <div className="space-y-3 text-sm">
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-600 dark:text-gray-400">Prioritas:</span>
+                                    <span className={`font-semibold ${priorityConfig[selectedTicket.priority].color.split(' ')[1]}`}>
+                                      {selectedTicket.priority.toUpperCase()}
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-600 dark:text-gray-400">Kategori:</span>
+                                    <span className="text-gray-900 dark:text-white">{categoryLabels[selectedTicket.category]}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-600 dark:text-gray-400">Lokasi:</span>
+                                    <span className="text-gray-900 dark:text-white">{selectedTicket.location}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-600 dark:text-gray-400">Ditugaskan Kepada:</span>
+                                    <span className="text-gray-900 dark:text-white">{selectedTicket.assigned_to || 'Belum Ditugaskan'}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-600 dark:text-gray-400">Pemohon:</span>
+                                    <span className="text-gray-900 dark:text-white">{selectedTicket.requester_name} ({selectedTicket.requester_department})</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="space-y-4">
+                              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Deskripsi</h4>
+                              <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.description}</p>
+                              {selectedTicket.notes && (
+                                <>
+                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Catatan Tambahan</h4>
+                                  <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.notes}</p>
+                                </>
+                              )}
+                              {selectedTicket.rejection_reason && selectedTicket.status === 'ditolak' && (
+                                <>
+                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Alasan Penolakan</h4>
+                                  <p className="text-red-700 dark:text-red-300 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg">{selectedTicket.rejection_reason}</p>
+                                </>
+                              )}
+                            </div>
+
+                            <div>
+                              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Linimasa Aktivitas</h4>
+                              <div className="space-y-4">
+                                {ticketLogs.map((entry, index) => (
+                                  <div key={entry.id} className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                    <div className="w-3 h-3 rounded-full bg-blue-500 mt-1 flex-shrink-0"></div>
+                                    <div className="flex-1">
+                                      <div className="flex items-center justify-between mb-1">
+                                        <h5 className="font-semibold text-gray-900 dark:text-white">{entry.action}</h5>
+                                        <span className="text-sm text-gray-600 dark:text-gray-400">{formatDate(entry.created_at)}</span>
+                                      </div>
+                                      <p className="text-gray-700 dark:text-gray-300 text-sm">{entry.description}</p>
+                                      <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">oleh {entry.created_by}</p>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </DialogContent>
+                    </Dialog>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -305,116 +413,6 @@ export const TicketTracking = () => {
             ))}
           </div>
         </div>
-      )}
-
-      {/* Detailed Ticket View Modal */}
-      {selectedTicket && (
-        <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-xl">
-          <CardHeader>
-            <div className="flex justify-between items-start">
-              <div>
-                <CardTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{selectedTicket.title}</CardTitle>
-                <p className="text-lg font-mono text-blue-600 dark:text-blue-400 mt-1">{selectedTicket.ticket_number}</p>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setSelectedTicket(null)}
-                className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200"
-              >
-                Tutup
-              </Button>
-            </div>
-          </CardHeader>
-          
-          <CardContent className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Status & Progres</h4>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-gray-700 dark:text-gray-300">Status Saat Ini:</span>
-                    <Badge className={`${statusConfig[selectedTicket.status].color} ${statusConfig[selectedTicket.status].glow} shadow-lg border-0 text-white`}>
-                      {getStatusIcon(selectedTicket.status)}
-                      <span className="ml-1">{statusConfig[selectedTicket.status].label}</span>
-                    </Badge>
-                  </div>
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center text-sm">
-                      <span className="text-gray-600 dark:text-gray-400">Progres Penyelesaian</span>
-                      <span className="text-gray-900 dark:text-white font-semibold">{calculateProgress(selectedTicket.status)}%</span>
-                    </div>
-                    <Progress value={calculateProgress(selectedTicket.status)} className="h-3" />
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Detail</h4>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Prioritas:</span>
-                    <span className={`font-semibold ${priorityConfig[selectedTicket.priority].color.split(' ')[1]}`}>
-                      {selectedTicket.priority.toUpperCase()}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Kategori:</span>
-                    <span className="text-gray-900 dark:text-white">{categoryLabels[selectedTicket.category]}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Lokasi:</span>
-                    <span className="text-gray-900 dark:text-white">{selectedTicket.location}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Ditugaskan Kepada:</span>
-                    <span className="text-gray-900 dark:text-white">{selectedTicket.assigned_to || 'Belum Ditugaskan'}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-400">Pemohon:</span>
-                    <span className="text-gray-900 dark:text-white">{selectedTicket.requester_name} ({selectedTicket.requester_department})</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Deskripsi</h4>
-              <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.description}</p>
-              {selectedTicket.notes && (
-                <>
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Catatan Tambahan</h4>
-                  <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.notes}</p>
-                </>
-              )}
-              {selectedTicket.rejection_reason && selectedTicket.status === 'ditolak' && (
-                <>
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Alasan Penolakan</h4>
-                  <p className="text-red-700 dark:text-red-300 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg">{selectedTicket.rejection_reason}</p>
-                </>
-              )}
-            </div>
-
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Linimasa Aktivitas</h4>
-              <div className="space-y-4">
-                {ticketLogs.map((entry, index) => (
-                  <div key={entry.id} className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
-                    <div className="w-3 h-3 rounded-full bg-blue-500 mt-1 flex-shrink-0"></div>
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-1">
-                        <h5 className="font-semibold text-gray-900 dark:text-white">{entry.action}</h5>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">{formatDate(entry.created_at)}</span>
-                      </div>
-                      <p className="text-gray-700 dark:text-gray-300 text-sm">{entry.description}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">oleh {entry.created_by}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       )}
 
       {/* Instructions */}
