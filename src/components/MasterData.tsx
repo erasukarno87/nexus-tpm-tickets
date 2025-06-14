@@ -121,18 +121,24 @@ export const MasterData = () => {
 
   const handleSaveLineArea = async (data: any) => {
     try {
+      // Convert "none" back to null for database storage
+      const processedData = {
+        ...data,
+        department_id: data.department_id === "none" ? null : data.department_id
+      };
+
       if (editingItem?.id) {
         // Update
         const { error } = await supabase
           .from('line_areas')
-          .update(data)
+          .update(processedData)
           .eq('id', editingItem.id);
         if (error) throw error;
       } else {
         // Insert
         const { error } = await supabase
           .from('line_areas')
-          .insert(data);
+          .insert(processedData);
         if (error) throw error;
       }
 
@@ -316,14 +322,14 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Departemen</Label>
             <Select 
-              value={editingItem?.department_id || ''} 
+              value={editingItem?.department_id || 'none'} 
               onValueChange={(value) => setEditingItem({...editingItem, department_id: value})}
             >
               <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
                 <SelectValue placeholder="Pilih departemen" />
               </SelectTrigger>
               <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                <SelectItem value="">Tidak ada departemen</SelectItem>
+                <SelectItem value="none">Tidak ada departemen</SelectItem>
                 {departments.map((dept) => (
                   <SelectItem key={dept.id} value={dept.id}>
                     {dept.name}
