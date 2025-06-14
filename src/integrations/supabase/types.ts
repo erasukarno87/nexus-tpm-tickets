@@ -95,43 +95,26 @@ export type Database = {
       technicians: {
         Row: {
           created_at: string
-          department_id: string | null
-          email: string | null
           id: string
           is_active: boolean | null
           name: string
           phone: string | null
-          specialty: string | null
         }
         Insert: {
           created_at?: string
-          department_id?: string | null
-          email?: string | null
           id?: string
           is_active?: boolean | null
           name: string
           phone?: string | null
-          specialty?: string | null
         }
         Update: {
           created_at?: string
-          department_id?: string | null
-          email?: string | null
           id?: string
           is_active?: boolean | null
           name?: string
           phone?: string | null
-          specialty?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "technicians_department_id_fkey"
-            columns: ["department_id"]
-            isOneToOne: false
-            referencedRelation: "departments"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       ticket_logs: {
         Row: {

@@ -56,8 +56,6 @@ interface Ticket {
 interface Technician {
   id: string;
   name: string;
-  email?: string;
-  specialty?: string;
   is_active: boolean;
 }
 
@@ -424,7 +422,7 @@ const Admin = () => {
                                     <SelectItem value="unassigned">Belum Ditugaskan</SelectItem>
                                     {technicians.map((tech) => (
                                       <SelectItem key={tech.id} value={tech.name}>
-                                        {tech.name} {tech.specialty && `(${tech.specialty})`}
+                                        {tech.name}
                                       </SelectItem>
                                     ))}
                                   </SelectContent>
