@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -514,6 +514,9 @@ const Admin = () => {
                                       <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                                         Detail Tiket: {ticket.title}
                                       </DialogTitle>
+                                      <DialogDescription className="text-gray-600 dark:text-gray-400">
+                                        Informasi lengkap tentang tiket {ticket.ticket_number}
+                                      </DialogDescription>
                                     </DialogHeader>
                                     <div className="space-y-6 mt-6">
                                       <div className="grid grid-cols-2 gap-4">
