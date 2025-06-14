@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -53,21 +54,41 @@ export const MasterData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // State untuk form data
-  const [formData, setFormData] = useState<any>({});
+  // State untuk form data - direct state management
+  const [departmentName, setDepartmentName] = useState('');
+  const [lineAreaName, setLineAreaName] = useState('');
+  const [lineAreaDepartment, setLineAreaDepartment] = useState('none');
+  const [lineAreaDescription, setLineAreaDescription] = useState('');
+  const [technicianName, setTechnicianName] = useState('');
+  const [technicianPhone, setTechnicianPhone] = useState('');
 
   useEffect(() => {
     fetchAllMasterData();
   }, []);
 
-  // Reset form data ketika editing item berubah
+  // Reset form data ketika editing type berubah
   useEffect(() => {
     if (editingItem) {
-      setFormData({ ...editingItem });
+      if (editingType === 'departments') {
+        setDepartmentName(editingItem.name || '');
+      } else if (editingType === 'line-areas') {
+        setLineAreaName(editingItem.name || '');
+        setLineAreaDepartment(editingItem.department_id || 'none');
+        setLineAreaDescription(editingItem.description || '');
+      } else if (editingType === 'technicians') {
+        setTechnicianName(editingItem.name || '');
+        setTechnicianPhone(editingItem.phone || '');
+      }
     } else {
-      setFormData({});
+      // Reset all form data when not editing
+      setDepartmentName('');
+      setLineAreaName('');
+      setLineAreaDepartment('none');
+      setLineAreaDescription('');
+      setTechnicianName('');
+      setTechnicianPhone('');
     }
-  }, [editingItem]);
+  }, [editingItem, editingType]);
 
   const fetchAllMasterData = async () => {
     try {
@@ -92,17 +113,10 @@ export const MasterData = () => {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev: any) => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
   const handleSaveDepartment = async () => {
     try {
       const data = {
-        name: formData.name,
+        name: departmentName,
         is_active: true
       };
 
@@ -124,7 +138,7 @@ export const MasterData = () => {
       await fetchAllMasterData();
       setEditingItem(null);
       setEditingType('');
-      setFormData({});
+      setDepartmentName('');
       
       toast({
         title: "Berhasil!",
@@ -142,11 +156,10 @@ export const MasterData = () => {
 
   const handleSaveLineArea = async () => {
     try {
-      // Convert "none" back to null for database storage
       const data = {
-        name: formData.name,
-        department_id: formData.department_id === "none" ? null : formData.department_id,
-        description: formData.description || null,
+        name: lineAreaName,
+        department_id: lineAreaDepartment === "none" ? null : lineAreaDepartment,
+        description: lineAreaDescription || null,
         is_active: true
       };
 
@@ -168,7 +181,9 @@ export const MasterData = () => {
       await fetchAllMasterData();
       setEditingItem(null);
       setEditingType('');
-      setFormData({});
+      setLineAreaName('');
+      setLineAreaDepartment('none');
+      setLineAreaDescription('');
       
       toast({
         title: "Berhasil!",
@@ -187,8 +202,8 @@ export const MasterData = () => {
   const handleSaveTechnician = async () => {
     try {
       const data = {
-        name: formData.name,
-        phone: formData.phone || null,
+        name: technicianName,
+        phone: technicianPhone || null,
         is_active: true
       };
 
@@ -210,7 +225,8 @@ export const MasterData = () => {
       await fetchAllMasterData();
       setEditingItem(null);
       setEditingType('');
-      setFormData({});
+      setTechnicianName('');
+      setTechnicianPhone('');
       
       toast({
         title: "Berhasil!",
@@ -301,14 +317,25 @@ export const MasterData = () => {
     }
   };
 
+  const resetForm = () => {
+    setEditingItem(null);
+    setEditingType('');
+    setDepartmentName('');
+    setLineAreaName('');
+    setLineAreaDepartment('none');
+    setLineAreaDescription('');
+    setTechnicianName('');
+    setTechnicianPhone('');
+  };
+
   const DepartmentForm = () => (
     <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
       <CardContent className="p-6 space-y-4">
         <div>
           <Label className="text-gray-900 dark:text-white">Nama Departemen *</Label>
           <Input
-            value={formData.name || ''}
-            onChange={(e) => handleInputChange('name', e.target.value)}
+            value={departmentName}
+            onChange={(e) => setDepartmentName(e.target.value)}
             className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
             placeholder="Masukkan nama departemen"
           />
@@ -323,11 +350,7 @@ export const MasterData = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => { 
-              setEditingItem(null); 
-              setEditingType(''); 
-              setFormData({});
-            }}
+            onClick={resetForm}
             className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <X className="w-4 h-4 mr-2" />
@@ -345,8 +368,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Nama Line/Area *</Label>
             <Input
-              value={formData.name || ''}
-              onChange={(e) => handleInputChange('name', e.target.value)}
+              value={lineAreaName}
+              onChange={(e) => setLineAreaName(e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nama Line/Area"
             />
@@ -354,8 +377,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Departemen</Label>
             <Select 
-              value={formData.department_id || 'none'} 
-              onValueChange={(value) => handleInputChange('department_id', value)}
+              value={lineAreaDepartment} 
+              onValueChange={setLineAreaDepartment}
             >
               <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
                 <SelectValue placeholder="Pilih departemen" />
@@ -374,8 +397,8 @@ export const MasterData = () => {
         <div>
           <Label className="text-gray-900 dark:text-white">Deskripsi</Label>
           <Textarea
-            value={formData.description || ''}
-            onChange={(e) => handleInputChange('description', e.target.value)}
+            value={lineAreaDescription}
+            onChange={(e) => setLineAreaDescription(e.target.value)}
             className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[80px]"
             placeholder="Masukkan deskripsi Line/Area"
           />
@@ -390,11 +413,7 @@ export const MasterData = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => { 
-              setEditingItem(null); 
-              setEditingType(''); 
-              setFormData({});
-            }}
+            onClick={resetForm}
             className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <X className="w-4 h-4 mr-2" />
@@ -412,8 +431,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Nama Teknisi *</Label>
             <Input
-              value={formData.name || ''}
-              onChange={(e) => handleInputChange('name', e.target.value)}
+              value={technicianName}
+              onChange={(e) => setTechnicianName(e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nama teknisi"
             />
@@ -421,8 +440,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Telepon</Label>
             <Input
-              value={formData.phone || ''}
-              onChange={(e) => handleInputChange('phone', e.target.value)}
+              value={technicianPhone}
+              onChange={(e) => setTechnicianPhone(e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nomor telepon"
             />
@@ -438,11 +457,7 @@ export const MasterData = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => { 
-              setEditingItem(null); 
-              setEditingType(''); 
-              setFormData({});
-            }}
+            onClick={resetForm}
             className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <X className="w-4 h-4 mr-2" />
@@ -497,7 +512,7 @@ export const MasterData = () => {
                 onClick={() => { 
                   setEditingItem({ name: '' }); 
                   setEditingType('departments'); 
-                  setFormData({ name: '' });
+                  setDepartmentName('');
                 }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
@@ -526,7 +541,7 @@ export const MasterData = () => {
                           onClick={() => { 
                             setEditingItem(dept); 
                             setEditingType('departments'); 
-                            setFormData({ ...dept });
+                            setDepartmentName(dept.name);
                           }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
@@ -555,7 +570,9 @@ export const MasterData = () => {
                 onClick={() => { 
                   setEditingItem({ name: '', department_id: 'none', description: '' }); 
                   setEditingType('line-areas'); 
-                  setFormData({ name: '', department_id: 'none', description: '' });
+                  setLineAreaName('');
+                  setLineAreaDepartment('none');
+                  setLineAreaDescription('');
                 }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
@@ -590,7 +607,9 @@ export const MasterData = () => {
                           onClick={() => { 
                             setEditingItem(area); 
                             setEditingType('line-areas'); 
-                            setFormData({ ...area });
+                            setLineAreaName(area.name);
+                            setLineAreaDepartment(area.department_id || 'none');
+                            setLineAreaDescription(area.description || '');
                           }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
@@ -619,7 +638,8 @@ export const MasterData = () => {
                 onClick={() => { 
                   setEditingItem({ name: '', phone: '' }); 
                   setEditingType('technicians'); 
-                  setFormData({ name: '', phone: '' });
+                  setTechnicianName('');
+                  setTechnicianPhone('');
                 }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
@@ -651,7 +671,8 @@ export const MasterData = () => {
                           onClick={() => { 
                             setEditingItem(tech); 
                             setEditingType('technicians'); 
-                            setFormData({ ...tech });
+                            setTechnicianName(tech.name);
+                            setTechnicianPhone(tech.phone || '');
                           }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
