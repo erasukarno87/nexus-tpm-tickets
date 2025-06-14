@@ -12,8 +12,9 @@ export const ThemeToggle = () => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-      document.documentElement.classList.toggle('dark', savedTheme === 'dark');
+      const isDarkMode = savedTheme === 'dark';
+      setIsDark(isDarkMode);
+      document.documentElement.classList.toggle('dark', isDarkMode);
     } else {
       setIsDark(prefersDark);
       document.documentElement.classList.toggle('dark', prefersDark);
@@ -30,14 +31,7 @@ export const ThemeToggle = () => {
     // Save to localStorage
     localStorage.setItem('tpm_theme', newTheme ? 'dark' : 'light');
     
-    // Update CSS custom properties for theme
-    if (newTheme) {
-      document.documentElement.style.setProperty('--background', '222.2% 84% 4.9%');
-      document.documentElement.style.setProperty('--foreground', '210% 40% 98%');
-    } else {
-      document.documentElement.style.setProperty('--background', '0 0% 100%');
-      document.documentElement.style.setProperty('--foreground', '222.2% 84% 4.9%');
-    }
+    console.log('Theme toggled to:', newTheme ? 'dark' : 'light');
   };
 
   return (
