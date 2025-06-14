@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -10,7 +11,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { QRCodeGenerator } from '@/components/QRCodeGenerator';
-import { Background3D } from '@/components/Background3D';
+import { ModernBackground } from '@/components/ModernBackground';
 import { 
   Wrench, 
   AlertTriangle, 
@@ -187,7 +188,7 @@ export const TicketSubmissionForm = () => {
   if (showSuccess && submittedTicket) {
     return (
       <div className="relative min-h-screen">
-        <Background3D />
+        <ModernBackground />
         <Card className="glass-card border-0 neon-glow relative z-10">
           <CardContent className="text-center py-16">
             <div className="mb-8 animate-fadeIn">
@@ -242,7 +243,7 @@ export const TicketSubmissionForm = () => {
 
   return (
     <div className="relative min-h-screen">
-      <Background3D />
+      <ModernBackground />
       <Card className="glass-card border-0 neon-glow relative z-10">
         <CardHeader className="text-center pb-8">
           <div className="flex items-center justify-center mb-6">
