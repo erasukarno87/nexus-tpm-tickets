@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -26,7 +27,8 @@ import {
   FileText,
   Sparkles,
   Send,
-  Camera
+  Camera,
+  MapPin
 } from 'lucide-react';
 
 type TicketCategory = 'corrective_action' | 'repair' | 'procurement' | 'support';
@@ -40,11 +42,18 @@ interface TicketFormData {
   requester_name: string;
   requester_department: string;
   requester_contact: string;
+  line_area_id: string;
 }
 
 interface Department {
   id: string;
   name: string;
+}
+
+interface LineArea {
+  id: string;
+  name: string;
+  description?: string;
 }
 
 const categoryOptions = [
@@ -66,6 +75,7 @@ export const TicketSubmissionForm = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [submittedTicket, setSubmittedTicket] = useState<any>(null);
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [lineAreas, setLineAreas] = useState<LineArea[]>([]);
   const [beforeImages, setBeforeImages] = useState<string[]>([]);
   const { toast } = useToast();
 
@@ -101,6 +111,21 @@ export const TicketSubmissionForm = () => {
         console.log('Departments data:', deptResult);
         setDepartments(deptResult || []);
       }
+
+      const { data: lineAreaResult, error: lineAreaError } = await supabase
+        .from('line_areas')
+        .select('id, name, description')
+        .eq('is_active', true)
+        .order('name');
+
+      console.log('Line area result:', lineAreaResult, lineAreaError);
+
+      if (lineAreaError) {
+        console.error('Error fetching line areas:', lineAreaError);
+      } else {
+        console.log('Line areas data:', lineAreaResult);
+        setLineAreas(lineAreaResult || []);
+      }
     } catch (error) {
       console.error('Error fetching master data:', error);
       toast({
@@ -117,6 +142,9 @@ export const TicketSubmissionForm = () => {
     try {
       console.log('Mengirim tiket:', data);
       
+      // Find selected line area
+      const selectedLineArea = lineAreas.find(area => area.id === data.line_area_id);
+      
       const insertData = {
         category: data.category,
         title: data.title,
@@ -126,6 +154,8 @@ export const TicketSubmissionForm = () => {
         requester_name: data.requester_name,
         requester_department: data.requester_department,
         requester_contact: data.requester_contact || '',
+        line_area_id: data.line_area_id,
+        line_area_name: selectedLineArea?.name || '',
         notes: null,
         ticket_number: '',
         before_photos: beforeImages,
@@ -249,6 +279,24 @@ export const TicketSubmissionForm = () => {
     );
   }
 
+  const switchToTrackingTab = () => {
+    setShowSuccess(false);
+    setSubmittedTicket(null);
+    
+    const trackingTab = document.querySelector('[data-value="track"]') as HTMLElement;
+    if (trackingTab) {
+      trackingTab.click();
+      
+      setTimeout(() => {
+        const searchInput = document.querySelector('input[placeholder*="nomor tiket"]') as HTMLInputElement;
+        if (searchInput && submittedTicket) {
+          searchInput.value = submittedTicket.ticket_number;
+          searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      }, 100);
+    }
+  };
+
   return (
     <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900">
       <ModernBackground />
@@ -301,13 +349,13 @@ export const TicketSubmissionForm = () => {
                 </div>
               </div>
 
-              {/* Enhanced Requester Information */}
+              {/* Enhanced Requester Information with new structure */}
               <div className="space-y-6">
                 <h3 className="text-2xl font-bold text-black dark:text-white flex items-center">
                   <User className="w-6 h-6 mr-3 text-blue-600" />
                   Informasi Pemohon
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <Label htmlFor="requester_name" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
                       <User className="w-4 h-4" />
@@ -321,6 +369,18 @@ export const TicketSubmissionForm = () => {
                     {errors.requester_name && (
                       <p className="text-red-500 text-sm">{errors.requester_name.message}</p>
                     )}
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <Phone className="w-4 h-4" />
+                      <span>Kontak</span>
+                    </Label>
+                    <Input
+                      {...register('requester_contact')}
+                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                      placeholder="Telepon atau email (opsional)"
+                    />
                   </div>
 
                   <div className="space-y-3">
@@ -352,15 +412,31 @@ export const TicketSubmissionForm = () => {
                   </div>
 
                   <div className="space-y-3">
-                    <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <Phone className="w-4 h-4" />
-                      <span>Kontak</span>
+                    <Label htmlFor="line_area_id" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                      <MapPin className="w-4 h-4" />
+                      <span>Line/Area *</span>
                     </Label>
-                    <Input
-                      {...register('requester_contact')}
-                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
-                      placeholder="Telepon atau email (opsional)"
-                    />
+                    <Select onValueChange={(value) => setValue('line_area_id', value)}>
+                      <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
+                        <SelectValue placeholder="Pilih line/area" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
+                        {lineAreas.length > 0 ? (
+                          lineAreas.map((area) => (
+                            <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                              {area.name}
+                            </SelectItem>
+                          ))
+                        ) : (
+                          <SelectItem value="loading" disabled className="text-gray-500">
+                            Memuat line/area...
+                          </SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                    {errors.line_area_id && (
+                      <p className="text-red-500 text-sm">Line/Area wajib dipilih</p>
+                    )}
                   </div>
                 </div>
               </div>
