@@ -163,8 +163,6 @@ export type Database = {
           id: string
           line_area_id: string | null
           line_area_name: string | null
-          location: string
-          machine_id: string | null
           notes: string | null
           priority: string
           rejection_reason: string | null
@@ -187,8 +185,6 @@ export type Database = {
           id?: string
           line_area_id?: string | null
           line_area_name?: string | null
-          location: string
-          machine_id?: string | null
           notes?: string | null
           priority: string
           rejection_reason?: string | null
@@ -211,8 +207,6 @@ export type Database = {
           id?: string
           line_area_id?: string | null
           line_area_name?: string | null
-          location?: string
-          machine_id?: string | null
           notes?: string | null
           priority?: string
           rejection_reason?: string | null

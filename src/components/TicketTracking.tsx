@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -28,6 +27,8 @@ interface TicketStatus {
   description: string;
   notes?: string;
   rejection_reason?: string;
+  before_photos: string[];
+  after_photos: string[];
 }
 
 interface TicketLog {
@@ -80,6 +81,48 @@ export const TicketTracking = () => {
     }
   };
 
+  const getStorageUrl = (filePath: string) => {
+    // Remove the full URL if it's already a complete URL
+    if (filePath.startsWith('http')) {
+      return filePath;
+    }
+    
+    // Create the full storage URL for ticket-images bucket
+    return `https://hmqrtiijlvbjnnspumly.supabase.co/storage/v1/object/public/ticket-images/${filePath}`;
+  };
+
+  const renderPhotos = (photos: string[] | null, title: string) => {
+    if (!photos || photos.length === 0) return null;
+
+    return (
+      <div>
+        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{title}</label>
+        <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+          {photos.map((photo, index) => {
+            const imageUrl = getStorageUrl(photo);
+            return (
+              <div key={index} className="relative group">
+                <img 
+                  src={imageUrl}
+                  alt={`${title} ${index + 1}`}
+                  className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
+                  onClick={() => window.open(imageUrl, '_blank')}
+                  onError={(e) => {
+                    console.error('Error loading image:', imageUrl);
+                    e.currentTarget.src = '/placeholder.svg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
+                  <Eye className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
   const handleSearch = async () => {
     if (!searchQuery.trim()) {
       toast({
@@ -113,7 +156,9 @@ export const TicketTracking = () => {
         ...ticket,
         status: ticket.status as TicketStatus['status'],
         priority: ticket.priority as TicketStatus['priority'],
-        category: ticket.category as TicketStatus['category']
+        category: ticket.category as TicketStatus['category'],
+        before_photos: (ticket.before_photos as string[]) || [],
+        after_photos: (ticket.after_photos as string[]) || []
       })) || [];
       
       setFoundTickets(typedTickets);
@@ -336,6 +381,11 @@ export const TicketTracking = () => {
                             <div className="space-y-4">
                               <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Deskripsi</h4>
                               <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.description}</p>
+                              
+                              {renderPhotos(selectedTicket.before_photos, "Foto Sebelum")}
+                              
+                              {renderPhotos(selectedTicket.after_photos, "Foto Sesudah")}
+
                               {selectedTicket.notes && (
                                 <>
                                   <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Catatan Tambahan</h4>
