@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -316,8 +317,8 @@ export const TicketTracking = () => {
                                     <span className="text-gray-900 dark:text-white">{categoryLabels[selectedTicket.category]}</span>
                                   </div>
                                   <div className="flex justify-between">
-                                    <span className="text-gray-600 dark:text-gray-400">Lokasi:</span>
-                                    <span className="text-gray-900 dark:text-white">{selectedTicket.location}</span>
+                                    <span className="text-gray-600 dark:text-gray-400">Line/Area:</span>
+                                    <span className="text-gray-900 dark:text-white">{selectedTicket.line_area_name || 'Tidak Ada'}</span>
                                   </div>
                                   <div className="flex justify-between">
                                     <span className="text-gray-600 dark:text-gray-400">Ditugaskan Kepada:</span>
