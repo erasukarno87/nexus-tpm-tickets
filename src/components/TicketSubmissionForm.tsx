@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -126,7 +125,7 @@ export const TicketSubmissionForm = () => {
         location: '',
         requester_name: data.requester_name,
         requester_department: data.requester_department,
-        requester_contact: data.requester_contact,
+        requester_contact: data.requester_contact || '',
         notes: null,
         ticket_number: '',
         before_photos: beforeImages,
@@ -355,16 +354,13 @@ export const TicketSubmissionForm = () => {
                   <div className="space-y-3">
                     <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
                       <Phone className="w-4 h-4" />
-                      <span>Kontak *</span>
+                      <span>Kontak</span>
                     </Label>
                     <Input
-                      {...register('requester_contact', { required: 'Kontak wajib diisi' })}
+                      {...register('requester_contact')}
                       className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
-                      placeholder="Telepon atau email"
+                      placeholder="Telepon atau email (opsional)"
                     />
-                    {errors.requester_contact && (
-                      <p className="text-red-500 text-sm">{errors.requester_contact.message}</p>
-                    )}
                   </div>
                 </div>
               </div>
