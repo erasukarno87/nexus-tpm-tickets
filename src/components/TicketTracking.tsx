@@ -22,6 +22,7 @@ interface TicketStatus {
   completed_at?: string;
   assigned_to?: string;
   location: string;
+  line_area_name?: string;
   requester_name: string;
   requester_department: string;
   description: string;
