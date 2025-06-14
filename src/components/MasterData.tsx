@@ -53,65 +53,46 @@ export const MasterData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // Simplified form state
-  const [formData, setFormData] = useState({
-    departmentName: '',
-    lineAreaName: '',
-    lineAreaDepartment: 'none',
-    lineAreaDescription: '',
-    technicianName: '',
-    technicianPhone: ''
-  });
+  // Separate state for each form field - this prevents re-render issues
+  const [departmentName, setDepartmentName] = useState('');
+  const [lineAreaName, setLineAreaName] = useState('');
+  const [lineAreaDepartment, setLineAreaDepartment] = useState('none');
+  const [lineAreaDescription, setLineAreaDescription] = useState('');
+  const [technicianName, setTechnicianName] = useState('');
+  const [technicianPhone, setTechnicianPhone] = useState('');
 
   useEffect(() => {
     fetchAllMasterData();
   }, []);
 
-  // Only reset form when explicitly starting to edit or create new
   const initializeForm = (item: any = null, type: string = '') => {
     if (item && item.id) {
       // Editing existing item
       if (type === 'departments') {
-        setFormData(prev => ({ ...prev, departmentName: item.name || '' }));
+        setDepartmentName(item.name || '');
       } else if (type === 'line-areas') {
-        setFormData(prev => ({
-          ...prev,
-          lineAreaName: item.name || '',
-          lineAreaDepartment: item.department_id || 'none',
-          lineAreaDescription: item.description || ''
-        }));
+        setLineAreaName(item.name || '');
+        setLineAreaDepartment(item.department_id || 'none');
+        setLineAreaDescription(item.description || '');
       } else if (type === 'technicians') {
-        setFormData(prev => ({
-          ...prev,
-          technicianName: item.name || '',
-          technicianPhone: item.phone || ''
-        }));
+        setTechnicianName(item.name || '');
+        setTechnicianPhone(item.phone || '');
       }
     } else {
-      // Creating new item - only reset relevant fields
+      // Creating new item
       if (type === 'departments') {
-        setFormData(prev => ({ ...prev, departmentName: '' }));
+        setDepartmentName('');
       } else if (type === 'line-areas') {
-        setFormData(prev => ({
-          ...prev,
-          lineAreaName: '',
-          lineAreaDepartment: 'none',
-          lineAreaDescription: ''
-        }));
+        setLineAreaName('');
+        setLineAreaDepartment('none');
+        setLineAreaDescription('');
       } else if (type === 'technicians') {
-        setFormData(prev => ({
-          ...prev,
-          technicianName: '',
-          technicianPhone: ''
-        }));
+        setTechnicianName('');
+        setTechnicianPhone('');
       }
     }
     setEditingItem(item);
     setEditingType(type);
-  };
-
-  const updateFormData = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const fetchAllMasterData = async () => {
@@ -140,7 +121,7 @@ export const MasterData = () => {
   const handleSaveDepartment = async () => {
     try {
       const data = {
-        name: formData.departmentName,
+        name: departmentName,
         is_active: true
       };
 
@@ -177,9 +158,9 @@ export const MasterData = () => {
   const handleSaveLineArea = async () => {
     try {
       const data = {
-        name: formData.lineAreaName,
-        department_id: formData.lineAreaDepartment === "none" ? null : formData.lineAreaDepartment,
-        description: formData.lineAreaDescription || null,
+        name: lineAreaName,
+        department_id: lineAreaDepartment === "none" ? null : lineAreaDepartment,
+        description: lineAreaDescription || null,
         is_active: true
       };
 
@@ -216,8 +197,8 @@ export const MasterData = () => {
   const handleSaveTechnician = async () => {
     try {
       const data = {
-        name: formData.technicianName,
-        phone: formData.technicianPhone || null,
+        name: technicianName,
+        phone: technicianPhone || null,
         is_active: true
       };
 
@@ -329,14 +310,12 @@ export const MasterData = () => {
   const resetForm = () => {
     setEditingItem(null);
     setEditingType('');
-    setFormData({
-      departmentName: '',
-      lineAreaName: '',
-      lineAreaDepartment: 'none',
-      lineAreaDescription: '',
-      technicianName: '',
-      technicianPhone: ''
-    });
+    setDepartmentName('');
+    setLineAreaName('');
+    setLineAreaDepartment('none');
+    setLineAreaDescription('');
+    setTechnicianName('');
+    setTechnicianPhone('');
   };
 
   const DepartmentForm = () => (
@@ -345,8 +324,8 @@ export const MasterData = () => {
         <div>
           <Label className="text-gray-900 dark:text-white">Nama Departemen *</Label>
           <Input
-            value={formData.departmentName}
-            onChange={(e) => updateFormData('departmentName', e.target.value)}
+            value={departmentName}
+            onChange={(e) => setDepartmentName(e.target.value)}
             className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
             placeholder="Masukkan nama departemen"
           />
@@ -379,8 +358,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Nama Line/Area *</Label>
             <Input
-              value={formData.lineAreaName}
-              onChange={(e) => updateFormData('lineAreaName', e.target.value)}
+              value={lineAreaName}
+              onChange={(e) => setLineAreaName(e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nama Line/Area"
             />
@@ -388,8 +367,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Departemen</Label>
             <Select 
-              value={formData.lineAreaDepartment} 
-              onValueChange={(value) => updateFormData('lineAreaDepartment', value)}
+              value={lineAreaDepartment} 
+              onValueChange={(value) => setLineAreaDepartment(value)}
             >
               <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
                 <SelectValue placeholder="Pilih departemen" />
@@ -408,8 +387,8 @@ export const MasterData = () => {
         <div>
           <Label className="text-gray-900 dark:text-white">Deskripsi</Label>
           <Textarea
-            value={formData.lineAreaDescription}
-            onChange={(e) => updateFormData('lineAreaDescription', e.target.value)}
+            value={lineAreaDescription}
+            onChange={(e) => setLineAreaDescription(e.target.value)}
             className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[80px]"
             placeholder="Masukkan deskripsi Line/Area"
           />
@@ -442,8 +421,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Nama Teknisi *</Label>
             <Input
-              value={formData.technicianName}
-              onChange={(e) => updateFormData('technicianName', e.target.value)}
+              value={technicianName}
+              onChange={(e) => setTechnicianName(e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nama teknisi"
             />
@@ -451,8 +430,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Telepon</Label>
             <Input
-              value={formData.technicianPhone}
-              onChange={(e) => updateFormData('technicianPhone', e.target.value)}
+              value={technicianPhone}
+              onChange={(e) => setTechnicianPhone(e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nomor telepon"
             />
