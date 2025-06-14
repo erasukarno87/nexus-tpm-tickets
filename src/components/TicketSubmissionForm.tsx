@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -226,17 +225,25 @@ export const TicketSubmissionForm = () => {
     setShowSuccess(false);
     setSubmittedTicket(null);
     
-    const trackingTab = document.querySelector('[data-value="track"]') as HTMLElement;
+    // Find and click the tracking tab trigger
+    const trackingTab = document.querySelector('[value="track"]') as HTMLElement;
     if (trackingTab) {
       trackingTab.click();
       
+      // Wait a bit for the tab to switch, then populate the search field
       setTimeout(() => {
-        const searchInput = document.querySelector('input[placeholder*="nomor tiket"]') as HTMLInputElement;
+        const searchInput = document.querySelector('[placeholder*="nomor tiket"]') as HTMLInputElement;
         if (searchInput && submittedTicket) {
           searchInput.value = submittedTicket.ticket_number;
-          searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+          // Trigger input event to update the search query state
+          const event = new Event('input', { bubbles: true });
+          searchInput.dispatchEvent(event);
+          
+          // Also trigger change event for React controlled components
+          const changeEvent = new Event('change', { bubbles: true });
+          searchInput.dispatchEvent(changeEvent);
         }
-      }, 100);
+      }, 200);
     }
   };
 
