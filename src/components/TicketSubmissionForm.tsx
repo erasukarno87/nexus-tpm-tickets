@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -12,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { QRCodeGenerator } from '@/components/QRCodeGenerator';
 import { ModernBackground } from '@/components/ModernBackground';
+import { ImageUpload } from '@/components/ImageUpload';
 import { 
   Wrench, 
   AlertTriangle, 
@@ -25,7 +27,8 @@ import {
   Settings,
   FileText,
   Sparkles,
-  Send
+  Send,
+  Camera
 } from 'lucide-react';
 
 type TicketCategory = 'corrective_action' | 'repair' | 'procurement' | 'support';
@@ -62,10 +65,10 @@ const categoryOptions = [
 ];
 
 const priorityOptions = [
-  { value: 'low', label: 'Rendah', color: 'border-green-500 text-green-400 bg-green-500/10', description: 'Tidak mengganggu produksi' },
-  { value: 'medium', label: 'Sedang', color: 'border-yellow-500 text-yellow-400 bg-yellow-500/10', description: 'Berpotensi mengganggu produksi' },
-  { value: 'high', label: 'Tinggi', color: 'border-orange-500 text-orange-400 bg-orange-500/10', description: 'Mengganggu produksi secara signifikan' },
-  { value: 'critical', label: 'Kritis', color: 'border-red-500 text-red-400 bg-red-500/10', description: 'Menghentikan produksi' },
+  { value: 'low', label: 'Rendah', color: 'border-green-500 text-green-400 bg-green-500/10 dark:text-green-400 dark:bg-green-500/10', description: 'Tidak mengganggu produksi' },
+  { value: 'medium', label: 'Sedang', color: 'border-yellow-500 text-yellow-600 bg-yellow-500/10 dark:text-yellow-400 dark:bg-yellow-500/10', description: 'Berpotensi mengganggu produksi' },
+  { value: 'high', label: 'Tinggi', color: 'border-orange-500 text-orange-600 bg-orange-500/10 dark:text-orange-400 dark:bg-orange-500/10', description: 'Mengganggu produksi secara signifikan' },
+  { value: 'critical', label: 'Kritis', color: 'border-red-500 text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-500/10', description: 'Menghentikan produksi' },
 ];
 
 export const TicketSubmissionForm = () => {
@@ -74,6 +77,7 @@ export const TicketSubmissionForm = () => {
   const [submittedTicket, setSubmittedTicket] = useState<any>(null);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [machines, setMachines] = useState<Machine[]>([]);
+  const [beforeImages, setBeforeImages] = useState<string[]>([]);
   const { toast } = useToast();
 
   const { register, handleSubmit, watch, setValue, reset, formState: { errors } } = useForm<TicketFormData>({
@@ -94,7 +98,7 @@ export const TicketSubmissionForm = () => {
     try {
       const [deptResult, machResult] = await Promise.all([
         supabase.from('departments').select('id, name').eq('is_active', true),
-        supabase.from('machines').select('id, machine_code, name').eq('is_active', true)
+        supabase.from('line_areas').select('id, name').eq('is_active', true)
       ]);
 
       if (deptResult.data) setDepartments(deptResult.data);
@@ -116,12 +120,13 @@ export const TicketSubmissionForm = () => {
         description: data.description,
         priority: data.priority,
         machine_id: data.machine_id || null,
-        location: '', // Removed as requested
+        location: '',
         requester_name: data.requester_name,
         requester_department: data.requester_department,
         requester_contact: data.requester_contact,
         notes: data.requester_notes || null,
         ticket_number: '',
+        before_photos: beforeImages,
       };
 
       const { data: ticket, error } = await supabase
@@ -149,6 +154,7 @@ export const TicketSubmissionForm = () => {
       setSubmittedTicket(ticket);
       setShowSuccess(true);
       reset();
+      setBeforeImages([]);
       
       toast({
         title: "Berhasil!",
@@ -253,7 +259,7 @@ export const TicketSubmissionForm = () => {
             </CardTitle>
             <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
           </div>
-          <p className="text-gray-300 text-xl">
+          <p className="text-gray-800 dark:text-gray-300 text-xl">
             Lengkapi formulir di bawah untuk meminta bantuan TPM
           </p>
           <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
@@ -263,7 +269,7 @@ export const TicketSubmissionForm = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
             {/* Enhanced Category Selection */}
             <div className="space-y-6">
-              <Label className="text-2xl font-bold text-white flex items-center">
+              <Label className="text-2xl font-bold text-gray-800 dark:text-white flex items-center">
                 <Settings className="w-6 h-6 mr-3 text-blue-400" />
                 Jenis Permintaan
               </Label>
@@ -295,13 +301,13 @@ export const TicketSubmissionForm = () => {
             {/* Enhanced Title and Line/Area */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="space-y-3">
-                <Label htmlFor="title" className="text-white flex items-center space-x-2 text-lg font-semibold">
+                <Label htmlFor="title" className="text-gray-800 dark:text-white flex items-center space-x-2 text-lg font-semibold">
                   <FileText className="w-5 h-5 text-blue-400" />
                   <span>Judul Masalah *</span>
                 </Label>
                 <Input
                   {...register('title', { required: 'Judul wajib diisi' })}
-                  className="glass-input text-white h-14 text-lg"
+                  className="glass-input text-gray-800 dark:text-white h-14 text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
                   placeholder="Deskripsi singkat masalah"
                 />
                 {errors.title && (
@@ -310,18 +316,18 @@ export const TicketSubmissionForm = () => {
               </div>
 
               <div className="space-y-3">
-                <Label htmlFor="machine_id" className="text-white flex items-center space-x-2 text-lg font-semibold">
+                <Label htmlFor="machine_id" className="text-gray-800 dark:text-white flex items-center space-x-2 text-lg font-semibold">
                   <Settings className="w-5 h-5 text-green-400" />
                   <span>Line/Area</span>
                 </Label>
                 <Select onValueChange={(value) => setValue('machine_id', value)}>
-                  <SelectTrigger className="glass-input text-white h-14 text-lg">
+                  <SelectTrigger className="glass-input text-gray-800 dark:text-white h-14 text-lg">
                     <SelectValue placeholder="Pilih Line/Area" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
                     {machines.map((machine) => (
-                      <SelectItem key={machine.id} value={machine.machine_code}>
-                        {machine.machine_code} - {machine.name}
+                      <SelectItem key={machine.id} value={machine.id} className="text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        {machine.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -331,12 +337,12 @@ export const TicketSubmissionForm = () => {
 
             {/* Enhanced Description */}
             <div className="space-y-3">
-              <Label htmlFor="description" className="text-white text-lg font-semibold">
+              <Label htmlFor="description" className="text-gray-800 dark:text-white text-lg font-semibold">
                 Deskripsi Detail *
               </Label>
               <Textarea
                 {...register('description', { required: 'Deskripsi wajib diisi' })}
-                className="glass-input text-white min-h-[150px] text-lg"
+                className="glass-input text-gray-800 dark:text-white min-h-[150px] text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
                 placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
               />
               {errors.description && (
@@ -346,7 +352,7 @@ export const TicketSubmissionForm = () => {
 
             {/* Enhanced Priority Selection */}
             <div className="space-y-6">
-              <Label className="text-white text-lg font-semibold">Level Prioritas</Label>
+              <Label className="text-gray-800 dark:text-white text-lg font-semibold">Level Prioritas</Label>
               <RadioGroup
                 value={selectedPriority}
                 onValueChange={(value) => setValue('priority', value as TicketPriority)}
@@ -375,13 +381,13 @@ export const TicketSubmissionForm = () => {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="space-y-3">
-                  <Label htmlFor="requester_name" className="text-white flex items-center space-x-2 font-semibold">
+                  <Label htmlFor="requester_name" className="text-gray-800 dark:text-white flex items-center space-x-2 font-semibold">
                     <User className="w-4 h-4" />
                     <span>Nama *</span>
                   </Label>
                   <Input
                     {...register('requester_name', { required: 'Nama wajib diisi' })}
-                    className="glass-input text-white h-14 text-lg"
+                    className="glass-input text-gray-800 dark:text-white h-14 text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
                     placeholder="Nama lengkap Anda"
                   />
                   {errors.requester_name && (
@@ -390,17 +396,17 @@ export const TicketSubmissionForm = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Label htmlFor="requester_department" className="text-white flex items-center space-x-2 font-semibold">
+                  <Label htmlFor="requester_department" className="text-gray-800 dark:text-white flex items-center space-x-2 font-semibold">
                     <Building className="w-4 h-4" />
                     <span>Departemen *</span>
                   </Label>
                   <Select onValueChange={(value) => setValue('requester_department', value)}>
-                    <SelectTrigger className="glass-input text-white h-14 text-lg">
+                    <SelectTrigger className="glass-input text-gray-800 dark:text-white h-14 text-lg">
                       <SelectValue placeholder="Pilih departemen" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
                       {departments.map((dept) => (
-                        <SelectItem key={dept.id} value={dept.name}>
+                        <SelectItem key={dept.id} value={dept.name} className="text-gray-800 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                           {dept.name}
                         </SelectItem>
                       ))}
@@ -412,13 +418,13 @@ export const TicketSubmissionForm = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Label htmlFor="requester_contact" className="text-white flex items-center space-x-2 font-semibold">
+                  <Label htmlFor="requester_contact" className="text-gray-800 dark:text-white flex items-center space-x-2 font-semibold">
                     <Phone className="w-4 h-4" />
                     <span>Kontak *</span>
                   </Label>
                   <Input
                     {...register('requester_contact', { required: 'Kontak wajib diisi' })}
-                    className="glass-input text-white h-14 text-lg"
+                    className="glass-input text-gray-800 dark:text-white h-14 text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
                     placeholder="Telepon atau email"
                   />
                   {errors.requester_contact && (
@@ -430,12 +436,27 @@ export const TicketSubmissionForm = () => {
 
             {/* Enhanced Requester Notes */}
             <div className="space-y-3">
-              <Label htmlFor="requester_notes" className="text-white text-lg font-semibold">Catatan Tambahan</Label>
+              <Label htmlFor="requester_notes" className="text-gray-800 dark:text-white text-lg font-semibold">Catatan Tambahan</Label>
               <Textarea
                 {...register('requester_notes')}
-                className="glass-input text-white min-h-[100px] text-lg"
+                className="glass-input text-gray-800 dark:text-white min-h-[100px] text-lg placeholder:text-gray-600 dark:placeholder:text-gray-400"
                 placeholder="Catatan tambahan dari pemohon..."
               />
+            </div>
+
+            {/* Image Upload Section */}
+            <div className="space-y-6">
+              <Label className="text-gray-800 dark:text-white text-lg font-semibold flex items-center">
+                <Camera className="w-5 h-5 mr-2 text-blue-400" />
+                Foto Kondisi Sekarang (Opsional)
+              </Label>
+              <div className="p-6 glass-card rounded-xl border border-gray-300 dark:border-gray-600">
+                <ImageUpload
+                  onImagesChange={setBeforeImages}
+                  existingImages={beforeImages}
+                  maxImages={5}
+                />
+              </div>
             </div>
 
             {/* Enhanced Submit Button */}
@@ -462,3 +483,4 @@ export const TicketSubmissionForm = () => {
     </div>
   );
 };
+
