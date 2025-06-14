@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, X, Image } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 interface ImageUploadProps {
   onImagesChange: (images: string[]) => void;
@@ -20,38 +21,40 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
   const [uploading, setUploading] = useState(false);
   const { toast } = useToast();
 
-  const compressImage = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      const img = new window.Image();
-      
-      img.onload = () => {
-        // Calculate new dimensions (max 720p)
-        let { width, height } = img;
-        const maxWidth = 1280;
-        const maxHeight = 720;
-        
-        if (width > maxWidth || height > maxHeight) {
-          const ratio = Math.min(maxWidth / width, maxHeight / height);
-          width = width * ratio;
-          height = height * ratio;
-        }
-        
-        canvas.width = width;
-        canvas.height = height;
-        
-        // Draw and compress
-        ctx?.drawImage(img, 0, 0, width, height);
-        
-        // Convert to base64 with compression
-        const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
-        resolve(compressedDataUrl);
-      };
-      
-      img.onerror = reject;
-      img.src = URL.createObjectURL(file);
-    });
+  const uploadToSupabase = async (file: File): Promise<string | null> => {
+    try {
+      // Generate unique filename
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+      const filePath = `ticket-images/${fileName}`;
+
+      console.log('Uploading file to Supabase Storage:', filePath);
+
+      const { data, error } = await supabase.storage
+        .from('ticket-images')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+
+      if (error) {
+        console.error('Supabase upload error:', error);
+        throw error;
+      }
+
+      console.log('Upload successful:', data);
+
+      // Get public URL
+      const { data: urlData } = supabase.storage
+        .from('ticket-images')
+        .getPublicUrl(filePath);
+
+      console.log('Public URL:', urlData.publicUrl);
+      return urlData.publicUrl;
+    } catch (error) {
+      console.error('Error uploading to Supabase:', error);
+      return null;
+    }
   };
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,7 +71,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     }
 
     setUploading(true);
-    const newImages: string[] = [];
+    const newImageUrls: string[] = [];
 
     try {
       for (let i = 0; i < files.length; i++) {
@@ -84,7 +87,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           continue;
         }
 
-        // Validate file size (max 10MB before compression)
+        // Validate file size (max 10MB)
         if (file.size > 10 * 1024 * 1024) {
           toast({
             title: "File terlalu besar",
@@ -94,25 +97,34 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           continue;
         }
 
-        // Compress image
-        const compressedImage = await compressImage(file);
-        newImages.push(compressedImage);
+        // Upload to Supabase Storage
+        const imageUrl = await uploadToSupabase(file);
+        if (imageUrl) {
+          newImageUrls.push(imageUrl);
+        } else {
+          toast({
+            title: "Upload gagal",
+            description: `Gagal mengunggah ${file.name}`,
+            variant: "destructive",
+          });
+        }
       }
 
-      const updatedImages = [...images, ...newImages];
-      setImages(updatedImages);
-      onImagesChange(updatedImages);
+      if (newImageUrls.length > 0) {
+        const updatedImages = [...images, ...newImageUrls];
+        setImages(updatedImages);
+        onImagesChange(updatedImages);
 
-      if (newImages.length > 0) {
         toast({
           title: "Berhasil",
-          description: `${newImages.length} gambar berhasil diunggah dan dikompres`,
+          description: `${newImageUrls.length} gambar berhasil diunggah ke Supabase Storage`,
         });
       }
     } catch (error) {
+      console.error('Upload error:', error);
       toast({
         title: "Upload gagal",
-        description: "Gagal mengunggah gambar",
+        description: "Gagal mengunggah gambar ke storage",
         variant: "destructive",
       });
     } finally {
@@ -122,7 +134,27 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
     }
   };
 
-  const removeImage = (index: number) => {
+  const removeImage = async (index: number) => {
+    const imageUrl = images[index];
+    
+    // Extract file path from URL for deletion
+    if (imageUrl.includes('ticket-images/')) {
+      try {
+        const filePath = imageUrl.split('/ticket-images/')[1];
+        console.log('Deleting file from storage:', `ticket-images/${filePath}`);
+        
+        const { error } = await supabase.storage
+          .from('ticket-images')
+          .remove([`ticket-images/${filePath}`]);
+        
+        if (error) {
+          console.error('Error deleting file:', error);
+        }
+      } catch (error) {
+        console.error('Error parsing file path for deletion:', error);
+      }
+    }
+
     const updatedImages = images.filter((_, i) => i !== index);
     setImages(updatedImages);
     onImagesChange(updatedImages);
@@ -152,12 +184,16 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       {images.length > 0 && (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {images.map((image, index) => (
+          {images.map((imageUrl, index) => (
             <div key={index} className="relative group">
               <img
-                src={image}
+                src={imageUrl}
                 alt={`Kondisi saat ini ${index + 1}`}
                 className="w-full h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
+                onError={(e) => {
+                  console.error('Error loading image:', imageUrl);
+                  e.currentTarget.src = '/placeholder.svg';
+                }}
               />
               <Button
                 type="button"
@@ -181,7 +217,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       )}
 
       <p className="text-xs text-gray-500 dark:text-gray-400">
-        {images.length}/{maxImages} gambar • Maks 10MB per gambar • Format: JPG, PNG, GIF • Otomatis dikompres ke 720p
+        {images.length}/{maxImages} gambar • Maks 10MB per gambar • Format: JPG, PNG, GIF • Disimpan di Supabase Storage
       </p>
     </div>
   );
