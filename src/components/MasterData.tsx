@@ -53,9 +53,21 @@ export const MasterData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
+  // State untuk form data
+  const [formData, setFormData] = useState<any>({});
+
   useEffect(() => {
     fetchAllMasterData();
   }, []);
+
+  // Reset form data ketika editing item berubah
+  useEffect(() => {
+    if (editingItem) {
+      setFormData({ ...editingItem });
+    } else {
+      setFormData({});
+    }
+  }, [editingItem]);
 
   const fetchAllMasterData = async () => {
     try {
@@ -80,8 +92,20 @@ export const MasterData = () => {
     }
   };
 
-  const handleSaveDepartment = async (data: any) => {
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev: any) => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSaveDepartment = async () => {
     try {
+      const data = {
+        name: formData.name,
+        is_active: true
+      };
+
       if (editingItem?.id) {
         // Update
         const { error } = await supabase
@@ -100,6 +124,7 @@ export const MasterData = () => {
       await fetchAllMasterData();
       setEditingItem(null);
       setEditingType('');
+      setFormData({});
       
       toast({
         title: "Berhasil!",
@@ -115,32 +140,35 @@ export const MasterData = () => {
     }
   };
 
-  const handleSaveLineArea = async (data: any) => {
+  const handleSaveLineArea = async () => {
     try {
       // Convert "none" back to null for database storage
-      const processedData = {
-        ...data,
-        department_id: data.department_id === "none" ? null : data.department_id
+      const data = {
+        name: formData.name,
+        department_id: formData.department_id === "none" ? null : formData.department_id,
+        description: formData.description || null,
+        is_active: true
       };
 
       if (editingItem?.id) {
         // Update
         const { error } = await supabase
           .from('line_areas')
-          .update(processedData)
+          .update(data)
           .eq('id', editingItem.id);
         if (error) throw error;
       } else {
         // Insert
         const { error } = await supabase
           .from('line_areas')
-          .insert(processedData);
+          .insert(data);
         if (error) throw error;
       }
 
       await fetchAllMasterData();
       setEditingItem(null);
       setEditingType('');
+      setFormData({});
       
       toast({
         title: "Berhasil!",
@@ -156,8 +184,14 @@ export const MasterData = () => {
     }
   };
 
-  const handleSaveTechnician = async (data: any) => {
+  const handleSaveTechnician = async () => {
     try {
+      const data = {
+        name: formData.name,
+        phone: formData.phone || null,
+        is_active: true
+      };
+
       if (editingItem?.id) {
         // Update
         const { error } = await supabase
@@ -176,6 +210,7 @@ export const MasterData = () => {
       await fetchAllMasterData();
       setEditingItem(null);
       setEditingType('');
+      setFormData({});
       
       toast({
         title: "Berhasil!",
@@ -272,18 +307,15 @@ export const MasterData = () => {
         <div>
           <Label className="text-gray-900 dark:text-white">Nama Departemen *</Label>
           <Input
-            value={editingItem?.name || ''}
-            onChange={(e) => setEditingItem({...editingItem, name: e.target.value})}
+            value={formData.name || ''}
+            onChange={(e) => handleInputChange('name', e.target.value)}
             className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
             placeholder="Masukkan nama departemen"
           />
         </div>
         <div className="flex space-x-2">
           <Button
-            onClick={() => handleSaveDepartment({
-              name: editingItem?.name,
-              is_active: true
-            })}
+            onClick={handleSaveDepartment}
             className="bg-green-600 hover:bg-green-700 text-white"
           >
             <Save className="w-4 h-4 mr-2" />
@@ -291,7 +323,11 @@ export const MasterData = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => { setEditingItem(null); setEditingType(''); }}
+            onClick={() => { 
+              setEditingItem(null); 
+              setEditingType(''); 
+              setFormData({});
+            }}
             className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <X className="w-4 h-4 mr-2" />
@@ -309,8 +345,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Nama Line/Area *</Label>
             <Input
-              value={editingItem?.name || ''}
-              onChange={(e) => setEditingItem({...editingItem, name: e.target.value})}
+              value={formData.name || ''}
+              onChange={(e) => handleInputChange('name', e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nama Line/Area"
             />
@@ -318,8 +354,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Departemen</Label>
             <Select 
-              value={editingItem?.department_id || 'none'} 
-              onValueChange={(value) => setEditingItem({...editingItem, department_id: value})}
+              value={formData.department_id || 'none'} 
+              onValueChange={(value) => handleInputChange('department_id', value)}
             >
               <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
                 <SelectValue placeholder="Pilih departemen" />
@@ -338,20 +374,15 @@ export const MasterData = () => {
         <div>
           <Label className="text-gray-900 dark:text-white">Deskripsi</Label>
           <Textarea
-            value={editingItem?.description || ''}
-            onChange={(e) => setEditingItem({...editingItem, description: e.target.value})}
+            value={formData.description || ''}
+            onChange={(e) => handleInputChange('description', e.target.value)}
             className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[80px]"
             placeholder="Masukkan deskripsi Line/Area"
           />
         </div>
         <div className="flex space-x-2">
           <Button
-            onClick={() => handleSaveLineArea({
-              name: editingItem?.name,
-              department_id: editingItem?.department_id || null,
-              description: editingItem?.description || null,
-              is_active: true
-            })}
+            onClick={handleSaveLineArea}
             className="bg-green-600 hover:bg-green-700 text-white"
           >
             <Save className="w-4 h-4 mr-2" />
@@ -359,7 +390,11 @@ export const MasterData = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => { setEditingItem(null); setEditingType(''); }}
+            onClick={() => { 
+              setEditingItem(null); 
+              setEditingType(''); 
+              setFormData({});
+            }}
             className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <X className="w-4 h-4 mr-2" />
@@ -377,8 +412,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Nama Teknisi *</Label>
             <Input
-              value={editingItem?.name || ''}
-              onChange={(e) => setEditingItem({...editingItem, name: e.target.value})}
+              value={formData.name || ''}
+              onChange={(e) => handleInputChange('name', e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nama teknisi"
             />
@@ -386,8 +421,8 @@ export const MasterData = () => {
           <div>
             <Label className="text-gray-900 dark:text-white">Telepon</Label>
             <Input
-              value={editingItem?.phone || ''}
-              onChange={(e) => setEditingItem({...editingItem, phone: e.target.value})}
+              value={formData.phone || ''}
+              onChange={(e) => handleInputChange('phone', e.target.value)}
               className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
               placeholder="Masukkan nomor telepon"
             />
@@ -395,11 +430,7 @@ export const MasterData = () => {
         </div>
         <div className="flex space-x-2">
           <Button
-            onClick={() => handleSaveTechnician({
-              name: editingItem?.name,
-              phone: editingItem?.phone || null,
-              is_active: true
-            })}
+            onClick={handleSaveTechnician}
             className="bg-green-600 hover:bg-green-700 text-white"
           >
             <Save className="w-4 h-4 mr-2" />
@@ -407,7 +438,11 @@ export const MasterData = () => {
           </Button>
           <Button
             variant="outline"
-            onClick={() => { setEditingItem(null); setEditingType(''); }}
+            onClick={() => { 
+              setEditingItem(null); 
+              setEditingType(''); 
+              setFormData({});
+            }}
             className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
           >
             <X className="w-4 h-4 mr-2" />
@@ -459,7 +494,11 @@ export const MasterData = () => {
             <div className="flex justify-between items-center">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Daftar Departemen</h3>
               <Button
-                onClick={() => { setEditingItem({}); setEditingType('departments'); }}
+                onClick={() => { 
+                  setEditingItem({ name: '' }); 
+                  setEditingType('departments'); 
+                  setFormData({ name: '' });
+                }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -484,7 +523,11 @@ export const MasterData = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => { setEditingItem(dept); setEditingType('departments'); }}
+                          onClick={() => { 
+                            setEditingItem(dept); 
+                            setEditingType('departments'); 
+                            setFormData({ ...dept });
+                          }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
                           <Edit3 className="w-4 h-4" />
@@ -509,7 +552,11 @@ export const MasterData = () => {
             <div className="flex justify-between items-center">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Daftar Line/Area</h3>
               <Button
-                onClick={() => { setEditingItem({}); setEditingType('line-areas'); }}
+                onClick={() => { 
+                  setEditingItem({ name: '', department_id: 'none', description: '' }); 
+                  setEditingType('line-areas'); 
+                  setFormData({ name: '', department_id: 'none', description: '' });
+                }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -540,7 +587,11 @@ export const MasterData = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => { setEditingItem(area); setEditingType('line-areas'); }}
+                          onClick={() => { 
+                            setEditingItem(area); 
+                            setEditingType('line-areas'); 
+                            setFormData({ ...area });
+                          }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
                           <Edit3 className="w-4 h-4" />
@@ -565,7 +616,11 @@ export const MasterData = () => {
             <div className="flex justify-between items-center">
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Daftar Teknisi</h3>
               <Button
-                onClick={() => { setEditingItem({}); setEditingType('technicians'); }}
+                onClick={() => { 
+                  setEditingItem({ name: '', phone: '' }); 
+                  setEditingType('technicians'); 
+                  setFormData({ name: '', phone: '' });
+                }}
                 className="bg-blue-600 hover:bg-blue-700 text-white"
               >
                 <Plus className="w-4 h-4 mr-2" />
@@ -593,7 +648,11 @@ export const MasterData = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => { setEditingItem(tech); setEditingType('technicians'); }}
+                          onClick={() => { 
+                            setEditingItem(tech); 
+                            setEditingType('technicians'); 
+                            setFormData({ ...tech });
+                          }}
                           className="border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20"
                         >
                           <Edit3 className="w-4 h-4" />
