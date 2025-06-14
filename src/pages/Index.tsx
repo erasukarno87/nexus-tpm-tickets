@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TicketSubmissionForm } from '@/components/TicketSubmissionForm';
 import { TicketTracking } from '@/components/TicketTracking';
@@ -9,6 +9,21 @@ import { Button } from '@/components/ui/button';
 import { FileText, Search, Settings, Sparkles } from 'lucide-react';
 
 const Index = () => {
+  const [activeTab, setActiveTab] = useState('submit');
+
+  useEffect(() => {
+    const handleSwitchToTracking = (event: CustomEvent) => {
+      console.log('Switching to tracking tab with ticket:', event.detail.ticketNumber);
+      setActiveTab('track');
+    };
+
+    window.addEventListener('switchToTrackingTab', handleSwitchToTracking as EventListener);
+
+    return () => {
+      window.removeEventListener('switchToTrackingTab', handleSwitchToTracking as EventListener);
+    };
+  }, []);
+
   return (
     <div className="relative min-h-screen overflow-hidden bg-transparent">
       <GlobalBackground />
@@ -48,7 +63,7 @@ const Index = () => {
         {/* Main Content with enhanced animations and transparency */}
         <div className="max-w-5xl mx-auto px-4 pb-12">
           <div className="animate-fadeIn page-container p-8" style={{ animationDelay: '0.3s' }}>
-            <Tabs defaultValue="submit" className="w-full">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-gray-200/30 dark:border-white/10 mb-8 p-2 h-16">
                 <TabsTrigger 
                   value="submit" 
@@ -89,4 +104,3 @@ const Index = () => {
 };
 
 export default Index;
-

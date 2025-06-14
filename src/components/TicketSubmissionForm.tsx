@@ -225,26 +225,16 @@ export const TicketSubmissionForm = () => {
     setShowSuccess(false);
     setSubmittedTicket(null);
     
-    // Find and click the tracking tab trigger using data-value attribute
-    const trackingTab = document.querySelector('[data-value="track"]') as HTMLElement;
-    if (trackingTab) {
-      trackingTab.click();
-      
-      // Wait a bit for the tab to switch, then populate the search field
-      setTimeout(() => {
-        const searchInput = document.querySelector('input[placeholder*="nomor tiket"], input[placeholder*="Masukkan nomor tiket"]') as HTMLInputElement;
-        if (searchInput && submittedTicket) {
-          searchInput.value = submittedTicket.ticket_number;
-          // Trigger input event to update the search query state
-          const event = new Event('input', { bubbles: true });
-          searchInput.dispatchEvent(event);
-          
-          // Also trigger change event for React controlled components
-          const changeEvent = new Event('change', { bubbles: true });
-          searchInput.dispatchEvent(changeEvent);
-        }
-      }, 300);
+    // Store ticket number in localStorage to pass to tracking component
+    if (submittedTicket) {
+      localStorage.setItem('searchTicketNumber', submittedTicket.ticket_number);
     }
+    
+    // Trigger a custom event to notify parent component to switch tab
+    const event = new CustomEvent('switchToTrackingTab', {
+      detail: { ticketNumber: submittedTicket?.ticket_number }
+    });
+    window.dispatchEvent(event);
   };
 
   if (showSuccess && submittedTicket) {
