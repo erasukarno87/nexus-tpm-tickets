@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -388,7 +387,7 @@ export const TicketTracking = () => {
 
                               {selectedTicket.notes && (
                                 <>
-                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Catatan Tambahan</h4>
+                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Catatan dari Tim TPM</h4>
                                   <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.notes}</p>
                                 </>
                               )}
