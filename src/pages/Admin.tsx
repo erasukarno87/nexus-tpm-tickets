@@ -199,6 +199,16 @@ const Admin = () => {
 
   const updateTicket = async (ticketId: string, updates: Partial<Ticket>) => {
     try {
+      // Validation: If status is not 'open', assigned_to must be selected
+      if (updates.status && updates.status !== 'open' && (!updates.assigned_to || updates.assigned_to === 'unassigned')) {
+        toast({
+          title: "Validasi Error",
+          description: "Ketika status bukan 'Terbuka', tiket harus ditugaskan kepada teknisi",
+          variant: "destructive",
+        });
+        return;
+      }
+
       const { error } = await supabase
         .from('tickets')
         .update(updates)
