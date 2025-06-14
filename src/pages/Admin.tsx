@@ -246,6 +246,16 @@ const Admin = () => {
     return new Date(dateString).toLocaleString('id-ID');
   };
 
+  const getStorageUrl = (filePath: string) => {
+    // Remove the full URL if it's already a complete URL
+    if (filePath.startsWith('http')) {
+      return filePath;
+    }
+    
+    // Create the full storage URL for ticket-images bucket
+    return `https://hmqrtiijlvbjnnspumly.supabase.co/storage/v1/object/public/ticket-images/${filePath}`;
+  };
+
   const renderPhotos = (photos: string[] | null, title: string) => {
     if (!photos || photos.length === 0) return null;
 
@@ -253,19 +263,26 @@ const Admin = () => {
       <div>
         <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{title}</label>
         <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
-          {photos.map((photo, index) => (
-            <div key={index} className="relative group">
-              <img 
-                src={photo} 
-                alt={`${title} ${index + 1}`}
-                className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
-                onClick={() => window.open(photo, '_blank')}
-              />
-              <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
-                <Eye className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {photos.map((photo, index) => {
+            const imageUrl = getStorageUrl(photo);
+            return (
+              <div key={index} className="relative group">
+                <img 
+                  src={imageUrl}
+                  alt={`${title} ${index + 1}`}
+                  className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
+                  onClick={() => window.open(imageUrl, '_blank')}
+                  onError={(e) => {
+                    console.error('Error loading image:', imageUrl);
+                    e.currentTarget.src = '/placeholder.svg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
+                  <Eye className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     );
@@ -608,9 +625,9 @@ const Admin = () => {
                                         </p>
                                       </div>
 
-                                      {renderPhotos(ticket.before_photos as string[], "Foto Sebelum")}
+                                      {renderPhotos(ticket.before_photos, "Foto Sebelum")}
                                       
-                                      {renderPhotos(ticket.after_photos as string[], "Foto Sesudah")}
+                                      {renderPhotos(ticket.after_photos, "Foto Sesudah")}
 
                                       {ticket.notes && (
                                         <div>
