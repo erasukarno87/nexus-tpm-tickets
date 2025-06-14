@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -54,6 +53,7 @@ interface LineArea {
   id: string;
   name: string;
   description?: string;
+  department_id: string;
 }
 
 const categoryOptions = [
@@ -76,6 +76,7 @@ export const TicketSubmissionForm = () => {
   const [submittedTicket, setSubmittedTicket] = useState<any>(null);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [lineAreas, setLineAreas] = useState<LineArea[]>([]);
+  const [filteredLineAreas, setFilteredLineAreas] = useState<LineArea[]>([]);
   const [beforeImages, setBeforeImages] = useState<string[]>([]);
   const { toast } = useToast();
 
@@ -88,10 +89,26 @@ export const TicketSubmissionForm = () => {
 
   const selectedCategory = watch('category');
   const selectedPriority = watch('priority');
+  const selectedDepartment = watch('requester_department');
 
   useEffect(() => {
     fetchMasterData();
   }, []);
+
+  // Filter line areas when department changes
+  useEffect(() => {
+    if (selectedDepartment && departments.length > 0) {
+      const selectedDept = departments.find(dept => dept.name === selectedDepartment);
+      if (selectedDept) {
+        const filtered = lineAreas.filter(area => area.department_id === selectedDept.id);
+        setFilteredLineAreas(filtered);
+        // Reset line area selection when department changes
+        setValue('line_area_id', '');
+      }
+    } else {
+      setFilteredLineAreas([]);
+    }
+  }, [selectedDepartment, departments, lineAreas, setValue]);
 
   const fetchMasterData = async () => {
     try {
@@ -114,7 +131,7 @@ export const TicketSubmissionForm = () => {
 
       const { data: lineAreaResult, error: lineAreaError } = await supabase
         .from('line_areas')
-        .select('id, name, description')
+        .select('id, name, description, department_id')
         .eq('is_active', true)
         .order('name');
 
@@ -398,20 +415,27 @@ export const TicketSubmissionForm = () => {
                       <MapPin className="w-4 h-4" />
                       <span>Line/Area *</span>
                     </Label>
-                    <Select onValueChange={(value) => setValue('line_area_id', value)}>
+                    <Select 
+                      onValueChange={(value) => setValue('line_area_id', value)}
+                      disabled={!selectedDepartment}
+                    >
                       <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
-                        <SelectValue placeholder="Pilih line/area" />
+                        <SelectValue placeholder={selectedDepartment ? "Pilih line/area" : "Pilih departemen terlebih dahulu"} />
                       </SelectTrigger>
                       <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
-                        {lineAreas.length > 0 ? (
-                          lineAreas.map((area) => (
+                        {filteredLineAreas.length > 0 ? (
+                          filteredLineAreas.map((area) => (
                             <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                               {area.name}
                             </SelectItem>
                           ))
+                        ) : selectedDepartment ? (
+                          <SelectItem value="no-areas" disabled className="text-gray-500">
+                            Tidak ada line/area untuk departemen ini
+                          </SelectItem>
                         ) : (
-                          <SelectItem value="loading" disabled className="text-gray-500">
-                            Memuat line/area...
+                          <SelectItem value="select-dept" disabled className="text-gray-500">
+                            Pilih departemen terlebih dahulu
                           </SelectItem>
                         )}
                       </SelectContent>

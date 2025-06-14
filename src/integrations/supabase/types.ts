@@ -60,6 +60,7 @@ export type Database = {
       line_areas: {
         Row: {
           created_at: string
+          department_id: string | null
           description: string | null
           id: string
           is_active: boolean
@@ -67,6 +68,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          department_id?: string | null
           description?: string | null
           id?: string
           is_active?: boolean
@@ -74,12 +76,21 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          department_id?: string | null
           description?: string | null
           id?: string
           is_active?: boolean
           name?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "line_areas_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "departments"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       technicians: {
         Row: {
