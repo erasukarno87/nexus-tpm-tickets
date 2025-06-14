@@ -60,6 +60,30 @@ export type Database = {
         }
         Relationships: []
       }
+      line_areas: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+        }
+        Relationships: []
+      }
       locations: {
         Row: {
           created_at: string
@@ -232,6 +256,8 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          line_area_id: string | null
+          line_area_name: string | null
           location: string
           machine_id: string | null
           notes: string | null
@@ -254,6 +280,8 @@ export type Database = {
           created_at?: string
           description: string
           id?: string
+          line_area_id?: string | null
+          line_area_name?: string | null
           location: string
           machine_id?: string | null
           notes?: string | null
@@ -276,6 +304,8 @@ export type Database = {
           created_at?: string
           description?: string
           id?: string
+          line_area_id?: string | null
+          line_area_name?: string | null
           location?: string
           machine_id?: string | null
           notes?: string | null
@@ -289,7 +319,15 @@ export type Database = {
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tickets_line_area_id_fkey"
+            columns: ["line_area_id"]
+            isOneToOne: false
+            referencedRelation: "line_areas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

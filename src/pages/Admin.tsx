@@ -3,7 +3,7 @@ import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
 import { MasterData } from '@/components/MasterData';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { Background3D } from '@/components/Background3D';
+import { ModernBackground } from '@/components/ModernBackground';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -235,7 +235,7 @@ const Admin = () => {
   if (!isLoggedIn) {
     return (
       <div className="relative min-h-screen">
-        <Background3D />
+        <ModernBackground />
         <div className="relative z-10">
           <LoginForm onLoginSuccess={handleLoginSuccess} />
         </div>
@@ -246,14 +246,14 @@ const Admin = () => {
   if (isLoading) {
     return (
       <div className="relative min-h-screen">
-        <Background3D />
+        <ModernBackground />
         <div className="min-h-screen flex items-center justify-center relative z-10">
           <div className="text-center animate-fadeIn">
             <div className="relative">
               <Settings className="w-20 h-20 text-blue-400 mx-auto mb-6 animate-spin" />
               <div className="absolute inset-0 w-20 h-20 mx-auto border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
-            <h2 className="text-2xl font-bold gradient-text mb-2">Memuat Panel Admin</h2>
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-2">Memuat Panel Admin</h2>
             <p className="text-gray-300">Menyiapkan dashboard administrasi...</p>
           </div>
         </div>
@@ -263,7 +263,7 @@ const Admin = () => {
 
   return (
     <div className="relative min-h-screen overflow-hidden">
-      <Background3D />
+      <ModernBackground />
       
       {/* Main Content */}
       <div className="relative z-10">
@@ -273,12 +273,12 @@ const Admin = () => {
             <div className="animate-fadeIn">
               <div className="flex items-center justify-center mb-6">
                 <Shield className="w-12 h-12 text-blue-400 mr-4 animate-pulse" />
-                <h1 className="text-4xl md:text-6xl font-bold gradient-text text-glow">
+                <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                   Panel Admin TPM
                 </h1>
                 <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
               </div>
-              <p className="text-xl md:text-2xl text-gray-200 text-shadow-lg font-medium">
+              <p className="text-xl md:text-2xl text-gray-200 font-medium">
                 Kelola dan pantau semua permintaan pemeliharaan
               </p>
               <div className="mt-4 h-1 w-40 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
@@ -288,7 +288,7 @@ const Admin = () => {
               <Button
                 onClick={handleLogout}
                 variant="outline"
-                className="glass-input border-red-500 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-red-500/25"
+                className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-105"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Keluar
@@ -301,24 +301,24 @@ const Admin = () => {
         <div className="max-w-6xl mx-auto px-4 pb-12">
           <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
             <Tabs defaultValue="dashboard" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 glass-card mb-8 p-2 h-16">
+              <TabsList className="grid w-full grid-cols-3 bg-white/10 backdrop-blur-sm border border-white/20 mb-8 p-2 h-16 dark:bg-gray-900/50">
                 <TabsTrigger 
                   value="dashboard" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
                   <BarChart3 className="w-5 h-5 mr-2" />
                   Dashboard
                 </TabsTrigger>
                 <TabsTrigger 
                   value="tickets" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
                   <FileText className="w-5 h-5 mr-2" />
                   Kelola Tiket
                 </TabsTrigger>
                 <TabsTrigger 
                   value="master-data" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold"
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200"
                 >
                   <Database className="w-5 h-5 mr-2" />
                   Data Master
@@ -331,7 +331,7 @@ const Admin = () => {
 
               <TabsContent value="tickets" className="animate-fadeIn">
                 {/* Enhanced Filters and Search */}
-                <Card className="glass-card border-0 neon-glow mb-8">
+                <Card className="bg-white/10 backdrop-blur-sm border border-white/20 mb-8 dark:bg-gray-900/30">
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <div className="relative">
@@ -340,15 +340,15 @@ const Admin = () => {
                           placeholder="Cari tiket..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="glass-input text-white pl-12 h-12 text-lg"
+                          className="bg-white/10 backdrop-blur-sm border border-white/20 text-gray-900 dark:text-white pl-12 h-12 text-lg"
                         />
                       </div>
                       
                       <Select value={statusFilter} onValueChange={setStatusFilter}>
-                        <SelectTrigger className="glass-input text-white h-12">
+                        <SelectTrigger className="bg-white/10 backdrop-blur-sm border border-white/20 text-gray-900 dark:text-white h-12">
                           <SelectValue placeholder="Filter berdasarkan status" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                           <SelectItem value="all">Semua Status</SelectItem>
                           <SelectItem value="open">Terbuka</SelectItem>
                           <SelectItem value="in_progress">Sedang Proses</SelectItem>
@@ -359,10 +359,10 @@ const Admin = () => {
                       </Select>
 
                       <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-                        <SelectTrigger className="glass-input text-white h-12">
+                        <SelectTrigger className="bg-white/10 backdrop-blur-sm border border-white/20 text-gray-900 dark:text-white h-12">
                           <SelectValue placeholder="Filter berdasarkan prioritas" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
                           <SelectItem value="all">Semua Prioritas</SelectItem>
                           <SelectItem value="low">Rendah</SelectItem>
                           <SelectItem value="medium">Sedang</SelectItem>
@@ -371,7 +371,7 @@ const Admin = () => {
                         </SelectContent>
                       </Select>
 
-                      <div className="flex items-center space-x-2 text-gray-200 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg p-3 border border-blue-500/30">
+                      <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-200 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg p-3 border border-blue-500/30">
                         <Users className="w-5 h-5 text-blue-400" />
                         <span className="font-semibold">Total: {filteredTickets.length}</span>
                       </div>
@@ -384,7 +384,7 @@ const Admin = () => {
                   {filteredTickets.map((ticket, index) => (
                     <Card 
                       key={ticket.id} 
-                      className="ticket-card glass-card border-0 hover:neon-glow transition-all duration-500"
+                      className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-500 dark:bg-gray-900/30 dark:hover:bg-gray-900/50"
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       <CardContent className="p-6">
@@ -549,11 +549,11 @@ const Admin = () => {
                   ))}
 
                   {filteredTickets.length === 0 && (
-                    <Card className="glass-card border-0 border-dashed border-gray-500">
+                    <Card className="bg-white/10 backdrop-blur-sm border border-white/20 border-dashed dark:bg-gray-900/30">
                       <CardContent className="text-center py-16">
                         <FileText className="w-20 h-20 text-gray-400 mx-auto mb-6 animate-pulse" />
-                        <h3 className="text-2xl font-bold text-white mb-4">Tidak Ada Tiket Ditemukan</h3>
-                        <p className="text-gray-400 text-lg">
+                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Tidak Ada Tiket Ditemukan</h3>
+                        <p className="text-gray-600 dark:text-gray-400 text-lg">
                           {searchQuery || statusFilter !== 'all' || priorityFilter !== 'all' 
                             ? 'Coba sesuaikan filter pencarian Anda' 
                             : 'Belum ada tiket yang diajukan dalam sistem'
