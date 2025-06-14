@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { 
   Plus, 
   Edit3, 
-  Trash2, 
-  Save, 
-  X,
+  Trash2,
   Building,
   Users,
   Settings,
   MapPin
 } from 'lucide-react';
+import { DepartmentForm } from './forms/DepartmentForm';
+import { LineAreaForm } from './forms/LineAreaForm';
+import { TechnicianForm } from './forms/TechnicianForm';
 
 interface Department {
   id: string;
@@ -53,7 +50,7 @@ export const MasterData = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
-  // Separate state for each form field - this prevents re-render issues
+  // Form states - properly separated to prevent re-renders
   const [departmentName, setDepartmentName] = useState('');
   const [lineAreaName, setLineAreaName] = useState('');
   const [lineAreaDepartment, setLineAreaDepartment] = useState('none');
@@ -64,6 +61,29 @@ export const MasterData = () => {
   useEffect(() => {
     fetchAllMasterData();
   }, []);
+
+  const fetchAllMasterData = async () => {
+    try {
+      const [deptResult, lineAreaResult, techResult] = await Promise.all([
+        supabase.from('departments').select('*').order('name'),
+        supabase.from('line_areas').select('*').order('name'),
+        supabase.from('technicians').select('*').order('name')
+      ]);
+
+      if (deptResult.data) setDepartments(deptResult.data);
+      if (lineAreaResult.data) setLineAreas(lineAreaResult.data);
+      if (techResult.data) setTechnicians(techResult.data);
+    } catch (error) {
+      console.error('Error fetching master data:', error);
+      toast({
+        title: "Error",
+        description: "Gagal memuat data master",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const initializeForm = (item: any = null, type: string = '') => {
     if (item && item.id) {
@@ -95,27 +115,15 @@ export const MasterData = () => {
     setEditingType(type);
   };
 
-  const fetchAllMasterData = async () => {
-    try {
-      const [deptResult, lineAreaResult, techResult] = await Promise.all([
-        supabase.from('departments').select('*').order('name'),
-        supabase.from('line_areas').select('*').order('name'),
-        supabase.from('technicians').select('*').order('name')
-      ]);
-
-      if (deptResult.data) setDepartments(deptResult.data);
-      if (lineAreaResult.data) setLineAreas(lineAreaResult.data);
-      if (techResult.data) setTechnicians(techResult.data);
-    } catch (error) {
-      console.error('Error fetching master data:', error);
-      toast({
-        title: "Error",
-        description: "Gagal memuat data master",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const resetForm = () => {
+    setEditingItem(null);
+    setEditingType('');
+    setDepartmentName('');
+    setLineAreaName('');
+    setLineAreaDepartment('none');
+    setLineAreaDescription('');
+    setTechnicianName('');
+    setTechnicianPhone('');
   };
 
   const handleSaveDepartment = async () => {
@@ -307,157 +315,6 @@ export const MasterData = () => {
     }
   };
 
-  const resetForm = () => {
-    setEditingItem(null);
-    setEditingType('');
-    setDepartmentName('');
-    setLineAreaName('');
-    setLineAreaDepartment('none');
-    setLineAreaDescription('');
-    setTechnicianName('');
-    setTechnicianPhone('');
-  };
-
-  const DepartmentForm = () => (
-    <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-      <CardContent className="p-6 space-y-4">
-        <div>
-          <Label className="text-gray-900 dark:text-white">Nama Departemen *</Label>
-          <Input
-            value={departmentName}
-            onChange={(e) => setDepartmentName(e.target.value)}
-            className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-            placeholder="Masukkan nama departemen"
-          />
-        </div>
-        <div className="flex space-x-2">
-          <Button
-            onClick={handleSaveDepartment}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            <Save className="w-4 h-4 mr-2" />
-            Simpan
-          </Button>
-          <Button
-            variant="outline"
-            onClick={resetForm}
-            className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <X className="w-4 h-4 mr-2" />
-            Batal
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const LineAreaForm = () => (
-    <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-      <CardContent className="p-6 space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label className="text-gray-900 dark:text-white">Nama Line/Area *</Label>
-            <Input
-              value={lineAreaName}
-              onChange={(e) => setLineAreaName(e.target.value)}
-              className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-              placeholder="Masukkan nama Line/Area"
-            />
-          </div>
-          <div>
-            <Label className="text-gray-900 dark:text-white">Departemen</Label>
-            <Select 
-              value={lineAreaDepartment} 
-              onValueChange={(value) => setLineAreaDepartment(value)}
-            >
-              <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white">
-                <SelectValue placeholder="Pilih departemen" />
-              </SelectTrigger>
-              <SelectContent className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                <SelectItem value="none">Tidak ada departemen</SelectItem>
-                {departments.map((dept) => (
-                  <SelectItem key={dept.id} value={dept.id}>
-                    {dept.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-        <div>
-          <Label className="text-gray-900 dark:text-white">Deskripsi</Label>
-          <Textarea
-            value={lineAreaDescription}
-            onChange={(e) => setLineAreaDescription(e.target.value)}
-            className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[80px]"
-            placeholder="Masukkan deskripsi Line/Area"
-          />
-        </div>
-        <div className="flex space-x-2">
-          <Button
-            onClick={handleSaveLineArea}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            <Save className="w-4 h-4 mr-2" />
-            Simpan
-          </Button>
-          <Button
-            variant="outline"
-            onClick={resetForm}
-            className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <X className="w-4 h-4 mr-2" />
-            Batal
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
-  const TechnicianForm = () => (
-    <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-      <CardContent className="p-6 space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label className="text-gray-900 dark:text-white">Nama Teknisi *</Label>
-            <Input
-              value={technicianName}
-              onChange={(e) => setTechnicianName(e.target.value)}
-              className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-              placeholder="Masukkan nama teknisi"
-            />
-          </div>
-          <div>
-            <Label className="text-gray-900 dark:text-white">Telepon</Label>
-            <Input
-              value={technicianPhone}
-              onChange={(e) => setTechnicianPhone(e.target.value)}
-              className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
-              placeholder="Masukkan nomor telepon"
-            />
-          </div>
-        </div>
-        <div className="flex space-x-2">
-          <Button
-            onClick={handleSaveTechnician}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            <Save className="w-4 h-4 mr-2" />
-            Simpan
-          </Button>
-          <Button
-            variant="outline"
-            onClick={resetForm}
-            className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <X className="w-4 h-4 mr-2" />
-            Batal
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
@@ -507,7 +364,14 @@ export const MasterData = () => {
               </Button>
             </div>
 
-            {editingType === 'departments' && <DepartmentForm />}
+            {editingType === 'departments' && (
+              <DepartmentForm
+                name={departmentName}
+                onNameChange={setDepartmentName}
+                onSave={handleSaveDepartment}
+                onCancel={resetForm}
+              />
+            )}
 
             <div className="grid gap-4">
               {departments.map((dept) => (
@@ -557,7 +421,19 @@ export const MasterData = () => {
               </Button>
             </div>
 
-            {editingType === 'line-areas' && <LineAreaForm />}
+            {editingType === 'line-areas' && (
+              <LineAreaForm
+                name={lineAreaName}
+                departmentId={lineAreaDepartment}
+                description={lineAreaDescription}
+                departments={departments}
+                onNameChange={setLineAreaName}
+                onDepartmentChange={setLineAreaDepartment}
+                onDescriptionChange={setLineAreaDescription}
+                onSave={handleSaveLineArea}
+                onCancel={resetForm}
+              />
+            )}
 
             <div className="grid gap-4">
               {lineAreas.map((area) => (
@@ -613,7 +489,16 @@ export const MasterData = () => {
               </Button>
             </div>
 
-            {editingType === 'technicians' && <TechnicianForm />}
+            {editingType === 'technicians' && (
+              <TechnicianForm
+                name={technicianName}
+                phone={technicianPhone}
+                onNameChange={setTechnicianName}
+                onPhoneChange={setTechnicianPhone}
+                onSave={handleSaveTechnician}
+                onCancel={resetForm}
+              />
+            )}
 
             <div className="grid gap-4">
               {technicians.map((tech) => (
