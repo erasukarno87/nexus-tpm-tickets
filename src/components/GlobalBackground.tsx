@@ -7,19 +7,21 @@ export const GlobalBackground = () => {
     <>
       <ThreeBackground />
       
-      {/* Overlay gradients for better text readability on all pages */}
+      {/* Dynamic overlay gradients for better text readability */}
       <div className="fixed inset-0 -z-5 pointer-events-none">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-purple-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-br from-transparent via-black/10 to-transparent" />
         
-        {/* Subtle animated dots pattern */}
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, rgba(96, 165, 250, 0.05) 0%, transparent 50%),
-                           radial-gradient(circle at 75% 75%, rgba(168, 85, 247, 0.05) 0%, transparent 50%)`,
-          backgroundSize: '200px 200px, 180px 180px',
-          animation: 'float 20s ease-in-out infinite'
+        {/* Animated gradient overlay */}
+        <div className="absolute inset-0 opacity-30" style={{
+          background: `
+            radial-gradient(circle at 20% 80%, rgba(96, 165, 250, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(236, 72, 153, 0.05) 0%, transparent 50%)
+          `,
+          backgroundSize: '100% 100%',
+          animation: 'float 15s ease-in-out infinite'
         }} />
       </div>
     </>
   );
 };
-
