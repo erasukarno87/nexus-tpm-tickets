@@ -214,15 +214,17 @@ const Admin = () => {
       console.log('Updating ticket with ID:', ticketId);
       console.log('Updates:', updates);
 
-      // Remove undefined/null values and exclude id and ticket_number fields (these cannot be updated)
-      const cleanUpdates = Object.entries(updates).reduce((acc, [key, value]) => {
-        if (value !== undefined && value !== null && key !== 'id' && key !== 'ticket_number') {
-          acc[key] = value;
+      // Create a completely new object with only the allowed fields for updates
+      const allowedFields = ['status', 'priority', 'category', 'assigned_to', 'notes', 'rejection_reason', 'before_photos', 'after_photos', 'title', 'description', 'line_area_name', 'requester_name', 'requester_department', 'requester_contact'];
+      
+      const cleanUpdates = allowedFields.reduce((acc, field) => {
+        if (updates[field] !== undefined && updates[field] !== null) {
+          acc[field] = updates[field];
         }
         return acc;
       }, {} as any);
 
-      console.log('Clean updates:', cleanUpdates);
+      console.log('Clean updates (allowlist approach):', cleanUpdates);
 
       const { data, error } = await supabase
         .from('tickets')
