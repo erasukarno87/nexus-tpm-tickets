@@ -25,21 +25,20 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
   filteredTicketsCount,
 }) => {
   return (
-    <Card className="mb-8">
-      <CardContent className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="relative">
-            <Search className="search-icon-filter" />
+    <Card>
+      <CardContent>
+        <div>
+          <div>
+            <Search />
             <Input
               placeholder="Cari tiket..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="filter-input"
             />
           </div>
           
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="filter-select">
+            <SelectTrigger>
               <SelectValue placeholder="Filter berdasarkan status" />
             </SelectTrigger>
             <SelectContent>
@@ -53,7 +52,7 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
           </Select>
 
           <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-            <SelectTrigger className="filter-select">
+            <SelectTrigger>
               <SelectValue placeholder="Filter berdasarkan prioritas" />
             </SelectTrigger>
             <SelectContent>
@@ -65,9 +64,9 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
             </SelectContent>
           </Select>
 
-          <div className="filter-counter">
-            <Users className="filter-counter-icon" />
-            <span className="filter-counter-text">Total: {filteredTicketsCount}</span>
+          <div>
+            <Users />
+            <span>Total: {filteredTicketsCount}</span>
           </div>
         </div>
       </CardContent>

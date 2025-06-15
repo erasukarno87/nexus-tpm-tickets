@@ -214,11 +214,11 @@ export const Dashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
-        <div className="flex items-center justify-center p-8">
-          <div className="text-center">
-            <TrendingUp className="w-16 h-16 text-blue-400 mx-auto mb-4 animate-spin" />
-            <p className="text-gray-800 dark:text-white text-xl">Memuat dashboard...</p>
+      <div>
+        <div>
+          <div>
+            <TrendingUp />
+            <p>Memuat dashboard...</p>
           </div>
         </div>
       </div>
@@ -226,73 +226,73 @@ export const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-purple-900">
-      <div className="container mx-auto p-6 space-y-6">
+    <div>
+      <div>
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+        <div>
+          <Card>
+            <CardContent>
+              <div>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Total Tiket</p>
-                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.totalTickets}</p>
+                  <p>Total Tiket</p>
+                  <p>{stats.totalTickets}</p>
                 </div>
-                <ClipboardList className="w-12 h-12 text-blue-500 dark:text-blue-400" />
+                <ClipboardList />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+          <Card>
+            <CardContent>
+              <div>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Tiket Terbuka</p>
-                  <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">{stats.openTickets}</p>
+                  <p>Tiket Terbuka</p>
+                  <p>{stats.openTickets}</p>
                 </div>
-                <Clock className="w-12 h-12 text-blue-500 dark:text-blue-400" />
+                <Clock />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+          <Card>
+            <CardContent>
+              <div>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Sedang Proses</p>
-                  <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">{stats.inProgressTickets}</p>
+                  <p>Sedang Proses</p>
+                  <p>{stats.inProgressTickets}</p>
                 </div>
-                <Settings className="w-12 h-12 text-yellow-500 dark:text-yellow-400" />
+                <Settings />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
+          <Card>
+            <CardContent>
+              <div>
                 <div>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm">Selesai</p>
-                  <p className="text-3xl font-bold text-green-600 dark:text-green-400">{stats.closedTickets}</p>
+                  <p>Selesai</p>
+                  <p>{stats.closedTickets}</p>
                 </div>
-                <CheckCircle className="w-12 h-12 text-green-500 dark:text-green-400" />
+                <CheckCircle />
               </div>
             </CardContent>
           </Card>
         </div>
 
         {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
+        <div>
+          <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Status Tiket</CardTitle>
+              <CardTitle>Status Tiket</CardTitle>
             </CardHeader>
             <CardContent>
               <Doughnut data={statusData} options={doughnutOptions} />
             </CardContent>
           </Card>
 
-          <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-gray-900 dark:text-white">Tiket per Kategori</CardTitle>
+              <CardTitle>Tiket per Kategori</CardTitle>
             </CardHeader>
             <CardContent>
               <Bar data={categoryData} options={chartOptions} />
@@ -300,9 +300,9 @@ export const Dashboard = () => {
           </Card>
         </div>
 
-        <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
+        <Card>
           <CardHeader>
-            <CardTitle className="text-gray-900 dark:text-white">Tren Tiket (6 Bulan Terakhir)</CardTitle>
+            <CardTitle>Tren Tiket (6 Bulan Terakhir)</CardTitle>
           </CardHeader>
           <CardContent>
             <Bar data={trendData} options={chartOptions} />
