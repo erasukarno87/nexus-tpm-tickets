@@ -67,11 +67,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   onEdit,
 }) => {
   return (
-    <Card 
-      key={ticket.id} 
-      className="transition-all duration-500"
-      style={{ animationDelay: `${index * 0.1}s` }}
-    >
+    <Card className="animate-fadeIn">
       <CardContent className="p-6">
         <div>
           <div className="flex items-start justify-between mb-6">
