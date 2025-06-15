@@ -38,10 +38,10 @@ const Index = () => {
       title: 'Tindakan Korektif',
       description: 'Perbaikan untuk mencegah masalah berulang',
       icon: <AlertTriangle className="w-8 h-8" />,
-      gradient: 'from-red-600 via-rose-500 to-pink-500',
-      bgGradient: 'from-red-500/15 via-rose-500/15 to-pink-500/15',
-      borderColor: 'border-red-500/40 hover:border-rose-500/60',
-      shadowColor: 'shadow-red-500/25 hover:shadow-rose-500/40',
+      gradient: 'from-red-600 via-red-500 to-red-400',
+      bgGradient: 'from-red-500/20 via-red-400/15 to-red-300/10',
+      borderColor: 'border-red-500/50 hover:border-red-400/70',
+      shadowColor: 'shadow-red-500/30 hover:shadow-red-400/50',
       iconColor: 'text-red-600'
     },
     {
@@ -49,10 +49,10 @@ const Index = () => {
       title: 'Perbaikan',
       description: 'Perbaikan kerusakan mesin atau peralatan',
       icon: <Hammer className="w-8 h-8" />,
-      gradient: 'from-blue-600 via-indigo-500 to-purple-500',
-      bgGradient: 'from-blue-500/15 via-indigo-500/15 to-purple-500/15',
-      borderColor: 'border-blue-500/40 hover:border-indigo-500/60',
-      shadowColor: 'shadow-blue-500/25 hover:shadow-indigo-500/40',
+      gradient: 'from-blue-600 via-blue-500 to-blue-400',
+      bgGradient: 'from-blue-500/20 via-blue-400/15 to-blue-300/10',
+      borderColor: 'border-blue-500/50 hover:border-blue-400/70',
+      shadowColor: 'shadow-blue-500/30 hover:shadow-blue-400/50',
       iconColor: 'text-blue-600'
     },
     {
@@ -60,22 +60,22 @@ const Index = () => {
       title: 'Pengadaan',
       description: 'Permintaan suku cadang atau material',
       icon: <ShoppingCart className="w-8 h-8" />,
-      gradient: 'from-emerald-600 via-green-500 to-lime-500',
-      bgGradient: 'from-emerald-500/15 via-green-500/15 to-lime-500/15',
-      borderColor: 'border-emerald-500/40 hover:border-green-500/60',
-      shadowColor: 'shadow-emerald-500/25 hover:shadow-green-500/40',
-      iconColor: 'text-emerald-600'
+      gradient: 'from-green-600 via-green-500 to-green-400',
+      bgGradient: 'from-green-500/20 via-green-400/15 to-green-300/10',
+      borderColor: 'border-green-500/50 hover:border-green-400/70',
+      shadowColor: 'shadow-green-500/30 hover:shadow-green-400/50',
+      iconColor: 'text-green-600'
     },
     {
       id: 'support',
       title: 'Dukungan',
       description: 'Bantuan teknis dan konsultasi',
       icon: <HelpCircle className="w-8 h-8" />,
-      gradient: 'from-orange-600 via-amber-500 to-yellow-500',
-      bgGradient: 'from-orange-500/15 via-amber-500/15 to-yellow-500/15',
-      borderColor: 'border-orange-500/40 hover:border-amber-500/60',
-      shadowColor: 'shadow-orange-500/25 hover:shadow-amber-500/40',
-      iconColor: 'text-orange-600'
+      gradient: 'from-purple-600 via-purple-500 to-purple-400',
+      bgGradient: 'from-purple-500/20 via-purple-400/15 to-purple-300/10',
+      borderColor: 'border-purple-500/50 hover:border-purple-400/70',
+      shadowColor: 'shadow-purple-500/30 hover:shadow-purple-400/50',
+      iconColor: 'text-purple-600'
     }
   ];
 
