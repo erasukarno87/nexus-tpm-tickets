@@ -25,7 +25,7 @@ const AnimatedText3D = ({ text, position, color = '#ffffff' }: { text: string; p
         anchorY="middle"
       >
         {text}
-        <meshStandardMaterial color={color} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.2} />
       </Text>
     </Center>
   );
@@ -52,7 +52,7 @@ const HolographicText = ({ text, position }: { text: string; position: [number, 
           anchorY="middle"
         >
           {text}
-          <meshBasicMaterial color="#00ffff" transparent opacity={0.8} wireframe />
+          <meshBasicMaterial color="#00ffff" transparent opacity={0.9} wireframe emissive="#00ffff" emissiveIntensity={0.3} />
         </Text>
       </Center>
     </group>
@@ -79,7 +79,7 @@ const GlowingText = ({ text, position }: { text: string; position: [number, numb
         anchorY="middle"
       >
         {text}
-        <meshBasicMaterial color="#ff6b35" transparent opacity={0.9} />
+        <meshBasicMaterial color="#ff6b35" transparent opacity={0.9} emissive="#ff6b35" emissiveIntensity={0.4} />
       </Text>
     </Center>
   );
@@ -107,7 +107,7 @@ const FloatingText = ({ text, position }: { text: string; position: [number, num
         anchorY="middle"
       >
         {text}
-        <meshBasicMaterial color="#9333ea" transparent opacity={0.7} />
+        <meshBasicMaterial color="#9333ea" transparent opacity={0.8} emissive="#9333ea" emissiveIntensity={0.3} />
       </Text>
     </Center>
   );
@@ -117,10 +117,10 @@ export const ThreeBackground = () => {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
       {/* Futuristic gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-cyan-50/30 to-purple-50/40 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/40 via-cyan-50/30 to-purple-50/40 dark:from-gray-900/95 dark:via-gray-800/95 dark:to-gray-900/95" />
       
-      {/* 3D text background - only visible in light mode */}
-      <div className="absolute inset-0 dark:hidden">
+      {/* 3D text background */}
+      <div className="absolute inset-0">
         <Canvas
           camera={{ position: [0, 0, 10], fov: 75 }}
           style={{ background: 'transparent' }}
@@ -128,10 +128,10 @@ export const ThreeBackground = () => {
             gl.setClearColor(0x000000, 0);
           }}
         >
-          <ambientLight intensity={0.5} />
-          <pointLight position={[10, 10, 10]} intensity={1} color="#00d4ff" />
-          <pointLight position={[-10, -10, 10]} intensity={0.8} color="#9333ea" />
-          <pointLight position={[0, 10, 5]} intensity={0.6} color="#f59e0b" />
+          <ambientLight intensity={0.8} />
+          <pointLight position={[10, 10, 10]} intensity={1.5} color="#00d4ff" />
+          <pointLight position={[-10, -10, 10]} intensity={1.2} color="#9333ea" />
+          <pointLight position={[0, 10, 5]} intensity={1} color="#f59e0b" />
           
           {/* Main 3D Text */}
           <AnimatedText3D text="TPM" position={[-2, 2, -3]} color="#0066ff" />
@@ -145,8 +145,8 @@ export const ThreeBackground = () => {
         </Canvas>
       </div>
       
-      {/* Minimal overlay to maintain readability */}
-      <div className="absolute inset-0 bg-white/3 dark:bg-transparent pointer-events-none" />
+      {/* Reduced overlay opacity for better 3D text visibility */}
+      <div className="absolute inset-0 bg-white/2 dark:bg-transparent pointer-events-none" />
     </div>
   );
 };
