@@ -60,36 +60,34 @@ const Index = () => {
           </div>
         </header>
 
-        {/* Main Content with red background */}
+        {/* Main Content without container */}
         <div className="max-w-5xl mx-auto px-4 pb-12">
-          <div className="animate-fadeIn page-container p-8 backdrop-blur-md bg-red-500/80 border border-white/10 rounded-xl shadow-xl" style={{ animationDelay: '0.3s' }}>
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 p-2 h-16 rounded-xl">
-                <TabsTrigger 
-                  value="submit" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/90 data-[state=active]:to-purple-600/90 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200 backdrop-blur-sm rounded-lg hover:scale-105"
-                >
-                  <FileText className="w-5 h-5 mr-2" />
-                  Ajukan Permintaan
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="track" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600/90 data-[state=active]:to-blue-600/90 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200 backdrop-blur-sm rounded-lg hover:scale-105"
-                >
-                  <Search className="w-5 h-5 mr-2" />
-                  Lacak Tiket
-                </TabsTrigger>
-              </TabsList>
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full animate-fadeIn" style={{ animationDelay: '0.3s' }}>
+            <TabsList className="grid w-full grid-cols-2 mb-8 p-2 h-16 rounded-xl">
+              <TabsTrigger 
+                value="submit" 
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/90 data-[state=active]:to-purple-600/90 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200 backdrop-blur-sm rounded-lg hover:scale-105"
+              >
+                <FileText className="w-5 h-5 mr-2" />
+                Ajukan Permintaan
+              </TabsTrigger>
+              <TabsTrigger 
+                value="track" 
+                className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600/90 data-[state=active]:to-blue-600/90 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200 backdrop-blur-sm rounded-lg hover:scale-105"
+              >
+                <Search className="w-5 h-5 mr-2" />
+                Lacak Tiket
+              </TabsTrigger>
+            </TabsList>
 
-              <TabsContent value="submit" className="animate-slideInLeft">
-                <TicketSubmissionForm />
-              </TabsContent>
+            <TabsContent value="submit" className="animate-slideInLeft">
+              <TicketSubmissionForm />
+            </TabsContent>
 
-              <TabsContent value="track" className="animate-slideInRight">
-                <TicketTracking />
-              </TabsContent>
-            </Tabs>
-          </div>
+            <TabsContent value="track" className="animate-slideInRight">
+              <TicketTracking />
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Footer */}
