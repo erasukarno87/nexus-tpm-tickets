@@ -60,9 +60,9 @@ const Index = () => {
           </div>
         </header>
 
-        {/* Main Content with 100% transparency and enhanced animations */}
+        {/* Main Content with red background */}
         <div className="max-w-5xl mx-auto px-4 pb-12">
-          <div className="animate-fadeIn page-container p-8 backdrop-blur-md bg-transparent border border-white/10 rounded-xl shadow-xl" style={{ animationDelay: '0.3s' }}>
+          <div className="animate-fadeIn page-container p-8 backdrop-blur-md bg-red-500/80 border border-white/10 rounded-xl shadow-xl" style={{ animationDelay: '0.3s' }}>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 bg-transparent backdrop-blur-md border border-white/10 mb-8 p-2 h-16 rounded-xl">
                 <TabsTrigger 
