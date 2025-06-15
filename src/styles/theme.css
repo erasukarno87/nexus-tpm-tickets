@@ -101,7 +101,7 @@ html:not(.dark) .content * {
   color: black !important;
 }
 
-/* DARK MODE OVERRIDES - SUPER AGGRESSIVE WHITE TEXT AND BORDERS */
+/* DARK MODE OVERRIDES - ULTRA AGGRESSIVE WHITE TEXT AND BORDERS */
 html.dark,
 html.dark *,
 html.dark *::before,
@@ -110,39 +110,67 @@ html.dark *::after {
   border-color: white !important;
 }
 
-/* Ultra aggressive text overrides for dark mode */
+/* Ultra aggressive text overrides for dark mode - MOST SPECIFIC */
 html.dark body,
+html.dark body *,
 html.dark p,
+html.dark p *,
 html.dark span,
+html.dark span *,
 html.dark div,
+html.dark div *,
 html.dark h1,
+html.dark h1 *,
 html.dark h2,
+html.dark h2 *,
 html.dark h3,
+html.dark h3 *,
 html.dark h4,
+html.dark h4 *,
 html.dark h5,
+html.dark h5 *,
 html.dark h6,
+html.dark h6 *,
 html.dark label,
+html.dark label *,
 html.dark input,
+html.dark input *,
 html.dark textarea,
+html.dark textarea *,
 html.dark select,
+html.dark select *,
 html.dark button,
+html.dark button *,
 html.dark a,
+html.dark a *,
 html.dark li,
+html.dark li *,
 html.dark td,
+html.dark td *,
 html.dark th,
+html.dark th *,
 html.dark option,
+html.dark option *,
 html.dark small,
+html.dark small *,
 html.dark strong,
+html.dark strong *,
 html.dark em,
+html.dark em *,
 html.dark code,
-html.dark pre {
+html.dark code *,
+html.dark pre,
+html.dark pre * {
   color: white !important;
   border-color: white !important;
 }
 
-/* Button text override for dark mode - SUPER AGGRESSIVE */
+/* Button text override for dark mode - ULTRA AGGRESSIVE */
 html.dark button,
 html.dark button *,
+html.dark button span,
+html.dark button div,
+html.dark button p,
 html.dark .btn,
 html.dark .btn *,
 html.dark [role="button"],
@@ -150,24 +178,44 @@ html.dark [role="button"] *,
 html.dark [data-state="active"],
 html.dark [data-state="active"] *,
 html.dark [data-state="inactive"],
-html.dark [data-state="inactive"] * {
+html.dark [data-state="inactive"] *,
+html.dark .inline-flex,
+html.dark .inline-flex * {
   color: white !important;
   border-color: white !important;
 }
 
-/* Override ALL Tailwind text color classes in dark mode */
+/* Override ALL Tailwind text color classes in dark mode - ULTRA SPECIFIC */
 html.dark .text-black,
+html.dark .text-black *,
+html.dark .text-gray-900,
+html.dark .text-gray-900 *,
+html.dark .text-gray-800,
+html.dark .text-gray-800 *,
+html.dark .text-gray-700,
+html.dark .text-gray-700 *,
 html.dark .text-gray-600,
+html.dark .text-gray-600 *,
 html.dark .text-gray-500,
+html.dark .text-gray-500 *,
 html.dark .text-gray-400,
+html.dark .text-gray-400 *,
 html.dark .text-gray-300,
+html.dark .text-gray-300 *,
 html.dark .text-gray-200,
+html.dark .text-gray-200 *,
 html.dark .text-gray-100,
+html.dark .text-gray-100 *,
 html.dark .text-muted-foreground,
+html.dark .text-muted-foreground *,
 html.dark .text-secondary-foreground,
+html.dark .text-secondary-foreground *,
 html.dark .text-primary-foreground,
+html.dark .text-primary-foreground *,
 html.dark .text-destructive-foreground,
-html.dark .text-accent-foreground {
+html.dark .text-destructive-foreground *,
+html.dark .text-accent-foreground,
+html.dark .text-accent-foreground * {
   color: white !important;
 }
 
@@ -178,15 +226,25 @@ html.dark textarea::placeholder {
   opacity: 0.7;
 }
 
-/* Form elements in dark mode - AGGRESSIVE */
+/* Form elements in dark mode - ULTRA AGGRESSIVE */
 html.dark input,
 html.dark input *,
+html.dark input::placeholder,
 html.dark textarea,
 html.dark textarea *,
+html.dark textarea::placeholder,
 html.dark select,
 html.dark select *,
 html.dark option,
-html.dark option * {
+html.dark option *,
+html.dark [data-radix-select-content],
+html.dark [data-radix-select-content] *,
+html.dark [data-radix-select-item],
+html.dark [data-radix-select-item] *,
+html.dark [data-radix-select-trigger],
+html.dark [data-radix-select-trigger] *,
+html.dark [data-radix-select-value],
+html.dark [data-radix-select-value] * {
   color: white !important;
   border-color: white !important;
 }
@@ -238,14 +296,20 @@ html.dark .card *,
 html.dark .content,
 html.dark .content *,
 html.dark [data-radix-collection-item],
-html.dark [data-radix-collection-item] * {
+html.dark [data-radix-collection-item] *,
+html.dark .container,
+html.dark .container *,
+html.dark .max-w-6xl,
+html.dark .max-w-6xl * {
   color: white !important;
   border-color: white !important;
 }
 
 /* Icons in dark mode */
 html.dark svg,
-html.dark svg * {
+html.dark svg *,
+html.dark .lucide,
+html.dark .lucide * {
   color: white !important;
   fill: white !important;
   stroke: white !important;
@@ -253,25 +317,19 @@ html.dark svg * {
 
 /* Special overrides for specific components */
 html.dark .border,
+html.dark .border *,
 html.dark .border-b,
+html.dark .border-b *,
 html.dark .border-t,
+html.dark .border-t *,
 html.dark .border-l,
+html.dark .border-l *,
 html.dark .border-r,
+html.dark .border-r *,
 html.dark .border-x,
-html.dark .border-y {
-  border-color: white !important;
-}
-
-/* Radix UI components override */
-html.dark [data-radix-select-content],
-html.dark [data-radix-select-content] *,
-html.dark [data-radix-select-item],
-html.dark [data-radix-select-item] *,
-html.dark [data-radix-select-trigger],
-html.dark [data-radix-select-trigger] *,
-html.dark [data-radix-select-value],
-html.dark [data-radix-select-value] * {
-  color: white !important;
+html.dark .border-x *,
+html.dark .border-y,
+html.dark .border-y * {
   border-color: white !important;
 }
 
@@ -279,13 +337,19 @@ html.dark [data-radix-select-value] * {
 html.dark [data-state="active"],
 html.dark [data-state="active"] *,
 html.dark [data-state="inactive"],
-html.dark [data-state="inactive"] * {
+html.dark [data-state="inactive"] *,
+html.dark .data-\[state\=active\],
+html.dark .data-\[state\=active\] *,
+html.dark .data-\[state\=inactive\],
+html.dark .data-\[state\=inactive\] * {
   color: white !important;
 }
 
 /* Badge components */
 html.dark .badge,
-html.dark .badge * {
+html.dark .badge *,
+html.dark .inline-flex,
+html.dark .inline-flex * {
   color: white !important;
   border-color: white !important;
 }
@@ -309,4 +373,37 @@ html.dark textarea[disabled] * {
   color: white !important;
   border-color: white !important;
   opacity: 0.5;
+}
+
+/* Override any remaining black text in dark mode - NUCLEAR OPTION */
+html.dark .text-sm,
+html.dark .text-sm *,
+html.dark .text-xs,
+html.dark .text-xs *,
+html.dark .text-lg,
+html.dark .text-lg *,
+html.dark .text-xl,
+html.dark .text-xl *,
+html.dark .text-2xl,
+html.dark .text-2xl *,
+html.dark .text-3xl,
+html.dark .text-3xl *,
+html.dark .font-medium,
+html.dark .font-medium *,
+html.dark .font-semibold,
+html.dark .font-semibold *,
+html.dark .font-bold,
+html.dark .font-bold * {
+  color: white !important;
+}
+
+/* Specific overrides for any element that might have black text */
+html.dark [class*="text-"],
+html.dark [class*="text-"] * {
+  color: white !important;
+}
+
+/* Final nuclear option - override any computed styles */
+html.dark * {
+  color: white !important;
 }
