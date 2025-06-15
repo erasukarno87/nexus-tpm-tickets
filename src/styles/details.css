@@ -1,0 +1,152 @@
+
+/* DETAIL MODAL STYLES */
+.detail-field-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(107, 114, 128);
+}
+
+.dark .detail-field-label {
+  color: rgb(156, 163, 175);
+}
+
+.detail-field-value {
+  color: rgb(31, 41, 55);
+}
+
+.dark .detail-field-value {
+  color: white;
+}
+
+.detail-description {
+  color: rgb(31, 41, 55);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(4px);
+  border: 4px solid rgba(59, 130, 246, 0.9);
+}
+
+.dark .detail-description {
+  color: white;
+  background: rgba(0, 0, 0, 0.01);
+  border: 4px solid rgba(96, 165, 250, 0.95);
+}
+
+.detail-notes {
+  color: rgb(31, 41, 55);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(4px);
+  border: 4px solid rgba(59, 130, 246, 0.9);
+}
+
+.dark .detail-notes {
+  color: white;
+  background: rgba(0, 0, 0, 0.01);
+  border: 4px solid rgba(96, 165, 250, 0.95);
+}
+
+.detail-rejection-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(220, 38, 38);
+}
+
+.dark .detail-rejection-label {
+  color: rgb(248, 113, 113);
+}
+
+.detail-rejection-text {
+  color: rgb(185, 28, 28);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  border: 2px solid rgba(239, 68, 68, 0.5);
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(4px);
+}
+
+.dark .detail-rejection-text {
+  color: rgb(252, 165, 165);
+  background: rgba(0, 0, 0, 0.01);
+}
+
+.detail-photo-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(107, 114, 128);
+}
+
+.dark .detail-photo-label {
+  color: rgb(156, 163, 175);
+}
+
+.detail-photo-grid {
+  margin-top: 0.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .detail-photo-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.detail-photo-item {
+  position: relative;
+  display: group;
+}
+
+.detail-photo-image {
+  width: 100%;
+  height: 8rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(4px);
+  border: 4px solid rgba(59, 130, 246, 0.9);
+}
+
+.detail-photo-image:hover {
+  transform: scale(1.05);
+}
+
+.dark .detail-photo-image {
+  background: rgba(0, 0, 0, 0.01);
+  border: 4px solid rgba(96, 165, 250, 0.95);
+}
+
+.detail-photo-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: all 0.3s ease;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detail-photo-item:hover .detail-photo-overlay {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.detail-photo-eye-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.detail-photo-item:hover .detail-photo-eye-icon {
+  opacity: 1;
+}

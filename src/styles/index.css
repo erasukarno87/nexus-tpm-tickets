@@ -1,0 +1,187 @@
+
+/* INDEX PAGE STYLES */
+.index-page-container {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: transparent;
+}
+
+.index-content {
+  position: relative;
+  z-index: 10;
+}
+
+.index-header {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.index-header-content {
+  max-width: 64rem;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.index-title-section {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.index-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.index-sparkle-left {
+  width: 3rem;
+  height: 3rem;
+  color: rgb(96, 165, 250);
+  margin-right: 1rem;
+  animation: pulse 2s infinite;
+}
+
+.index-sparkle-right {
+  width: 3rem;
+  height: 3rem;
+  color: rgb(168, 85, 247);
+  margin-left: 1rem;
+  animation: pulse 2s infinite;
+}
+
+.index-main-title {
+  font-size: 4rem;
+  font-weight: 700;
+  background: linear-gradient(to right, rgb(96, 165, 250), rgb(168, 85, 247), rgb(236, 72, 153));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media (min-width: 768px) {
+  .index-main-title {
+    font-size: 7rem;
+  }
+}
+
+.index-subtitle {
+  font-size: 1.25rem;
+  color: rgb(229, 231, 235);
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .index-subtitle {
+    font-size: 1.5rem;
+  }
+}
+
+.dark .index-subtitle {
+  color: rgb(229, 231, 235);
+}
+
+.index-title-divider {
+  margin-top: 1rem;
+  height: 0.25rem;
+  width: 8rem;
+  margin-left: auto;
+  margin-right: auto;
+  background: linear-gradient(to right, rgb(96, 165, 250), rgb(168, 85, 247), rgb(236, 72, 153));
+  border-radius: 9999px;
+  animation: pulse 2s infinite;
+}
+
+.index-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: slideInRight 0.8s ease-out forwards;
+}
+
+.index-main-content {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.index-tabs-container {
+  animation: fadeIn 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+  padding: 2rem;
+}
+
+.index-tabs-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1px);
+  border: 1px solid rgba(229, 231, 235, 0.3);
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  height: 4rem;
+}
+
+.dark .index-tabs-list {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.index-tab-trigger-submit {
+  height: 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  backdrop-filter: blur(1px);
+  transition: all 0.3s ease;
+}
+
+.index-tab-trigger-submit[data-state="active"] {
+  background: linear-gradient(to right, rgba(37, 99, 235, 0.8), rgba(147, 51, 234, 0.8));
+  color: white;
+}
+
+.dark .index-tab-trigger-submit {
+  color: rgb(229, 231, 235);
+}
+
+.index-tab-trigger-track {
+  height: 3rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: white;
+  backdrop-filter: blur(1px);
+  transition: all 0.3s ease;
+}
+
+.index-tab-trigger-track[data-state="active"] {
+  background: linear-gradient(to right, rgba(34, 197, 94, 0.8), rgba(37, 99, 235, 0.8));
+  color: white;
+}
+
+.dark .index-tab-trigger-track {
+  color: rgb(229, 231, 235);
+}
+
+.index-footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  position: relative;
+}
+
+.index-footer-text {
+  color: rgb(156, 163, 175);
+  font-size: 0.875rem;
+  position: relative;
+  z-index: 10;
+}
+
+.index-tabs-container {
+  animation: fadeInWithDelay 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+}
