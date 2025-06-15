@@ -27,6 +27,10 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
   showLogoutButton = false,
   onLogout
 }) => {
+  const handleAdminClick = () => {
+    window.location.href = '/admin';
+  };
+
   return (
     <header className="relative text-center py-8 px-4 overflow-hidden">
       {/* Animated background elements */}
@@ -45,9 +49,9 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
         <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-500/15 to-transparent animate-pulse" style={{animationDelay: '1.5s'}}></div>
       </div>
 
-      <div className="max-w-6xl mx-auto flex justify-between items-center relative z-10">
-        {/* Theme Toggle - Left side */}
-        <div className="flex-none animate-slideInLeft" style={{animationDelay: '0.8s'}}>
+      <div className="max-w-6xl mx-auto flex justify-between items-start relative z-10">
+        {/* Theme Toggle - Left side, aligned to top of title */}
+        <div className="flex-none animate-slideInLeft mt-1" style={{animationDelay: '0.8s'}}>
           <div className="relative group">
             <ThemeToggle />
             <div className="absolute -inset-1 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
@@ -95,12 +99,12 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
           </div>
         </div>
         
-        {/* Action buttons - Right side */}
-        <div className="flex-none flex flex-col items-center space-y-3 animate-slideInRight" style={{animationDelay: '0.6s'}}>
+        {/* Action buttons - Right side, aligned to top of title */}
+        <div className="flex-none flex flex-col items-center space-y-3 animate-slideInRight mt-1" style={{animationDelay: '0.6s'}}>
           {showAdminButton && (
             <div className="relative group">
               <Button
-                onClick={() => window.location.href = '/admin'}
+                onClick={handleAdminClick}
                 variant="outline"
                 size="sm"
                 className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-cyan-400/40 text-cyan-300 hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-md shadow-md hover:shadow-cyan-400/20 hover:scale-105"
