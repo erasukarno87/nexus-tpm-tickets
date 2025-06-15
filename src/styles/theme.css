@@ -101,13 +101,16 @@ html:not(.dark) .content * {
   color: black !important;
 }
 
-/* DARK MODE OVERRIDES - Force white text and borders */
-html.dark * {
+/* DARK MODE OVERRIDES - SUPER AGGRESSIVE WHITE TEXT AND BORDERS */
+html.dark,
+html.dark *,
+html.dark *::before,
+html.dark *::after {
   color: white !important;
   border-color: white !important;
 }
 
-/* Ensure all text elements are white in dark mode */
+/* Ultra aggressive text overrides for dark mode */
 html.dark body,
 html.dark p,
 html.dark span,
@@ -126,29 +129,45 @@ html.dark button,
 html.dark a,
 html.dark li,
 html.dark td,
-html.dark th {
+html.dark th,
+html.dark option,
+html.dark small,
+html.dark strong,
+html.dark em,
+html.dark code,
+html.dark pre {
   color: white !important;
   border-color: white !important;
 }
 
-/* Button text override for dark mode */
+/* Button text override for dark mode - SUPER AGGRESSIVE */
 html.dark button,
 html.dark button *,
 html.dark .btn,
 html.dark .btn *,
 html.dark [role="button"],
-html.dark [role="button"] * {
+html.dark [role="button"] *,
+html.dark [data-state="active"],
+html.dark [data-state="active"] *,
+html.dark [data-state="inactive"],
+html.dark [data-state="inactive"] * {
   color: white !important;
+  border-color: white !important;
 }
 
-/* Override any Tailwind text color classes in dark mode */
+/* Override ALL Tailwind text color classes in dark mode */
 html.dark .text-black,
 html.dark .text-gray-600,
 html.dark .text-gray-500,
 html.dark .text-gray-400,
+html.dark .text-gray-300,
+html.dark .text-gray-200,
+html.dark .text-gray-100,
 html.dark .text-muted-foreground,
 html.dark .text-secondary-foreground,
-html.dark .text-primary-foreground {
+html.dark .text-primary-foreground,
+html.dark .text-destructive-foreground,
+html.dark .text-accent-foreground {
   color: white !important;
 }
 
@@ -159,39 +178,57 @@ html.dark textarea::placeholder {
   opacity: 0.7;
 }
 
-/* Form elements in dark mode */
+/* Form elements in dark mode - AGGRESSIVE */
 html.dark input,
+html.dark input *,
 html.dark textarea,
+html.dark textarea *,
 html.dark select,
-html.dark option {
+html.dark select *,
+html.dark option,
+html.dark option * {
   color: white !important;
   border-color: white !important;
 }
 
 /* Links in dark mode */
 html.dark a,
+html.dark a *,
 html.dark a:visited,
+html.dark a:visited *,
 html.dark a:hover,
-html.dark a:active {
+html.dark a:hover *,
+html.dark a:active,
+html.dark a:active * {
   color: white !important;
 }
 
 /* Table elements in dark mode */
 html.dark table,
+html.dark table *,
 html.dark thead,
+html.dark thead *,
 html.dark tbody,
+html.dark tbody *,
 html.dark tfoot,
+html.dark tfoot *,
 html.dark tr,
+html.dark tr *,
 html.dark td,
-html.dark th {
+html.dark td *,
+html.dark th,
+html.dark th * {
   color: white !important;
   border-color: white !important;
 }
 
 /* List elements in dark mode */
 html.dark ul,
+html.dark ul *,
 html.dark ol,
-html.dark li {
+html.dark ol *,
+html.dark li,
+html.dark li * {
   color: white !important;
 }
 
@@ -199,14 +236,19 @@ html.dark li {
 html.dark .card,
 html.dark .card *,
 html.dark .content,
-html.dark .content * {
+html.dark .content *,
+html.dark [data-radix-collection-item],
+html.dark [data-radix-collection-item] * {
   color: white !important;
   border-color: white !important;
 }
 
 /* Icons in dark mode */
-html.dark svg {
+html.dark svg,
+html.dark svg * {
   color: white !important;
+  fill: white !important;
+  stroke: white !important;
 }
 
 /* Special overrides for specific components */
@@ -214,6 +256,57 @@ html.dark .border,
 html.dark .border-b,
 html.dark .border-t,
 html.dark .border-l,
-html.dark .border-r {
+html.dark .border-r,
+html.dark .border-x,
+html.dark .border-y {
   border-color: white !important;
+}
+
+/* Radix UI components override */
+html.dark [data-radix-select-content],
+html.dark [data-radix-select-content] *,
+html.dark [data-radix-select-item],
+html.dark [data-radix-select-item] *,
+html.dark [data-radix-select-trigger],
+html.dark [data-radix-select-trigger] *,
+html.dark [data-radix-select-value],
+html.dark [data-radix-select-value] * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Tab components override */
+html.dark [data-state="active"],
+html.dark [data-state="active"] *,
+html.dark [data-state="inactive"],
+html.dark [data-state="inactive"] * {
+  color: white !important;
+}
+
+/* Badge components */
+html.dark .badge,
+html.dark .badge * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Read-only inputs */
+html.dark input[readonly],
+html.dark input[readonly] *,
+html.dark textarea[readonly],
+html.dark textarea[readonly] * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Disabled elements */
+html.dark input[disabled],
+html.dark input[disabled] *,
+html.dark button[disabled],
+html.dark button[disabled] *,
+html.dark textarea[disabled],
+html.dark textarea[disabled] * {
+  color: white !important;
+  border-color: white !important;
+  opacity: 0.5;
 }
