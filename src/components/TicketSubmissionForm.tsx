@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -26,7 +25,8 @@ import {
   FileText,
   Send,
   Camera,
-  MapPin
+  MapPin,
+  Sparkles
 } from 'lucide-react';
 
 type TicketCategory = 'corrective_action' | 'repair' | 'procurement' | 'support';
@@ -284,14 +284,54 @@ export const TicketSubmissionForm = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <Card>
-        <CardHeader className="text-center">
-          <div className="flex items-center justify-center mb-4">
-            <FileText className="w-8 h-8 mr-3" />
-            <CardTitle className="text-2xl">Ajukan Permintaan Pemeliharaan</CardTitle>
+      {/* Enhanced Header Card */}
+      <Card className="relative overflow-hidden bg-gradient-to-br from-white/95 via-blue-50/90 to-purple-50/85 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-purple-950/85 backdrop-blur-xl border-2 border-blue-500/30 dark:border-blue-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:border-blue-500/50 dark:hover:border-blue-400/60">
+        {/* Animated background effects */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-30"></div>
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
+        
+        <CardHeader className="relative text-center py-8 px-8">
+          {/* Glowing icon background */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-30"></div>
+              <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl shadow-2xl">
+                <FileText className="w-10 h-10 text-white drop-shadow-lg" />
+              </div>
+            </div>
           </div>
-          <p className="text-gray-600">Lengkapi formulir di bawah untuk meminta bantuan TPM</p>
+          
+          {/* Enhanced title with gradient and effects */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-center space-x-2">
+              <CardTitle className="text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
+                Ajukan Permintaan Pemeliharaan
+              </CardTitle>
+              <Sparkles className="w-6 h-6 text-yellow-500" />
+            </div>
+            
+            <div className="max-w-2xl mx-auto">
+              <p className="text-lg font-medium text-gray-700 dark:text-gray-300 leading-relaxed">
+                Lengkapi formulir di bawah untuk meminta bantuan 
+                <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold"> TPM</span>
+              </p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 font-medium">
+                Tim kami akan segera memproses permintaan Anda dengan prioritas tinggi
+              </p>
+            </div>
+          </div>
+          
+          {/* Decorative elements */}
+          <div className="absolute top-4 right-4">
+            <div className="w-3 h-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-60"></div>
+          </div>
+          <div className="absolute top-6 right-8">
+            <div className="w-2 h-2 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full opacity-40"></div>
+          </div>
+          <div className="absolute bottom-4 left-4">
+            <div className="w-2 h-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-50"></div>
+          </div>
         </CardHeader>
       </Card>
 
