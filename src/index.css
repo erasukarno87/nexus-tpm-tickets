@@ -133,119 +133,164 @@
   animation: float 6s ease-in-out infinite;
 }
 
-/* Standardized border styling for all components - ENHANCED */
-.form-card, .glass-card, .page-container, .admin-container, .dashboard-container, .master-data-container, .ticket-container {
-  background: rgba(0, 0, 0, 0.001) !important;
+/* STANDARDIZED BORDER STYLING - KONSISTEN UNTUK SEMUA KOMPONEN */
+.form-card, .glass-card, .page-container, .admin-container, .dashboard-container, .master-data-container, .ticket-container,
+.card, [data-radix-card], [data-radix-tabs-content], [data-radix-dialog-content], [data-radix-popover-content] {
+  background: rgba(255, 255, 255, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
-  border-radius: 0.75rem;
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 4px solid rgba(59, 130, 246, 0.9) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+  transition: all 0.3s ease !important;
 }
 
-.dark .form-card, .dark .glass-card, .dark .page-container, .dark .admin-container, .dark .dashboard-container, .dark .master-data-container, .dark .ticket-container {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  box-shadow: 0 0 30px rgba(96, 165, 250, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.form-card:hover, .glass-card:hover, .page-container:hover, .admin-container:hover, .dashboard-container:hover, .master-data-container:hover, .ticket-container:hover,
+.card:hover, [data-radix-card]:hover, [data-radix-tabs-content]:hover {
+  border: 4px solid rgba(59, 130, 246, 0.95) !important;
+  box-shadow: 0 0 50px rgba(59, 130, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
-/* Standardized dropdown styling - ENHANCED */
+.dark .form-card, .dark .glass-card, .dark .page-container, .dark .admin-container, .dark .dashboard-container, .dark .master-data-container, .dark .ticket-container,
+.dark .card, .dark [data-radix-card], .dark [data-radix-tabs-content], .dark [data-radix-dialog-content], .dark [data-radix-popover-content] {
+  background: rgba(0, 0, 0, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 4px solid rgba(96, 165, 250, 0.95) !important;
+  box-shadow: 0 0 40px rgba(96, 165, 250, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .form-card:hover, .dark .glass-card:hover, .dark .page-container:hover, .dark .admin-container:hover, .dark .dashboard-container:hover, .dark .master-data-container:hover, .dark .ticket-container:hover,
+.dark .card:hover, .dark [data-radix-card]:hover, .dark [data-radix-tabs-content]:hover {
+  border: 4px solid rgba(96, 165, 250, 1) !important;
+  box-shadow: 0 0 50px rgba(96, 165, 250, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* STANDARDIZED DROPDOWN STYLING */
 [data-radix-popper-content-wrapper] {
   z-index: 9999 !important;
 }
 
-.dropdown-content, [data-radix-select-content] {
+.dropdown-content, [data-radix-select-content], [data-radix-dropdown-menu-content] {
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 4px solid rgba(59, 130, 246, 0.9) !important;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.3) !important;
+  border-radius: 0.75rem !important;
+}
+
+.dark .dropdown-content, .dark [data-radix-select-content], .dark [data-radix-dropdown-menu-content] {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
+  border: 4px solid rgba(96, 165, 250, 0.95) !important;
+  box-shadow: 0 0 40px rgba(96, 165, 250, 0.35) !important;
+}
+
+/* STANDARDIZED INPUT FIELD STYLING */
+.input-field, .glass-input, input, textarea, [data-radix-select-trigger] {
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 4px solid rgba(59, 130, 246, 0.9) !important;
+  color: rgb(31, 41, 55) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.input-field:focus, .glass-input:focus, input:focus, textarea:focus, [data-radix-select-trigger]:focus {
+  border: 4px solid rgba(59, 130, 246, 0.95) !important;
   box-shadow: 0 0 25px rgba(59, 130, 246, 0.3) !important;
-  border-radius: 0.5rem;
 }
 
-.dark .dropdown-content, .dark [data-radix-select-content] {
+.input-field::placeholder, .glass-input::placeholder, input::placeholder, textarea::placeholder {
+  color: rgb(107, 114, 128) !important;
+}
+
+.dark .input-field, .dark .glass-input, .dark input, .dark textarea, .dark [data-radix-select-trigger] {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  box-shadow: 0 0 25px rgba(96, 165, 250, 0.4) !important;
+  border: 4px solid rgba(96, 165, 250, 0.95) !important;
+  color: white !important;
 }
 
-/* Standardized input field styling - ENHANCED */
-.input-field, .glass-input {
+.dark .input-field:focus, .dark .glass-input:focus, .dark input:focus, .dark textarea:focus, .dark [data-radix-select-trigger]:focus {
+  border: 4px solid rgba(96, 165, 250, 1) !important;
+  box-shadow: 0 0 25px rgba(96, 165, 250, 0.35) !important;
+}
+
+.dark .input-field::placeholder, .dark .glass-input::placeholder, .dark input::placeholder, .dark textarea::placeholder {
+  color: rgb(156, 163, 175) !important;
+}
+
+/* STANDARDIZED BUTTON STYLING */
+.btn-primary, button[data-variant="default"] {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.8), rgba(147, 51, 234, 0.8)) !important;
+  border: 4px solid rgba(59, 130, 246, 0.9) !important;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3) !important;
+  color: white !important;
+  backdrop-filter: blur(4px) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-primary:hover, button[data-variant="default"]:hover {
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.9), rgba(147, 51, 234, 0.9)) !important;
+  border: 4px solid rgba(59, 130, 246, 0.95) !important;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.4) !important;
+}
+
+.dark .btn-primary, .dark button[data-variant="default"] {
+  border: 4px solid rgba(96, 165, 250, 0.95) !important;
+  box-shadow: 0 0 30px rgba(96, 165, 250, 0.35) !important;
+}
+
+.dark .btn-primary:hover, .dark button[data-variant="default"]:hover {
+  border: 4px solid rgba(96, 165, 250, 1) !important;
+  box-shadow: 0 0 40px rgba(96, 165, 250, 0.4) !important;
+}
+
+.btn-secondary, button[data-variant="outline"] {
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 4px solid rgba(59, 130, 246, 0.9) !important;
+  color: rgb(31, 41, 55) !important;
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.btn-secondary:hover, button[data-variant="outline"]:hover {
+  background: rgba(255, 255, 255, 0.01) !important;
+  border: 4px solid rgba(59, 130, 246, 0.95) !important;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark .btn-secondary, .dark button[data-variant="outline"] {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
-  color: rgb(31, 41, 55);
-  border-radius: 0.5rem;
+  border: 4px solid rgba(96, 165, 250, 0.95) !important;
+  color: white !important;
+  box-shadow: 0 0 25px rgba(96, 165, 250, 0.25) !important;
 }
 
-.input-field::placeholder, .glass-input::placeholder {
-  color: rgb(107, 114, 128);
-}
-
-.dark .input-field, .dark .glass-input {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  color: white;
-}
-
-.dark .input-field::placeholder, .dark .glass-input::placeholder {
-  color: rgb(156, 163, 175);
-}
-
-/* Button improvements with standardized borders - ENHANCED */
-.btn-primary {
-  @apply bg-gradient-to-r from-blue-600/70 to-purple-600/70 hover:from-blue-700/80 hover:to-purple-700/80 text-white backdrop-blur-sm;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
-}
-
-.dark .btn-primary {
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
-}
-
-.btn-secondary {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
-  color: rgb(31, 41, 55);
-  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
-}
-
-.btn-secondary:hover {
+.dark .btn-secondary:hover, .dark button[data-variant="outline"]:hover {
   background: rgba(0, 0, 0, 0.01) !important;
-  border: 3px solid rgba(59, 130, 246, 1) !important;
+  border: 4px solid rgba(96, 165, 250, 1) !important;
+  box-shadow: 0 0 30px rgba(96, 165, 250, 0.35) !important;
 }
 
-.dark .btn-secondary {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  color: white;
-  box-shadow: 0 0 15px rgba(96, 165, 250, 0.2);
-}
-
-.dark .btn-secondary:hover {
-  background: rgba(0, 0, 0, 0.01) !important;
-  border: 3px solid rgba(96, 165, 250, 1) !important;
-}
-
-/* Neon glow effect - ENHANCED */
+/* NEON GLOW EFFECT */
 .neon-glow {
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.4), 0 0 60px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.4), 0 0 80px rgba(59, 130, 246, 0.2) !important;
 }
 
 .dark .neon-glow {
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.5), 0 0 60px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.5), 0 0 80px rgba(59, 130, 246, 0.3) !important;
 }
 
-/* Text glow effect */
+/* TEXT GLOW EFFECT */
 .text-glow {
-  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+  text-shadow: 0 0 15px rgba(59, 130, 246, 0.5) !important;
 }
 
-/* Gradient text */
+/* GRADIENT TEXT */
 .gradient-text {
   background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
   background-clip: text;
@@ -264,67 +309,60 @@
   }
 }
 
-/* Standardized select dropdown items */
+/* STANDARDIZED SELECT DROPDOWN ITEMS */
 [data-radix-select-item] {
-  color: rgb(31, 41, 55);
-  padding: 0.5rem 1rem;
+  color: rgb(31, 41, 55) !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  transition: all 0.3s ease !important;
 }
 
 .dark [data-radix-select-item] {
-  color: white;
+  color: white !important;
 }
 
 [data-radix-select-item]:hover {
-  background-color: rgba(243, 244, 246, 0.05);
+  background-color: rgba(59, 130, 246, 0.1) !important;
 }
 
 .dark [data-radix-select-item]:hover {
-  background-color: rgba(55, 65, 81, 0.05);
+  background-color: rgba(96, 165, 250, 0.1) !important;
 }
 
-/* Standardized tab content - ENHANCED */
-[data-radix-tabs-content] {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border-radius: 0.75rem !important;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
-  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
-}
-
-.dark [data-radix-tabs-content] {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  box-shadow: 0 0 25px rgba(96, 165, 250, 0.3);
-}
-
-/* Standardized card components - ENHANCED */
-[data-radix-card], .card {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
-  box-shadow: 0 0 25px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.dark [data-radix-card], .dark .card {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  box-shadow: 0 0 25px rgba(96, 165, 250, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-/* Standardized form containers - ENHANCED */
+/* STANDARDIZED FORM CONTAINERS */
 #radix-\:r1\:-content-submit > div > div.container.mx-auto.px-4.py-8.relative.z-10 > div {
-  background: rgba(0, 0, 0, 0.001) !important;
+  background: rgba(255, 255, 255, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(59, 130, 246, 0.8) !important;
+  border: 4px solid rgba(59, 130, 246, 0.9) !important;
   border-radius: 1rem !important;
-  box-shadow: 0 0 40px rgba(59, 130, 246, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 50px rgba(59, 130, 246, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
 .dark #radix-\:r1\:-content-submit > div > div.container.mx-auto.px-4.py-8.relative.z-10 > div {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 3px solid rgba(96, 165, 250, 0.9) !important;
-  box-shadow: 0 0 40px rgba(96, 165, 250, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 4px solid rgba(96, 165, 250, 0.95) !important;
+  box-shadow: 0 0 50px rgba(96, 165, 250, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* MODAL DAN DIALOG STYLING */
+[data-radix-dialog-overlay] {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* ALERT DAN TOAST STYLING */
+[data-radix-toast-root], .alert {
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 4px solid rgba(59, 130, 246, 0.9) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark [data-radix-toast-root], .dark .alert {
+  background: rgba(0, 0, 0, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 4px solid rgba(96, 165, 250, 0.95) !important;
+  box-shadow: 0 0 30px rgba(96, 165, 250, 0.35) !important;
 }
