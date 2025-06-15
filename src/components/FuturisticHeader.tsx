@@ -46,6 +46,15 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
       </div>
 
       <div className="max-w-6xl mx-auto flex justify-between items-center relative z-10">
+        {/* Theme Toggle - Left side */}
+        <div className="flex-none animate-slideInLeft" style={{animationDelay: '0.8s'}}>
+          <div className="relative group">
+            <ThemeToggle />
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
+          </div>
+        </div>
+
+        {/* Center content */}
         <div className="animate-fadeIn flex-1">
           <div className="flex items-center justify-center mb-4">
             {/* Left decorative elements */}
@@ -60,7 +69,7 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
               <div className="absolute inset-0 w-10 h-10 bg-blue-400/20 rounded-full blur-lg animate-pulse"></div>
             </div>
             
-            {/* Main title - reduced size */}
+            {/* Main title */}
             <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 via-cyan-400 to-pink-500 bg-clip-text text-transparent mx-6 animate-fadeIn bg-[length:200%_200%] animate-[gradientShift_6s_ease-in-out_infinite]">
               {title}
             </h1>
@@ -76,7 +85,7 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
             {subtitle}
           </p>
           
-          {/* Enhanced decorative line - smaller */}
+          {/* Enhanced decorative line */}
           <div className="flex items-center justify-center mb-4">
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-blue-400 animate-pulse"></div>
             <div className="mx-3 w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full animate-pulse"></div>
@@ -86,13 +95,8 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
           </div>
         </div>
         
-        {/* Enhanced action buttons - more consistent styling */}
-        <div className="flex flex-col items-center space-y-3 animate-slideInRight" style={{animationDelay: '0.6s'}}>
-          <div className="relative group">
-            <ThemeToggle />
-            <div className="absolute -inset-1 bg-gradient-to-r from-blue-400/20 to-purple-500/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
-          </div>
-          
+        {/* Action buttons - Right side */}
+        <div className="flex-none flex flex-col items-center space-y-3 animate-slideInRight" style={{animationDelay: '0.6s'}}>
           {showAdminButton && (
             <div className="relative group">
               <Button
@@ -125,7 +129,7 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
         </div>
       </div>
       
-      {/* Enhanced bottom glow effect - smaller */}
+      {/* Enhanced bottom glow effect */}
       <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64 h-1 bg-gradient-to-r from-transparent via-blue-400/50 via-purple-500/50 to-transparent blur-sm"></div>
     </header>
   );

@@ -37,16 +37,15 @@ export const ThemeToggle = () => {
   return (
     <Button
       variant="outline"
-      size="sm"
+      size="icon"
       onClick={toggleTheme}
-      className={`transition-all duration-300 backdrop-blur-md shadow-md hover:scale-105 ${
+      className={`transition-all duration-300 backdrop-blur-md shadow-md hover:scale-105 rounded-full w-10 h-10 ${
         isDark 
           ? 'bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border-yellow-400/40 text-yellow-300 hover:from-yellow-500/20 hover:to-orange-500/20 hover:border-yellow-400/60 hover:shadow-yellow-400/20' 
           : 'bg-gradient-to-r from-blue-500/10 to-indigo-500/10 border-blue-400/40 text-blue-300 hover:from-blue-500/20 hover:to-indigo-500/20 hover:border-blue-400/60 hover:shadow-blue-400/20'
       }`}
     >
       {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-      <span className="ml-2">{isDark ? 'Terang' : 'Gelap'}</span>
     </Button>
   );
 };
