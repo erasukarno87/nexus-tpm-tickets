@@ -297,8 +297,8 @@ export const TicketSubmissionForm = () => {
     <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900">
       <ModernBackground />
       <div className="container mx-auto px-4 py-8 relative z-10">
-        <Card className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
-          <CardHeader className="text-center pb-8 bg-white dark:bg-gray-800">
+        <Card className="bg-white/80 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <CardHeader className="text-center pb-8 bg-white/85 dark:bg-gray-800">
             <div className="flex items-center justify-center mb-6">
               <FileText className="w-12 h-12 text-blue-600 mr-4" />
               <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white">
@@ -312,7 +312,7 @@ export const TicketSubmissionForm = () => {
             <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-full"></div>
           </CardHeader>
 
-          <CardContent className="px-8 pb-8 bg-white dark:bg-gray-800">
+          <CardContent className="px-8 pb-8 bg-white/85 dark:bg-gray-800">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
               {/* Enhanced Category Selection */}
               <div className="space-y-6">
@@ -331,7 +331,7 @@ export const TicketSubmissionForm = () => {
                         className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
                           isSelected 
                             ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-xl` 
-                            : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:border-blue-500 text-black dark:text-white'
+                            : 'bg-white/70 dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:border-blue-500 text-black dark:text-white backdrop-blur-sm'
                         }`}
                       >
                         <div className="flex items-center space-x-4 mb-3">
@@ -359,7 +359,7 @@ export const TicketSubmissionForm = () => {
                     </Label>
                     <Input
                       {...register('requester_name', { required: 'Nama wajib diisi' })}
-                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                      className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
                       placeholder="Nama lengkap Anda"
                     />
                     {errors.requester_name && (
@@ -374,7 +374,7 @@ export const TicketSubmissionForm = () => {
                     </Label>
                     <Input
                       {...register('requester_contact')}
-                      className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                      className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
                       placeholder="Telepon atau email (opsional)"
                     />
                   </div>
@@ -385,10 +385,10 @@ export const TicketSubmissionForm = () => {
                       <span>Departemen *</span>
                     </Label>
                     <Select onValueChange={(value) => setValue('requester_department', value)}>
-                      <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
+                      <SelectTrigger className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
                         <SelectValue placeholder="Pilih departemen" />
                       </SelectTrigger>
-                      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
+                      <SelectContent className="bg-white/85 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
                         {departments.length > 0 ? (
                           departments.map((dept) => (
                             <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -416,10 +416,10 @@ export const TicketSubmissionForm = () => {
                       onValueChange={(value) => setValue('line_area_id', value)}
                       disabled={!selectedDepartment}
                     >
-                      <SelectTrigger className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600">
+                      <SelectTrigger className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
                         <SelectValue placeholder={selectedDepartment ? "Pilih line/area" : "Pilih departemen terlebih dahulu"} />
                       </SelectTrigger>
-                      <SelectContent className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600">
+                      <SelectContent className="bg-white/85 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
                         {filteredLineAreas.length > 0 ? (
                           filteredLineAreas.map((area) => (
                             <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -452,7 +452,7 @@ export const TicketSubmissionForm = () => {
                 </Label>
                 <Input
                   {...register('title', { required: 'Judul wajib diisi' })}
-                  className="bg-white dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600"
+                  className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
                   placeholder="Deskripsi singkat masalah"
                 />
                 {errors.title && (
@@ -466,7 +466,7 @@ export const TicketSubmissionForm = () => {
                   <Camera className="w-5 h-5 mr-2 text-blue-600" />
                   Foto Kondisi Sekarang (Opsional)
                 </Label>
-                <div className="p-6 bg-gray-50 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600">
+                <div className="p-6 bg-gray-50/70 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
                   <ImageUpload
                     onImagesChange={setBeforeImages}
                     existingImages={beforeImages}
@@ -482,7 +482,7 @@ export const TicketSubmissionForm = () => {
                 </Label>
                 <Textarea
                   {...register('description', { required: 'Deskripsi wajib diisi' })}
-                  className="bg-white dark:bg-gray-700 text-black dark:text-white min-h-[150px] text-lg border-gray-300 dark:border-gray-600"
+                  className="bg-white/70 dark:bg-gray-700 text-black dark:text-white min-h-[150px] text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
                   placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
                 />
                 {errors.description && (
@@ -503,7 +503,7 @@ export const TicketSubmissionForm = () => {
                       <RadioGroupItem value={option.value} id={option.value} className="w-5 h-5" />
                       <Label
                         htmlFor={option.value}
-                        className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105`}
+                        className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105 backdrop-blur-sm`}
                       >
                         <div className="font-bold text-lg">{option.label.toUpperCase()}</div>
                         <div className="text-sm opacity-80">{option.description}</div>
