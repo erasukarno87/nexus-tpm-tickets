@@ -10,15 +10,15 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 text-white dark:text-white",
+        default: "bg-primary text-black hover:bg-primary/90 dark:text-white",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90 text-white dark:text-white",
+          "bg-destructive text-black hover:bg-destructive/90 dark:text-white",
         outline:
-          "border border-input bg-background hover:bg-accent hover:text-accent-foreground text-gray-900 dark:text-white dark:border-white/20 dark:hover:bg-white/10",
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground text-black dark:text-white dark:border-white/20 dark:hover:bg-white/10",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80 text-gray-900 dark:text-white dark:bg-white/10 dark:hover:bg-white/20",
-        ghost: "hover:bg-accent hover:text-accent-foreground text-gray-900 dark:text-white dark:hover:bg-white/10",
-        link: "text-primary underline-offset-4 hover:underline text-gray-900 dark:text-white",
+          "bg-secondary text-black hover:bg-secondary/80 dark:text-white dark:bg-white/10 dark:hover:bg-white/20",
+        ghost: "hover:bg-accent hover:text-accent-foreground text-black dark:text-white dark:hover:bg-white/10",
+        link: "text-primary underline-offset-4 hover:underline text-black dark:text-white",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -41,11 +41,19 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, asChild = false, style, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
+    
+    // Force black text in light mode
+    const buttonStyle = {
+      ...style,
+      color: 'black'
+    };
+
     return (
       <Comp
         className={cn(buttonVariants({ variant, size, className }))}
+        style={buttonStyle}
         ref={ref}
         {...props}
       />

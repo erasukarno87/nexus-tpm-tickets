@@ -27,13 +27,17 @@ html:not(.dark) th {
   color: black !important;
 }
 
-/* Button text override - very specific */
-html:not(.dark) button *,
-html:not(.dark) .btn *,
-html:not(.dark) [role="button"] *,
+/* Button text override - very specific for all button variants */
 html:not(.dark) button,
+html:not(.dark) button *,
 html:not(.dark) .btn,
-html:not(.dark) [role="button"] {
+html:not(.dark) .btn *,
+html:not(.dark) [role="button"],
+html:not(.dark) [role="button"] *,
+html:not(.dark) button[class*="bg-primary"],
+html:not(.dark) button[class*="bg-primary"] *,
+html:not(.dark) .bg-primary,
+html:not(.dark) .bg-primary * {
   color: black !important;
 }
 
