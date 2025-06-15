@@ -40,10 +40,10 @@ export const ThemeToggle = () => {
       size="sm"
       onClick={toggleTheme}
       className={`glass-input border-gray-600 hover:border-blue-400 transition-colors ${
-        isDark ? 'text-yellow-400' : 'text-blue-600'
+        isDark ? 'text-white border-white/20 hover:text-white' : 'text-blue-600 border-blue-600/20'
       }`}
     >
-      {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+      {isDark ? <Sun className="w-4 h-4 text-white" /> : <Moon className="w-4 h-4 text-blue-600" />}
       <span className="ml-2">{isDark ? 'Terang' : 'Gelap'}</span>
     </Button>
   );
