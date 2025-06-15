@@ -36,8 +36,8 @@ export const ThemeToggle = () => {
 
   return (
     <div className="relative group">
-      {/* Glowing background effect */}
-      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-60 transition-all duration-500 animate-pulse"></div>
+      {/* Glowing background effect - removed pulse */}
+      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500 rounded-2xl blur opacity-20 group-hover:opacity-60 transition-all duration-500"></div>
       
       <Button
         variant="outline"
@@ -52,7 +52,7 @@ export const ThemeToggle = () => {
             ) : (
               <Moon className="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:text-purple-500 transition-colors duration-300 drop-shadow-lg" />
             )}
-            {/* Icon glow effect */}
+            {/* Icon glow effect - removed pulse */}
             <div className="absolute inset-0 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full blur-lg opacity-30 group-hover:opacity-60 transition-opacity duration-300"></div>
           </div>
           
