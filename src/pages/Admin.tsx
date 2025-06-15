@@ -211,12 +211,31 @@ const Admin = () => {
         return;
       }
 
-      const { error } = await supabase
-        .from('tickets')
-        .update(updates)
-        .eq('id', ticketId);
+      console.log('Updating ticket with ID:', ticketId);
+      console.log('Updates:', updates);
 
-      if (error) throw error;
+      // Remove undefined/null values and ensure proper data types
+      const cleanUpdates = Object.entries(updates).reduce((acc, [key, value]) => {
+        if (value !== undefined && value !== null) {
+          acc[key] = value;
+        }
+        return acc;
+      }, {} as any);
+
+      console.log('Clean updates:', cleanUpdates);
+
+      const { data, error } = await supabase
+        .from('tickets')
+        .update(cleanUpdates)
+        .eq('id', ticketId)
+        .select();
+
+      if (error) {
+        console.error('Supabase update error:', error);
+        throw error;
+      }
+
+      console.log('Update successful:', data);
 
       await supabase
         .from('ticket_logs')
@@ -236,9 +255,10 @@ const Admin = () => {
         description: "Tiket berhasil diperbarui",
       });
     } catch (error: any) {
+      console.error('Update ticket error:', error);
       toast({
         title: "Error",
-        description: "Gagal memperbarui tiket",
+        description: `Gagal memperbarui tiket: ${error.message || 'Unknown error'}`,
         variant: "destructive",
       });
     }
