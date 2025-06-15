@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -35,6 +34,7 @@ import {
   Sparkles,
   Eye
 } from 'lucide-react';
+import { ImageUpload } from '@/components/ImageUpload';
 
 interface Ticket {
   id: string;
@@ -515,6 +515,26 @@ const Admin = () => {
                                 onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
                                 className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
                                 placeholder="Tambahkan catatan dari tim TPM..."
+                              />
+                            </div>
+
+                            {/* Upload Foto Before */}
+                            <div>
+                              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto Before</label>
+                              <ImageUpload
+                                onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
+                                existingImages={editingTicket.before_photos || []}
+                                maxImages={5}
+                              />
+                            </div>
+
+                            {/* Upload Foto After */}
+                            <div>
+                              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto After</label>
+                              <ImageUpload
+                                onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
+                                existingImages={editingTicket.after_photos || []}
+                                maxImages={5}
                               />
                             </div>
 
