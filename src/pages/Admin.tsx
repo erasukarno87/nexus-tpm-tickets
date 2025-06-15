@@ -295,7 +295,7 @@ const Admin = () => {
         <div className="max-w-6xl mx-auto px-4 pb-12">
           <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
             <Tabs defaultValue="dashboard" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border border-gray-200 dark:border-gray-700 mb-8 p-2 h-16">
+              <TabsList className="grid w-full grid-cols-3 backdrop-blur-sm border mb-8 p-2 h-16">
                 <TabsTrigger 
                   value="dashboard" 
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-800 dark:text-gray-200"
@@ -346,7 +346,7 @@ const Admin = () => {
                   ))}
 
                   {filteredTickets.length === 0 && (
-                    <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 border-dashed">
+                    <Card className="border-dashed">
                       <CardContent className="text-center py-16">
                         <FileText className="w-20 h-20 text-gray-400 mx-auto mb-6 animate-pulse" />
                         <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Tidak Ada Tiket Ditemukan</h3>

@@ -25,7 +25,7 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
   filteredTicketsCount,
 }) => {
   return (
-    <Card className="bg-white/3 dark:bg-gray-800 backdrop-blur-sm border border-gray-200/20 dark:border-gray-700 mb-8 shadow-lg">
+    <Card className="mb-8 shadow-lg">
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="relative">
@@ -34,15 +34,15 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
               placeholder="Cari tiket..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="bg-white/5 dark:bg-gray-900 border border-gray-300/30 dark:border-gray-600 text-gray-900 dark:text-white pl-12 h-12 text-lg"
+              className="pl-12 h-12 text-lg"
             />
           </div>
           
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="bg-white/5 dark:bg-gray-900 border border-gray-300/30 dark:border-gray-600 text-gray-900 dark:text-white h-12">
+            <SelectTrigger className="h-12">
               <SelectValue placeholder="Filter berdasarkan status" />
             </SelectTrigger>
-            <SelectContent className="bg-white/85 dark:bg-gray-800 border border-gray-200/30 dark:border-gray-700">
+            <SelectContent>
               <SelectItem value="all">Semua Status</SelectItem>
               <SelectItem value="open">Terbuka</SelectItem>
               <SelectItem value="in_progress">Sedang Proses</SelectItem>
@@ -53,10 +53,10 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
           </Select>
 
           <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-            <SelectTrigger className="bg-white/5 dark:bg-gray-900 border border-gray-300/30 dark:border-gray-600 text-gray-900 dark:text-white h-12">
+            <SelectTrigger className="h-12">
               <SelectValue placeholder="Filter berdasarkan prioritas" />
             </SelectTrigger>
-            <SelectContent className="bg-white/85 dark:bg-gray-800 border border-gray-200/30 dark:border-gray-700">
+            <SelectContent>
               <SelectItem value="all">Semua Prioritas</SelectItem>
               <SelectItem value="low">Rendah</SelectItem>
               <SelectItem value="medium">Sedang</SelectItem>

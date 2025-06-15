@@ -86,7 +86,7 @@ const renderPhotos = (photos: string[] | null, title: string) => {
               <img 
                 src={imageUrl}
                 alt={`${title} ${index + 1}`}
-                className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
+                className="w-full h-32 object-cover rounded-lg border border-gray-200/30 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
                 onClick={() => window.open(imageUrl, '_blank')}
                 onError={(e) => {
                   console.error('Error loading image:', imageUrl);
@@ -113,7 +113,7 @@ export const TicketDetailModal: React.FC<TicketDetailModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Detail Tiket: {ticket.title}
@@ -171,7 +171,7 @@ export const TicketDetailModal: React.FC<TicketDetailModalProps> = ({
 
           <div>
             <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Deskripsi kondisi saat ini</label>
-            <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
+            <p className="text-gray-900 dark:text-white p-4 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg mt-2">
               {ticket.description}
             </p>
           </div>
@@ -183,7 +183,7 @@ export const TicketDetailModal: React.FC<TicketDetailModalProps> = ({
           {ticket.notes && (
             <div>
               <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Catatan dari Tim TPM</label>
-              <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
+              <p className="text-gray-900 dark:text-white p-4 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg mt-2">
                 {ticket.notes}
               </p>
             </div>
@@ -192,7 +192,7 @@ export const TicketDetailModal: React.FC<TicketDetailModalProps> = ({
           {ticket.status === 'ditolak' && ticket.rejection_reason && (
             <div>
               <label className="text-sm font-semibold text-red-600 dark:text-red-400">Alasan Penolakan</label>
-              <p className="text-red-700 dark:text-red-300 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg mt-2">
+              <p className="text-red-700 dark:text-red-300 p-4 bg-red-50/30 dark:bg-red-500/10 border border-red-200/30 dark:border-red-500/30 rounded-lg mt-2">
                 {ticket.rejection_reason}
               </p>
             </div>

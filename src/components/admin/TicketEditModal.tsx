@@ -68,7 +68,7 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Update Tiket: {editingTicket.title}
@@ -84,7 +84,7 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
             <Input
               value={editingTicket.ticket_number}
               readOnly
-              className="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12 cursor-not-allowed"
+              className="bg-gray-100/30 dark:bg-gray-700 border border-gray-300/30 dark:border-gray-600 text-gray-900 dark:text-white h-12 cursor-not-allowed"
             />
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Nomor tiket tidak dapat diubah</p>
           </div>
@@ -96,7 +96,7 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
                 value={editingTicket.status} 
                 onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
               >
-                <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
+                <SelectTrigger className="h-12">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -115,7 +115,7 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
                 value={editingTicket.assigned_to || 'unassigned'} 
                 onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
               >
-                <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
+                <SelectTrigger className="h-12">
                   <SelectValue placeholder="Pilih teknisi" />
                 </SelectTrigger>
                 <SelectContent>
@@ -136,7 +136,7 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
               <Textarea
                 value={editingTicket.rejection_reason || ''}
                 onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
-                className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
+                className="min-h-[100px]"
                 placeholder="Masukkan alasan penolakan..."
                 required
               />
@@ -148,7 +148,7 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
             <Textarea
               value={editingTicket.notes || ''}
               onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
-              className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
+              className="min-h-[100px]"
               placeholder="Tambahkan catatan dari tim TPM..."
             />
           </div>
@@ -172,12 +172,12 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
           </div>
         </div>
 
-        <DialogFooter className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
+        <DialogFooter className="mt-6 pt-6 border-t border-gray-200/30 dark:border-gray-600">
           <div className="flex justify-end space-x-4 w-full">
             <Button
               variant="outline"
               onClick={onClose}
-              className="bg-white dark:bg-gray-800 border-gray-500 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-500 hover:text-white transition-all duration-300"
+              className="hover:bg-gray-500 hover:text-white transition-all duration-300"
             >
               <X className="w-4 h-4 mr-2" />
               Close
