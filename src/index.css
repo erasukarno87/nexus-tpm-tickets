@@ -133,37 +133,36 @@
   animation: float 6s ease-in-out infinite;
 }
 
-/* Completely transparent form styling for full 3D background visibility */
+/* Improved form styling with extreme transparency for 3D background visibility */
 .form-card {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.02) !important;
+  background: rgba(255, 255, 255, 0.001);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
 }
 
 .dark .form-card {
-  background: transparent !important;
-  backdrop-filter: none !important;
+  background: rgba(17, 24, 39, 0.005);
 }
 
-/* Completely transparent dropdown styling */
+/* Better dropdown styling with extreme transparency */
 [data-radix-popper-content-wrapper] {
   z-index: 9999 !important;
 }
 
 .dropdown-content {
-  @apply bg-transparent backdrop-blur-none border border-gray-200/10 shadow-lg rounded-md;
+  @apply bg-white/5 backdrop-blur-md border border-gray-200/20 shadow-lg rounded-md;
 }
 
 .dark .dropdown-content {
-  @apply bg-transparent backdrop-blur-none border-gray-700/10;
+  @apply bg-gray-800/10 backdrop-blur-md border-gray-700/20;
 }
 
-/* Completely transparent input field improvements */
+/* Input field improvements with extreme transparency */
 .input-field {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(209, 213, 219, 0.08) !important;
+  background: rgba(255, 255, 255, 0.005);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(209, 213, 219, 0.15);
   color: rgb(31, 41, 55);
 }
 
@@ -172,9 +171,9 @@
 }
 
 .dark .input-field {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(75, 85, 99, 0.08) !important;
+  background: rgba(17, 24, 39, 0.02);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(75, 85, 99, 0.15);
   color: white;
 }
 
@@ -182,24 +181,24 @@
   color: rgb(156, 163, 175);
 }
 
-/* Completely transparent glass card styling */
+/* Glass card styling with extreme transparency */
 .glass-card {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.02) !important;
+  background: rgba(255, 255, 255, 0.001);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: 0.5rem;
 }
 
 .dark .glass-card {
-  background: transparent !important;
-  border: 1px solid rgba(75, 85, 99, 0.04) !important;
+  background: rgba(17, 24, 39, 0.005);
+  border: 1px solid rgba(75, 85, 99, 0.08);
 }
 
-/* Completely transparent glass input styling */
+/* Glass input styling with extreme transparency */
 .glass-input {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(209, 213, 219, 0.08) !important;
+  background: rgba(255, 255, 255, 0.005);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(209, 213, 219, 0.15);
   color: rgb(31, 41, 55);
 }
 
@@ -208,9 +207,9 @@
 }
 
 .dark .glass-input {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(75, 85, 99, 0.08) !important;
+  background: rgba(17, 24, 39, 0.02);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(75, 85, 99, 0.15);
   color: white;
 }
 
@@ -218,31 +217,31 @@
   color: rgb(156, 163, 175);
 }
 
-/* Button improvements with minimal transparency */
+/* Button improvements with transparency */
 .btn-primary {
   @apply bg-gradient-to-r from-blue-600/70 to-purple-600/70 hover:from-blue-700/80 hover:to-purple-700/80 text-white backdrop-blur-sm;
 }
 
 .btn-secondary {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(209, 213, 219, 0.08) !important;
+  background: rgba(255, 255, 255, 0.005);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(209, 213, 219, 0.15);
   color: rgb(31, 41, 55);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.02) !important;
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .dark .btn-secondary {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(75, 85, 99, 0.08) !important;
+  background: rgba(17, 24, 39, 0.02);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(75, 85, 99, 0.15);
   color: white;
 }
 
 .dark .btn-secondary:hover {
-  background: rgba(17, 24, 39, 0.02) !important;
+  background: rgba(17, 24, 39, 0.05);
 }
 
 /* Neon glow effect */
@@ -278,19 +277,19 @@
   }
 }
 
-/* Completely transparent select dropdown styling */
+/* Improved select dropdown styling with extreme transparency */
 [data-radix-select-content] {
-  background: rgba(255, 255, 255, 0.03) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(209, 213, 219, 0.08) !important;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(209, 213, 219, 0.15);
   border-radius: 0.5rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
 }
 
 .dark [data-radix-select-content] {
-  background: rgba(31, 41, 55, 0.05) !important;
-  backdrop-filter: blur(8px) !important;
-  border-color: rgba(75, 85, 99, 0.08) !important;
+  background: rgba(31, 41, 55, 0.1);
+  backdrop-filter: blur(12px);
+  border-color: rgba(75, 85, 99, 0.15);
 }
 
 [data-radix-select-item] {
@@ -303,119 +302,90 @@
 }
 
 [data-radix-select-item]:hover {
-  background-color: rgba(243, 244, 246, 0.1) !important;
+  background-color: rgba(243, 244, 246, 0.2);
 }
 
 .dark [data-radix-select-item]:hover {
-  background-color: rgba(55, 65, 81, 0.1) !important;
+  background-color: rgba(55, 65, 81, 0.2);
 }
 
-/* Completely transparent container for all pages to show 3D background */
+/* Global transparent container for all pages to show 3D background - extreme transparency */
 .page-container {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
   border-radius: 1rem !important;
 }
 
 .dark .page-container {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.002) !important;
+  background: rgba(0, 0, 0, 0.005) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.005) !important;
 }
 
-/* Completely transparent form container to show 3D background */
+/* Specific transparency for the form container to show 3D background - extreme transparency */
 #radix-\:r1\:-content-submit > div > div.container.mx-auto.px-4.py-8.relative.z-10 > div {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.02) !important;
   border-radius: 1rem !important;
 }
 
 .dark #radix-\:r1\:-content-submit > div > div.container.mx-auto.px-4.py-8.relative.z-10 > div {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
+  background: rgba(0, 0, 0, 0.005) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
 }
 
-/* Completely transparent admin page */
+/* Admin page transparency - extreme transparency */
 .admin-container {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.015) !important;
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
   border-radius: 1rem !important;
 }
 
 .dark .admin-container {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(0, 0, 0, 0.008) !important;
+  backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.02) !important;
 }
 
-/* Completely transparent dashboard and other component containers */
+/* Dashboard and other component containers - extreme transparency */
 .dashboard-container, .master-data-container, .ticket-container {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.02) !important;
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
   border-radius: 1rem !important;
 }
 
 .dark .dashboard-container, .dark .master-data-container, .dark .ticket-container {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.01) !important;
+  background: rgba(0, 0, 0, 0.008) !important;
+  backdrop-filter: blur(6px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.02) !important;
 }
 
-/* Completely transparent tab content */
+/* Tab content transparency - extreme transparency */
 [data-radix-tabs-content] {
-  background: transparent !important;
-  backdrop-filter: none !important;
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
   border-radius: 0.75rem !important;
 }
 
 .dark [data-radix-tabs-content] {
-  background: transparent !important;
-  backdrop-filter: none !important;
+  background: rgba(0, 0, 0, 0.005) !important;
+  backdrop-filter: blur(4px) !important;
 }
 
-/* Completely transparent card components */
+/* Card components transparency - extreme transparency */
 [data-radix-card], .card {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.02) !important;
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.04) !important;
 }
 
 .dark [data-radix-card], .dark .card {
-  background: transparent !important;
-  backdrop-filter: none !important;
-  border: 1px solid rgba(255, 255, 255, 0.01) !important;
-}
-
-/* Override any remaining white backgrounds */
-.bg-white, .bg-gray-50 {
-  background: transparent !important;
-}
-
-.dark .bg-gray-900, .dark .bg-gray-800 {
-  background: transparent !important;
-}
-
-/* Make sure all containers are transparent */
-div[class*="bg-white"], div[class*="bg-gray"] {
-  background: transparent !important;
-}
-
-/* Force transparency on any stubborn elements */
-* {
-  background-color: transparent !important;
-}
-
-/* Only keep backgrounds for buttons and specific interactive elements */
-button, .btn-primary, .btn-secondary, [role="button"] {
-  background: revert !important;
-}
-
-/* Keep gradient backgrounds for buttons */
-.bg-gradient-to-r {
-  background: revert !important;
+  background: rgba(0, 0, 0, 0.008) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.02) !important;
 }
