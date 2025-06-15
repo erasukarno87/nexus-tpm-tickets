@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -297,22 +298,22 @@ export const TicketSubmissionForm = () => {
     <div className="relative min-h-screen">
       <ModernBackground />
       <div className="container mx-auto px-4 py-8 relative z-10">
-        <Card className="backdrop-blur-sm border border-white/10 bg-gradient-to-br from-blue-500/20 to-purple-600/20">
-          <CardHeader className="text-center pb-8 bg-gradient-to-r from-green-500/30 to-teal-600/30 rounded-t-lg">
+        <div className="backdrop-blur-sm border border-white/10 bg-gradient-to-br from-blue-500/20 to-purple-600/20 rounded-lg">
+          <div className="text-center pb-8 bg-gradient-to-r from-green-500/30 to-teal-600/30 rounded-t-lg p-6">
             <div className="flex items-center justify-center mb-6">
               <FileText className="w-12 h-12 text-blue-600 mr-4" />
-              <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white">
+              <h2 className="text-4xl font-bold text-gray-900 dark:text-white">
                 Ajukan Permintaan Pemeliharaan
-              </CardTitle>
+              </h2>
               <Sparkles className="w-12 h-12 text-purple-600 ml-4" />
             </div>
             <p className="text-gray-700 dark:text-gray-300 text-xl">
               Lengkapi formulir di bawah untuk meminta bantuan TPM
             </p>
             <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-full"></div>
-          </CardHeader>
+          </div>
 
-          <CardContent className="px-8 pb-8 bg-gradient-to-b from-orange-500/20 to-pink-600/20">
+          <div className="px-8 pb-8 bg-gradient-to-b from-orange-500/20 to-pink-600/20">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
               {/* Enhanced Category Selection */}
               <div className="space-y-6">
@@ -532,8 +533,8 @@ export const TicketSubmissionForm = () => {
                 )}
               </Button>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
