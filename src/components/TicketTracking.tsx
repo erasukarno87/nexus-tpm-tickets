@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -161,15 +160,22 @@ export const TicketTracking = () => {
     return `https://hmqrtiijlvbjnnspumly.supabase.co/storage/v1/object/public/ticket-images/${filePath}`;
   };
 
-  const renderPhotos = (photos: string[] | null, title: string) => {
-    if (!photos || photos.length === 0) return null;
+  const renderPhotos = (photos: string[] | null | undefined, title: string) => {
+    console.log(`Rendering ${title}:`, photos);
+    
+    // Check for null, undefined, or empty array
+    if (!photos || !Array.isArray(photos) || photos.length === 0) {
+      console.log(`No ${title} to display`);
+      return null;
+    }
 
     return (
-      <div>
-        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">{title}</label>
-        <div className="mt-2 grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="mt-6">
+        <label className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 block">{title}</label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {photos.map((photo, index) => {
             const imageUrl = getStorageUrl(photo);
+            console.log(`${title} ${index + 1} URL:`, imageUrl);
             return (
               <div key={index} className="relative group">
                 <img 
@@ -180,6 +186,9 @@ export const TicketTracking = () => {
                   onError={(e) => {
                     console.error('Error loading image:', imageUrl);
                     e.currentTarget.src = '/placeholder.svg';
+                  }}
+                  onLoad={() => {
+                    console.log(`Successfully loaded ${title} image:`, imageUrl);
                   }}
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
@@ -226,6 +235,10 @@ export const TicketTracking = () => {
   };
 
   const handleViewDetails = async (ticket: TicketStatus) => {
+    console.log('Selected ticket for details:', ticket);
+    console.log('Before photos:', ticket.before_photos);
+    console.log('After photos:', ticket.after_photos);
+    
     setSelectedTicket(ticket);
     setIsModalOpen(true);
     
@@ -412,13 +425,13 @@ export const TicketTracking = () => {
 
                               {selectedTicket.notes && (
                                 <>
-                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Catatan dari Tim TPM</h4>
+                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mt-6">Catatan dari Tim TPM</h4>
                                   <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.notes}</p>
                                 </>
                               )}
                               {selectedTicket.rejection_reason && selectedTicket.status === 'ditolak' && (
                                 <>
-                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Alasan Penolakan</h4>
+                                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mt-6">Alasan Penolakan</h4>
                                   <p className="text-red-700 dark:text-red-300 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg">{selectedTicket.rejection_reason}</p>
                                 </>
                               )}
