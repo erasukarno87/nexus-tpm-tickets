@@ -52,7 +52,7 @@ const HolographicText = ({ text, position }: { text: string; position: [number, 
           anchorY="middle"
         >
           {text}
-          <meshBasicMaterial color="#00ffff" transparent opacity={0.9} wireframe emissive="#00ffff" emissiveIntensity={0.3} />
+          <meshStandardMaterial color="#00ffff" transparent opacity={0.9} wireframe emissive="#00ffff" emissiveIntensity={0.3} />
         </Text>
       </Center>
     </group>
@@ -79,7 +79,7 @@ const GlowingText = ({ text, position }: { text: string; position: [number, numb
         anchorY="middle"
       >
         {text}
-        <meshBasicMaterial color="#ff6b35" transparent opacity={0.9} emissive="#ff6b35" emissiveIntensity={0.4} />
+        <meshStandardMaterial color="#ff6b35" transparent opacity={0.9} emissive="#ff6b35" emissiveIntensity={0.4} />
       </Text>
     </Center>
   );
@@ -107,7 +107,7 @@ const FloatingText = ({ text, position }: { text: string; position: [number, num
         anchorY="middle"
       >
         {text}
-        <meshBasicMaterial color="#9333ea" transparent opacity={0.8} emissive="#9333ea" emissiveIntensity={0.3} />
+        <meshStandardMaterial color="#9333ea" transparent opacity={0.8} emissive="#9333ea" emissiveIntensity={0.3} />
       </Text>
     </Center>
   );
