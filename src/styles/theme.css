@@ -27,6 +27,27 @@ html:not(.dark) th {
   color: black !important;
 }
 
+/* Button text override - very specific */
+html:not(.dark) button *,
+html:not(.dark) .btn *,
+html:not(.dark) [role="button"] *,
+html:not(.dark) button,
+html:not(.dark) .btn,
+html:not(.dark) [role="button"] {
+  color: black !important;
+}
+
+/* Override any Tailwind text color classes */
+html:not(.dark) .text-white,
+html:not(.dark) .text-gray-600,
+html:not(.dark) .text-gray-500,
+html:not(.dark) .text-gray-400,
+html:not(.dark) .text-muted-foreground,
+html:not(.dark) .text-secondary-foreground,
+html:not(.dark) .text-primary-foreground {
+  color: black !important;
+}
+
 /* Placeholder text */
 html:not(.dark) input::placeholder,
 html:not(.dark) textarea::placeholder {
@@ -34,11 +55,44 @@ html:not(.dark) textarea::placeholder {
   opacity: 0.6;
 }
 
-/* Override any specific text color classes */
-html:not(.dark) .text-gray-600,
-html:not(.dark) .text-gray-500,
-html:not(.dark) .text-gray-400,
-html:not(.dark) .text-muted-foreground,
-html:not(.dark) .text-secondary-foreground {
+/* Form elements */
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select,
+html:not(.dark) option {
+  color: black !important;
+}
+
+/* Links */
+html:not(.dark) a,
+html:not(.dark) a:visited,
+html:not(.dark) a:hover,
+html:not(.dark) a:active {
+  color: black !important;
+}
+
+/* Table elements */
+html:not(.dark) table,
+html:not(.dark) thead,
+html:not(.dark) tbody,
+html:not(.dark) tfoot,
+html:not(.dark) tr,
+html:not(.dark) td,
+html:not(.dark) th {
+  color: black !important;
+}
+
+/* List elements */
+html:not(.dark) ul,
+html:not(.dark) ol,
+html:not(.dark) li {
+  color: black !important;
+}
+
+/* Card and content elements */
+html:not(.dark) .card,
+html:not(.dark) .card *,
+html:not(.dark) .content,
+html:not(.dark) .content * {
   color: black !important;
 }
