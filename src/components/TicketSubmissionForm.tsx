@@ -241,7 +241,7 @@ export const TicketSubmissionForm = () => {
     return (
       <div className="relative min-h-screen">
         <ModernBackground />
-        <Card className="glass-card border-0 neon-glow relative z-10">
+        <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm relative z-10">
           <CardContent className="text-center py-16">
             <div className="mb-8 animate-fadeIn">
               <div className="relative">
@@ -253,14 +253,14 @@ export const TicketSubmissionForm = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-              <div className="glass-card p-8 neon-glow">
+              <div className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm p-8 rounded-lg border">
                 <Sparkles className="w-8 h-8 text-blue-400 mx-auto mb-4" />
                 <h4 className="text-2xl font-bold text-white mb-4">Nomor Tiket</h4>
                 <p className="text-3xl font-mono text-blue-400 mb-6 font-bold">{submittedTicket.ticket_number}</p>
                 <p className="text-gray-300">Simpan nomor ini untuk melacak status permintaan Anda</p>
               </div>
 
-              <div className="glass-card p-8 neon-glow">
+              <div className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm p-8 rounded-lg border">
                 <h4 className="text-2xl font-bold text-white mb-6">Kode QR</h4>
                 <QRCodeGenerator 
                   value={submittedTicket.ticket_number} 
@@ -273,7 +273,7 @@ export const TicketSubmissionForm = () => {
             <div className="space-y-4">
               <Button
                 onClick={() => setShowSuccess(false)}
-                className="w-full h-14 text-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-0 font-semibold transition-all duration-300 hover:scale-105"
+                className="w-full h-14 text-lg bg-gradient-to-r from-blue-600/70 to-purple-600/70 hover:from-blue-700/80 hover:to-purple-700/80 border-0 font-semibold transition-all duration-300 hover:scale-105 backdrop-blur-sm"
               >
                 <Send className="w-5 h-5 mr-2" />
                 Ajukan Tiket Lain
@@ -281,7 +281,7 @@ export const TicketSubmissionForm = () => {
               <Button
                 variant="outline"
                 onClick={switchToTrackingTab}
-                className="w-full h-14 text-lg glass-input border-green-500 text-green-400 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105"
+                className="w-full h-14 text-lg bg-white/[0.005] dark:bg-black/[0.02] border-green-500/50 text-green-400 hover:bg-green-500/20 hover:text-white transition-all duration-300 hover:scale-105 backdrop-blur-sm"
               >
                 <Settings className="w-5 h-5 mr-2" />
                 Lacak Tiket Ini
@@ -298,7 +298,7 @@ export const TicketSubmissionForm = () => {
       <ModernBackground />
       <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Header Card */}
-        <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm mb-6">
+        <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm mb-6">
           <CardHeader className="text-center pb-8">
             <div className="flex items-center justify-center mb-6">
               <FileText className="w-12 h-12 text-blue-600 mr-4" />
@@ -316,7 +316,7 @@ export const TicketSubmissionForm = () => {
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Card 1: Jenis Permintaan */}
-          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-black dark:text-white flex items-center">
                 <Settings className="w-6 h-6 mr-3 text-blue-600" />
@@ -335,7 +335,7 @@ export const TicketSubmissionForm = () => {
                       className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
                         isSelected 
                           ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-xl` 
-                          : 'bg-white/80 dark:bg-gray-700/80 border-gray-300 dark:border-gray-600 hover:border-blue-500 text-black dark:text-white backdrop-blur-sm'
+                          : 'bg-white/[0.005] dark:bg-gray-700/[0.02] border-gray-300/20 dark:border-gray-600/20 hover:border-blue-500/50 text-black dark:text-white backdrop-blur-sm'
                       }`}
                     >
                       <div className="flex items-center space-x-4 mb-3">
@@ -351,7 +351,7 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 2: Informasi Pemohon */}
-          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-black dark:text-white flex items-center">
                 <User className="w-6 h-6 mr-3 text-blue-600" />
@@ -367,7 +367,7 @@ export const TicketSubmissionForm = () => {
                   </Label>
                   <Input
                     {...register('requester_name', { required: 'Nama wajib diisi' })}
-                    className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                    className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
                     placeholder="Nama lengkap Anda"
                   />
                   {errors.requester_name && (
@@ -382,7 +382,7 @@ export const TicketSubmissionForm = () => {
                   </Label>
                   <Input
                     {...register('requester_contact')}
-                    className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                    className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
                     placeholder="Telepon atau email (opsional)"
                   />
                 </div>
@@ -393,13 +393,13 @@ export const TicketSubmissionForm = () => {
                     <span>Departemen *</span>
                   </Label>
                   <Select onValueChange={(value) => setValue('requester_department', value)}>
-                    <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                    <SelectTrigger className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm">
                       <SelectValue placeholder="Pilih departemen" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white/90 dark:bg-gray-800/90 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                    <SelectContent className="bg-white/[0.05] dark:bg-gray-800/[0.1] border border-gray-300/15 dark:border-gray-600/15 backdrop-blur-md">
                       {departments.length > 0 ? (
                         departments.map((dept) => (
-                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100/20 dark:hover:bg-gray-700/20">
                             {dept.name}
                           </SelectItem>
                         ))
@@ -424,13 +424,13 @@ export const TicketSubmissionForm = () => {
                     onValueChange={(value) => setValue('line_area_id', value)}
                     disabled={!selectedDepartment}
                   >
-                    <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                    <SelectTrigger className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm">
                       <SelectValue placeholder={selectedDepartment ? "Pilih line/area" : "Pilih departemen terlebih dahulu"} />
                     </SelectTrigger>
-                    <SelectContent className="bg-white/90 dark:bg-gray-800/90 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                    <SelectContent className="bg-white/[0.05] dark:bg-gray-800/[0.1] border border-gray-300/15 dark:border-gray-600/15 backdrop-blur-md">
                       {filteredLineAreas.length > 0 ? (
                         filteredLineAreas.map((area) => (
-                          <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                          <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100/20 dark:hover:bg-gray-700/20">
                             {area.name}
                           </SelectItem>
                         ))
@@ -454,7 +454,7 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 3: Judul Masalah */}
-          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-black dark:text-white flex items-center space-x-2 text-2xl font-bold">
                 <FileText className="w-6 h-6 text-blue-600" />
@@ -468,7 +468,7 @@ export const TicketSubmissionForm = () => {
                 </Label>
                 <Input
                   {...register('title', { required: 'Judul wajib diisi' })}
-                  className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                  className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
                   placeholder="Deskripsi singkat masalah"
                 />
                 {errors.title && (
@@ -479,7 +479,7 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 4: Foto Kondisi Sekarang */}
-          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-black dark:text-white text-2xl font-bold flex items-center">
                 <Camera className="w-6 h-6 mr-3 text-blue-600" />
@@ -487,7 +487,7 @@ export const TicketSubmissionForm = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="p-6 bg-gray-50/80 dark:bg-gray-700/80 rounded-xl border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+              <div className="p-6 bg-gray-50/[0.005] dark:bg-gray-700/[0.02] rounded-xl border border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm">
                 <ImageUpload
                   onImagesChange={setBeforeImages}
                   existingImages={beforeImages}
@@ -498,7 +498,7 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 5: Deskripsi Kondisi */}
-          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-black dark:text-white text-2xl font-bold">
                 Deskripsi Kondisi Saat Ini
@@ -511,7 +511,7 @@ export const TicketSubmissionForm = () => {
                 </Label>
                 <Textarea
                   {...register('description', { required: 'Deskripsi wajib diisi' })}
-                  className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white min-h-[150px] text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                  className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white min-h-[150px] text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
                   placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
                 />
                 {errors.description && (
@@ -522,7 +522,7 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 6: Level Prioritas */}
-          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-black dark:text-white text-2xl font-bold">Level Prioritas</CardTitle>
             </CardHeader>
@@ -549,12 +549,12 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Submit Button Card */}
-          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
             <CardContent className="pt-6">
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-16 text-xl bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border-0 font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                className="w-full h-16 text-xl bg-gradient-to-r from-green-600/70 to-blue-600/70 hover:from-green-700/80 hover:to-blue-700/80 border-0 font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl backdrop-blur-sm"
               >
                 {isSubmitting ? (
                   <>
