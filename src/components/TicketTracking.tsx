@@ -39,18 +39,18 @@ interface TicketLog {
 }
 
 const statusConfig = {
-  open: { label: 'Terbuka', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
-  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
-  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500', glow: 'shadow-orange-500/30' },
-  closed: { label: 'Selesai', color: 'bg-green-500', glow: 'shadow-green-500/30' },
-  ditolak: { label: 'Ditolak', color: 'bg-red-500', glow: 'shadow-red-500/30' },
+  open: { label: 'Terbuka', color: 'bg-blue-500' },
+  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500' },
+  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500' },
+  closed: { label: 'Selesai', color: 'bg-green-500' },
+  ditolak: { label: 'Ditolak', color: 'bg-red-500' },
 };
 
 const priorityConfig = {
-  low: { color: 'border-green-500 text-green-400' },
-  medium: { color: 'border-yellow-500 text-yellow-400' },
-  high: { color: 'border-orange-500 text-orange-400' },
-  critical: { color: 'border-red-500 text-red-400' },
+  low: { color: 'border-green-500 text-green-600' },
+  medium: { color: 'border-yellow-500 text-yellow-600' },
+  high: { color: 'border-orange-500 text-orange-600' },
+  critical: { color: 'border-red-500 text-red-600' },
 };
 
 const categoryLabels = {
@@ -177,11 +177,11 @@ export const TicketTracking = () => {
             const imageUrl = getStorageUrl(photo);
             console.log(`${title} ${index + 1} URL:`, imageUrl);
             return (
-              <div key={index} className="relative group">
+              <div key={index} className="relative">
                 <img 
                   src={imageUrl}
                   alt={`${title} ${index + 1}`}
-                  className="w-full h-32 object-cover rounded-lg border border-gray-200 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
+                  className="w-full h-32 object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity"
                   onClick={() => window.open(imageUrl, '_blank')}
                   onError={(e) => {
                     console.error('Error loading image:', imageUrl);
@@ -191,8 +191,8 @@ export const TicketTracking = () => {
                     console.log(`Successfully loaded ${title} image:`, imageUrl);
                   }}
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg flex items-center justify-center">
-                  <Eye className="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all rounded-lg flex items-center justify-center">
+                  <Eye className="w-6 h-6 text-white opacity-0 hover:opacity-100 transition-opacity" />
                 </div>
               </div>
             );
@@ -268,9 +268,9 @@ export const TicketTracking = () => {
   return (
     <div className="space-y-8">
       {/* Search Interface */}
-      <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 shadow-lg">
+      <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+          <CardTitle className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
             Lacak Permintaan Anda
           </CardTitle>
           <p className="text-gray-600 dark:text-gray-400">
@@ -281,19 +281,19 @@ export const TicketTracking = () => {
         <CardContent className="space-y-6">
           <div className="flex space-x-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Masukkan nomor tiket (mis. TPM-20241211-0001) atau kata kunci..."
-                className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 h-12 pl-12 text-lg"
+                className="h-12 pl-12 text-lg"
               />
             </div>
             <Button
               onClick={handleSearch}
               disabled={isSearching || !searchQuery.trim()}
-              className="h-12 px-8 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700 border-0 text-white"
+              className="h-12 px-8"
             >
               {isSearching ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
@@ -307,10 +307,7 @@ export const TicketTracking = () => {
           </div>
 
           <div className="text-center">
-            <Button
-              variant="outline"
-              className="bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 border-dashed hover:border-blue-400 text-gray-800 dark:text-gray-200"
-            >
+            <Button variant="outline" className="border-dashed">
               <QrCode className="w-5 h-5 mr-2" />
               Pindai Kode QR
             </Button>
@@ -324,15 +321,13 @@ export const TicketTracking = () => {
           <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Hasil Pencarian</h3>
           <div className="grid gap-4">
             {foundTickets.map((ticket) => (
-              <Card key={ticket.id} className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition-all duration-300">
+              <Card key={ticket.id} className="hover:shadow-lg transition-shadow">
                 <CardContent className="p-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="space-y-2">
                       <div className="flex items-center space-x-3">
                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{ticket.title}</h3>
-                        <Badge 
-                          className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0 text-white`}
-                        >
+                        <Badge className={`${statusConfig[ticket.status].color} text-white`}>
                           {getStatusIcon(ticket.status)}
                           <span className="ml-1">{statusConfig[ticket.status].label}</span>
                         </Badge>
@@ -346,16 +341,15 @@ export const TicketTracking = () => {
                           variant="outline"
                           size="sm"
                           onClick={() => handleViewDetails(ticket)}
-                          className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white"
                         >
                           <Eye className="w-4 h-4 mr-1" />
                           Lihat Detail
                         </Button>
                       </DialogTrigger>
                       
-                      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
                         <DialogHeader>
-                          <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                          <DialogTitle className="text-2xl text-gray-900 dark:text-white">
                             Detail Tiket: {selectedTicket?.title}
                           </DialogTitle>
                           <DialogDescription className="text-gray-600 dark:text-gray-400">
@@ -371,7 +365,7 @@ export const TicketTracking = () => {
                                 <div className="space-y-3">
                                   <div className="flex items-center justify-between">
                                     <span className="text-gray-700 dark:text-gray-300">Status Saat Ini:</span>
-                                    <Badge className={`${statusConfig[selectedTicket.status].color} ${statusConfig[selectedTicket.status].glow} shadow-lg border-0 text-white`}>
+                                    <Badge className={`${statusConfig[selectedTicket.status].color} text-white`}>
                                       {getStatusIcon(selectedTicket.status)}
                                       <span className="ml-1">{statusConfig[selectedTicket.status].label}</span>
                                     </Badge>
@@ -417,7 +411,7 @@ export const TicketTracking = () => {
 
                             <div className="space-y-4">
                               <h4 className="text-lg font-semibold text-gray-900 dark:text-white">Deskripsi kondisi saat ini</h4>
-                              <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.description}</p>
+                              <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border rounded-lg">{selectedTicket.description}</p>
                               
                               {renderPhotos(selectedTicket.before_photos, "Foto Sebelum")}
                               
@@ -426,7 +420,7 @@ export const TicketTracking = () => {
                               {selectedTicket.notes && (
                                 <>
                                   <h4 className="text-lg font-semibold text-gray-900 dark:text-white mt-6">Catatan dari Tim TPM</h4>
-                                  <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">{selectedTicket.notes}</p>
+                                  <p className="text-gray-700 dark:text-gray-300 p-4 bg-gray-50 dark:bg-gray-700 border rounded-lg">{selectedTicket.notes}</p>
                                 </>
                               )}
                               {selectedTicket.rejection_reason && selectedTicket.status === 'ditolak' && (
@@ -441,7 +435,7 @@ export const TicketTracking = () => {
                               <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Linimasa Aktivitas</h4>
                               <div className="space-y-4">
                                 {ticketLogs.map((entry, index) => (
-                                  <div key={entry.id} className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+                                  <div key={entry.id} className="flex items-start space-x-4 p-4 bg-gray-50 dark:bg-gray-700 border rounded-lg">
                                     <div className="w-3 h-3 rounded-full bg-blue-500 mt-1 flex-shrink-0"></div>
                                     <div className="flex-1">
                                       <div className="flex items-center justify-between mb-1">
@@ -463,11 +457,11 @@ export const TicketTracking = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-                      <User className="w-4 h-4 text-green-500 dark:text-green-400" />
+                      <User className="w-4 h-4 text-green-500" />
                       <span>{ticket.assigned_to || 'Belum Ditugaskan'}</span>
                     </div>
                     <div className="flex items-center space-x-2 text-gray-700 dark:text-gray-300">
-                      <Calendar className="w-4 h-4 text-purple-500 dark:text-purple-400" />
+                      <Calendar className="w-4 h-4 text-purple-500" />
                       <span>{formatDate(ticket.created_at)}</span>
                     </div>
                   </div>
@@ -502,7 +496,7 @@ export const TicketTracking = () => {
 
       {/* Instructions */}
       {foundTickets.length === 0 && !isSearching && (
-        <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 border-dashed">
+        <Card className="border-dashed">
           <CardContent className="text-center py-12">
             <Search className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Lacak Permintaan TPM Anda</h3>

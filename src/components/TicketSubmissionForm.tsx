@@ -10,7 +10,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { QRCodeGenerator } from '@/components/QRCodeGenerator';
-import { ModernBackground } from '@/components/ModernBackground';
 import { ImageUpload } from '@/components/ImageUpload';
 import { 
   Wrench, 
@@ -24,7 +23,6 @@ import {
   Phone,
   Settings,
   FileText,
-  Sparkles,
   Send,
   Camera,
   MapPin
@@ -57,17 +55,17 @@ interface LineArea {
 }
 
 const categoryOptions = [
-  { value: 'corrective_action', label: 'Tindakan Korektif', icon: AlertTriangle, color: 'from-orange-500 to-red-500', description: 'Perbaikan untuk mencegah masalah berulang' },
-  { value: 'repair', label: 'Perbaikan', icon: Wrench, color: 'from-blue-500 to-purple-500', description: 'Perbaikan kerusakan mesin atau peralatan' },
-  { value: 'procurement', label: 'Pengadaan', icon: Package, color: 'from-green-500 to-teal-500', description: 'Permintaan suku cadang atau material' },
-  { value: 'support', label: 'Dukungan', icon: HelpCircle, color: 'from-purple-500 to-pink-500', description: 'Bantuan teknis dan konsultasi' },
+  { value: 'corrective_action', label: 'Tindakan Korektif', icon: AlertTriangle, description: 'Perbaikan untuk mencegah masalah berulang' },
+  { value: 'repair', label: 'Perbaikan', icon: Wrench, description: 'Perbaikan kerusakan mesin atau peralatan' },
+  { value: 'procurement', label: 'Pengadaan', icon: Package, description: 'Permintaan suku cadang atau material' },
+  { value: 'support', label: 'Dukungan', icon: HelpCircle, description: 'Bantuan teknis dan konsultasi' },
 ];
 
 const priorityOptions = [
-  { value: 'low', label: 'Rendah', color: 'border-green-500 text-green-600 bg-green-50 dark:text-green-400 dark:bg-green-500/10', description: 'Tidak mengganggu produksi' },
-  { value: 'medium', label: 'Sedang', color: 'border-yellow-500 text-yellow-600 bg-yellow-50 dark:text-yellow-400 dark:bg-yellow-500/10', description: 'Berpotensi mengganggu produksi' },
-  { value: 'high', label: 'Tinggi', color: 'border-orange-500 text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-500/10', description: 'Mengganggu produksi secara signifikan' },
-  { value: 'critical', label: 'Kritis', color: 'border-red-500 text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-500/10', description: 'Menghentikan produksi' },
+  { value: 'low', label: 'Rendah', description: 'Tidak mengganggu produksi' },
+  { value: 'medium', label: 'Sedang', description: 'Berpotensi mengganggu produksi' },
+  { value: 'high', label: 'Tinggi', description: 'Mengganggu produksi secara signifikan' },
+  { value: 'critical', label: 'Kritis', description: 'Menghentikan produksi' },
 ];
 
 export const TicketSubmissionForm = () => {
@@ -225,12 +223,10 @@ export const TicketSubmissionForm = () => {
     setShowSuccess(false);
     setSubmittedTicket(null);
     
-    // Store ticket number in localStorage to pass to tracking component
     if (submittedTicket) {
       localStorage.setItem('searchTicketNumber', submittedTicket.ticket_number);
     }
     
-    // Trigger a custom event to notify parent component to switch tab
     const event = new CustomEvent('switchToTrackingTab', {
       detail: { ticketNumber: submittedTicket?.ticket_number }
     });
@@ -239,29 +235,25 @@ export const TicketSubmissionForm = () => {
 
   if (showSuccess && submittedTicket) {
     return (
-      <div className="relative min-h-screen">
-        <ModernBackground />
-        <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm relative z-10">
+      <div className="min-h-screen">
+        <Card>
           <CardContent className="text-center py-16">
-            <div className="mb-8 animate-fadeIn">
-              <div className="relative">
-                <CheckCircle className="w-24 h-24 text-green-400 mx-auto mb-6 animate-pulse" />
-                <div className="absolute inset-0 w-24 h-24 mx-auto border-4 border-green-500 border-t-transparent rounded-full animate-spin opacity-30"></div>
-              </div>
-              <h3 className="text-4xl font-bold gradient-text mb-4">Tiket Berhasil Diajukan!</h3>
-              <p className="text-gray-200 text-xl">Permintaan pemeliharaan Anda telah diterima dan sedang diproses</p>
+            <div className="mb-8">
+              <CheckCircle className="w-24 h-24 text-green-500 mx-auto mb-6" />
+              <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">Tiket Berhasil Diajukan!</h3>
+              <p className="text-gray-600 dark:text-gray-400 text-xl">Permintaan pemeliharaan Anda telah diterima dan sedang diproses</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-              <div className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm p-8 rounded-lg border">
-                <Sparkles className="w-8 h-8 text-blue-400 mx-auto mb-4" />
-                <h4 className="text-2xl font-bold text-white mb-4">Nomor Tiket</h4>
-                <p className="text-3xl font-mono text-blue-400 mb-6 font-bold">{submittedTicket.ticket_number}</p>
-                <p className="text-gray-300">Simpan nomor ini untuk melacak status permintaan Anda</p>
+              <div className="p-8 border rounded-lg">
+                <FileText className="w-8 h-8 text-blue-500 mx-auto mb-4" />
+                <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Nomor Tiket</h4>
+                <p className="text-3xl font-mono text-blue-600 dark:text-blue-400 mb-6 font-bold">{submittedTicket.ticket_number}</p>
+                <p className="text-gray-600 dark:text-gray-400">Simpan nomor ini untuk melacak status permintaan Anda</p>
               </div>
 
-              <div className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm p-8 rounded-lg border">
-                <h4 className="text-2xl font-bold text-white mb-6">Kode QR</h4>
+              <div className="p-8 border rounded-lg">
+                <h4 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Kode QR</h4>
                 <QRCodeGenerator 
                   value={submittedTicket.ticket_number} 
                   ticketNumber={submittedTicket.ticket_number}
@@ -273,7 +265,7 @@ export const TicketSubmissionForm = () => {
             <div className="space-y-4">
               <Button
                 onClick={() => setShowSuccess(false)}
-                className="w-full h-14 text-lg bg-gradient-to-r from-blue-600/70 to-purple-600/70 hover:from-blue-700/80 hover:to-purple-700/80 border-0 font-semibold transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+                className="w-full h-14 text-lg"
               >
                 <Send className="w-5 h-5 mr-2" />
                 Ajukan Tiket Lain
@@ -281,7 +273,7 @@ export const TicketSubmissionForm = () => {
               <Button
                 variant="outline"
                 onClick={switchToTrackingTab}
-                className="w-full h-14 text-lg bg-white/[0.005] dark:bg-black/[0.02] border-green-500/50 text-green-400 hover:bg-green-500/20 hover:text-white transition-all duration-300 hover:scale-105 backdrop-blur-sm"
+                className="w-full h-14 text-lg"
               >
                 <Settings className="w-5 h-5 mr-2" />
                 Lacak Tiket Ini
@@ -294,31 +286,28 @@ export const TicketSubmissionForm = () => {
   }
 
   return (
-    <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900">
-      <ModernBackground />
-      <div className="container mx-auto px-4 py-8 relative z-10">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="container mx-auto px-4 py-8">
         {/* Header Card */}
-        <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm mb-6">
+        <Card className="mb-6">
           <CardHeader className="text-center pb-8">
             <div className="flex items-center justify-center mb-6">
               <FileText className="w-12 h-12 text-blue-600 mr-4" />
               <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white">
                 Ajukan Permintaan Pemeliharaan
               </CardTitle>
-              <Sparkles className="w-12 h-12 text-purple-600 ml-4" />
             </div>
             <p className="text-gray-700 dark:text-gray-300 text-xl">
               Lengkapi formulir di bawah untuk meminta bantuan TPM
             </p>
-            <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-full"></div>
           </CardHeader>
         </Card>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Card 1: Jenis Permintaan */}
-          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-black dark:text-white flex items-center">
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
                 <Settings className="w-6 h-6 mr-3 text-blue-600" />
                 Jenis Permintaan
               </CardTitle>
@@ -332,17 +321,17 @@ export const TicketSubmissionForm = () => {
                     <div
                       key={option.value}
                       onClick={() => setValue('category', option.value as TicketCategory)}
-                      className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
+                      className={`p-6 rounded-lg border-2 cursor-pointer transition-colors ${
                         isSelected 
-                          ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-xl` 
-                          : 'bg-white/[0.005] dark:bg-gray-700/[0.02] border-gray-300/20 dark:border-gray-600/20 hover:border-blue-500/50 text-black dark:text-white backdrop-blur-sm'
+                          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' 
+                          : 'border-gray-300 dark:border-gray-600 hover:border-blue-400'
                       }`}
                     >
                       <div className="flex items-center space-x-4 mb-3">
-                        <Icon className="w-8 h-8" />
-                        <span className="font-bold text-lg">{option.label}</span>
+                        <Icon className="w-8 h-8 text-blue-600" />
+                        <span className="font-bold text-lg text-gray-900 dark:text-white">{option.label}</span>
                       </div>
-                      <p className="text-sm opacity-90">{option.description}</p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{option.description}</p>
                     </div>
                   );
                 })}
@@ -351,9 +340,9 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 2: Informasi Pemohon */}
-          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-black dark:text-white flex items-center">
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white flex items-center">
                 <User className="w-6 h-6 mr-3 text-blue-600" />
                 Informasi Pemohon
               </CardTitle>
@@ -361,13 +350,13 @@ export const TicketSubmissionForm = () => {
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-3">
-                  <Label htmlFor="requester_name" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                  <Label htmlFor="requester_name" className="text-gray-900 dark:text-white flex items-center space-x-2 font-semibold">
                     <User className="w-4 h-4" />
                     <span>Nama *</span>
                   </Label>
                   <Input
                     {...register('requester_name', { required: 'Nama wajib diisi' })}
-                    className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
+                    className="h-12 text-lg"
                     placeholder="Nama lengkap Anda"
                   />
                   {errors.requester_name && (
@@ -376,35 +365,35 @@ export const TicketSubmissionForm = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                  <Label htmlFor="requester_contact" className="text-gray-900 dark:text-white flex items-center space-x-2 font-semibold">
                     <Phone className="w-4 h-4" />
                     <span>Kontak</span>
                   </Label>
                   <Input
                     {...register('requester_contact')}
-                    className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
+                    className="h-12 text-lg"
                     placeholder="Telepon atau email (opsional)"
                   />
                 </div>
 
                 <div className="space-y-3">
-                  <Label htmlFor="requester_department" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                  <Label htmlFor="requester_department" className="text-gray-900 dark:text-white flex items-center space-x-2 font-semibold">
                     <Building className="w-4 h-4" />
                     <span>Departemen *</span>
                   </Label>
                   <Select onValueChange={(value) => setValue('requester_department', value)}>
-                    <SelectTrigger className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm">
+                    <SelectTrigger className="h-12 text-lg">
                       <SelectValue placeholder="Pilih departemen" />
                     </SelectTrigger>
-                    <SelectContent className="bg-white/[0.05] dark:bg-gray-800/[0.1] border border-gray-300/15 dark:border-gray-600/15 backdrop-blur-md">
+                    <SelectContent>
                       {departments.length > 0 ? (
                         departments.map((dept) => (
-                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100/20 dark:hover:bg-gray-700/20">
+                          <SelectItem key={dept.id} value={dept.name}>
                             {dept.name}
                           </SelectItem>
                         ))
                       ) : (
-                        <SelectItem value="loading" disabled className="text-gray-500">
+                        <SelectItem value="loading" disabled>
                           Memuat departemen...
                         </SelectItem>
                       )}
@@ -416,7 +405,7 @@ export const TicketSubmissionForm = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Label htmlFor="line_area_id" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                  <Label htmlFor="line_area_id" className="text-gray-900 dark:text-white flex items-center space-x-2 font-semibold">
                     <MapPin className="w-4 h-4" />
                     <span>Line/Area *</span>
                   </Label>
@@ -424,22 +413,22 @@ export const TicketSubmissionForm = () => {
                     onValueChange={(value) => setValue('line_area_id', value)}
                     disabled={!selectedDepartment}
                   >
-                    <SelectTrigger className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm">
+                    <SelectTrigger className="h-12 text-lg">
                       <SelectValue placeholder={selectedDepartment ? "Pilih line/area" : "Pilih departemen terlebih dahulu"} />
                     </SelectTrigger>
-                    <SelectContent className="bg-white/[0.05] dark:bg-gray-800/[0.1] border border-gray-300/15 dark:border-gray-600/15 backdrop-blur-md">
+                    <SelectContent>
                       {filteredLineAreas.length > 0 ? (
                         filteredLineAreas.map((area) => (
-                          <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100/20 dark:hover:bg-gray-700/20">
+                          <SelectItem key={area.id} value={area.id}>
                             {area.name}
                           </SelectItem>
                         ))
                       ) : selectedDepartment ? (
-                        <SelectItem value="no-areas" disabled className="text-gray-500">
+                        <SelectItem value="no-areas" disabled>
                           Tidak ada line/area untuk departemen ini
                         </SelectItem>
                       ) : (
-                        <SelectItem value="select-dept" disabled className="text-gray-500">
+                        <SelectItem value="select-dept" disabled>
                           Pilih departemen terlebih dahulu
                         </SelectItem>
                       )}
@@ -454,21 +443,21 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 3: Judul Masalah */}
-          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-black dark:text-white flex items-center space-x-2 text-2xl font-bold">
+              <CardTitle className="text-gray-900 dark:text-white flex items-center space-x-2 text-2xl font-bold">
                 <FileText className="w-6 h-6 text-blue-600" />
                 <span>Judul Masalah</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <Label htmlFor="title" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
+                <Label htmlFor="title" className="text-gray-900 dark:text-white flex items-center space-x-2 text-lg font-semibold">
                   <span>Deskripsi singkat masalah *</span>
                 </Label>
                 <Input
                   {...register('title', { required: 'Judul wajib diisi' })}
-                  className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white h-14 text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
+                  className="h-12 text-lg"
                   placeholder="Deskripsi singkat masalah"
                 />
                 {errors.title && (
@@ -479,15 +468,15 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 4: Foto Kondisi Sekarang */}
-          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-black dark:text-white text-2xl font-bold flex items-center">
+              <CardTitle className="text-gray-900 dark:text-white text-2xl font-bold flex items-center">
                 <Camera className="w-6 h-6 mr-3 text-blue-600" />
                 Foto Kondisi Sekarang (Opsional)
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="p-6 bg-gray-50/[0.005] dark:bg-gray-700/[0.02] rounded-xl border border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm">
+              <div className="p-6 bg-gray-50 dark:bg-gray-800 rounded-lg border">
                 <ImageUpload
                   onImagesChange={setBeforeImages}
                   existingImages={beforeImages}
@@ -498,20 +487,20 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 5: Deskripsi Kondisi */}
-          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-black dark:text-white text-2xl font-bold">
+              <CardTitle className="text-gray-900 dark:text-white text-2xl font-bold">
                 Deskripsi Kondisi Saat Ini
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                <Label htmlFor="description" className="text-black dark:text-white text-lg font-semibold">
+                <Label htmlFor="description" className="text-gray-900 dark:text-white text-lg font-semibold">
                   Detail kondisi dan masalah *
                 </Label>
                 <Textarea
                   {...register('description', { required: 'Deskripsi wajib diisi' })}
-                  className="bg-white/[0.005] dark:bg-gray-700/[0.02] text-black dark:text-white min-h-[150px] text-lg border-gray-300/15 dark:border-gray-600/15 backdrop-blur-sm"
+                  className="min-h-[150px] text-lg"
                   placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
                 />
                 {errors.description && (
@@ -522,9 +511,9 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Card 6: Level Prioritas */}
-          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-black dark:text-white text-2xl font-bold">Level Prioritas</CardTitle>
+              <CardTitle className="text-gray-900 dark:text-white text-2xl font-bold">Level Prioritas</CardTitle>
             </CardHeader>
             <CardContent>
               <RadioGroup
@@ -537,10 +526,10 @@ export const TicketSubmissionForm = () => {
                     <RadioGroupItem value={option.value} id={option.value} className="w-5 h-5" />
                     <Label
                       htmlFor={option.value}
-                      className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105 backdrop-blur-sm`}
+                      className="flex-1 px-6 py-4 rounded-lg border cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
                     >
-                      <div className="font-bold text-lg">{option.label.toUpperCase()}</div>
-                      <div className="text-sm opacity-80">{option.description}</div>
+                      <div className="font-bold text-lg text-gray-900 dark:text-white">{option.label.toUpperCase()}</div>
+                      <div className="text-sm text-gray-600 dark:text-gray-400">{option.description}</div>
                     </Label>
                   </div>
                 ))}
@@ -549,12 +538,12 @@ export const TicketSubmissionForm = () => {
           </Card>
 
           {/* Submit Button Card */}
-          <Card className="bg-white/[0.001] dark:bg-black/[0.008] border-white/[0.04] dark:border-white/[0.02] backdrop-blur-sm">
+          <Card>
             <CardContent className="pt-6">
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-16 text-xl bg-gradient-to-r from-green-600/70 to-blue-600/70 hover:from-green-700/80 hover:to-blue-700/80 border-0 font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl backdrop-blur-sm"
+                className="w-full h-16 text-xl font-bold"
               >
                 {isSubmitting ? (
                   <>
