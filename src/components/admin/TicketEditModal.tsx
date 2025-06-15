@@ -155,20 +155,24 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
 
           <div>
             <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto Before</label>
-            <ImageUpload
-              onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
-              existingImages={editingTicket.before_photos || []}
-              maxImages={5}
-            />
+            <div className="p-4 glass-card rounded-lg">
+              <ImageUpload
+                onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
+                existingImages={editingTicket.before_photos || []}
+                maxImages={5}
+              />
+            </div>
           </div>
 
           <div>
             <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto After</label>
-            <ImageUpload
-              onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
-              existingImages={editingTicket.after_photos || []}
-              maxImages={5}
-            />
+            <div className="p-4 glass-card rounded-lg">
+              <ImageUpload
+                onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
+                existingImages={editingTicket.after_photos || []}
+                maxImages={5}
+              />
+            </div>
           </div>
         </div>
 

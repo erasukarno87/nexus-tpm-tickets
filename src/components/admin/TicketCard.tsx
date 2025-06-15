@@ -88,14 +88,14 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="flex items-center space-x-3 p-3 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg">
+            <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
               <User className="w-5 h-5 text-green-500 dark:text-green-400" />
               <div>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Teknisi</p>
                 <p className="text-gray-900 dark:text-white font-semibold">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3 p-3 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg">
+            <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
               <Calendar className="w-5 h-5 text-purple-500 dark:text-purple-400" />
               <div>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Dibuat</p>
@@ -109,18 +109,18 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             </div>
           </div>
 
-          <div className="p-4 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg mb-4">
+          <div className="p-4 glass-card rounded-lg mb-4">
             <p className="text-gray-800 dark:text-gray-200 leading-relaxed">{ticket.description}</p>
           </div>
           
           {ticket.status === 'ditolak' && ticket.rejection_reason && (
-            <div className="mt-4 p-4 bg-red-100/50 dark:bg-red-500/20 border-2 border-red-300/50 dark:border-red-500 rounded-lg">
+            <div className="mt-4 p-4 glass-card rounded-lg border-2 border-red-500/50">
               <p className="text-red-600 dark:text-red-400 text-sm font-bold mb-2">⚠️ Alasan Penolakan:</p>
               <p className="text-red-700 dark:text-red-300">{ticket.rejection_reason}</p>
             </div>
           )}
 
-          <div className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg mb-6">
+          <div className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 glass-card rounded-lg mb-6">
             <strong>Pemohon:</strong> {ticket.requester_name} ({ticket.requester_department})
           </div>
 

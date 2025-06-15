@@ -65,7 +65,7 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
             </SelectContent>
           </Select>
 
-          <div className="flex items-center space-x-3 p-3 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg">
+          <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
             <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
             <span className="font-semibold text-gray-900 dark:text-white">Total: {filteredTicketsCount}</span>
           </div>
