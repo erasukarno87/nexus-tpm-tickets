@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -284,17 +283,27 @@ export const TicketSubmissionForm = () => {
   }
 
   return (
-    <div className="space-y-2">
-      {/* Enhanced Header Card - positioned at the very top with minimal spacing */}
-      <Card className="relative overflow-hidden bg-gradient-to-br from-white/95 via-blue-50/90 to-purple-50/85 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-purple-950/85 backdrop-blur-xl border-2 border-blue-500/30 dark:border-blue-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:border-blue-500/50 dark:hover:border-blue-400/60 mb-2">
+    <div className="space-y-6">
+      {/* Enhanced Header Card */}
+      <Card className="relative overflow-hidden bg-gradient-to-br from-white/95 via-blue-50/90 to-purple-50/85 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-purple-950/85 backdrop-blur-xl border-2 border-blue-500/30 dark:border-blue-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:border-blue-500/50 dark:hover:border-blue-400/60">
         {/* Animated background effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-30"></div>
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500"></div>
         <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
         
-        <CardHeader className="relative text-center py-3 px-8">
-          {/* Enhanced title with gradient and effects - no icon */}
-          <div className="space-y-2">
+        <CardHeader className="relative text-center py-8 px-8">
+          {/* Glowing icon background */}
+          <div className="flex items-center justify-center mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-30"></div>
+              <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl shadow-2xl">
+                <FileText className="w-10 h-10 text-white drop-shadow-lg" />
+              </div>
+            </div>
+          </div>
+          
+          {/* Enhanced title with gradient and effects */}
+          <div className="space-y-3">
             <div className="flex items-center justify-center space-x-2">
               <CardTitle className="text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
                 Ajukan Permintaan Pemeliharaan
@@ -307,7 +316,7 @@ export const TicketSubmissionForm = () => {
                 Lengkapi formulir di bawah untuk meminta bantuan 
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold"> TPM</span>
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 font-medium">
                 Tim kami akan segera memproses permintaan Anda dengan prioritas tinggi
               </p>
             </div>
@@ -326,9 +335,9 @@ export const TicketSubmissionForm = () => {
         </CardHeader>
       </Card>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         {/* Jenis Permintaan */}
-        <Card className="mb-2">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
               <Settings className="w-5 h-5 mr-2" />
@@ -361,7 +370,7 @@ export const TicketSubmissionForm = () => {
         </Card>
 
         {/* Informasi Pemohon */}
-        <Card className="mb-2">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
               <User className="w-5 h-5 mr-2" />
@@ -450,7 +459,7 @@ export const TicketSubmissionForm = () => {
         </Card>
 
         {/* Judul Masalah */}
-        <Card className="mb-2">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
               <FileText className="w-5 h-5 mr-2" />
@@ -472,7 +481,7 @@ export const TicketSubmissionForm = () => {
         </Card>
 
         {/* Foto Kondisi Sekarang */}
-        <Card className="mb-2">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center">
               <Camera className="w-5 h-5 mr-2" />
@@ -491,7 +500,7 @@ export const TicketSubmissionForm = () => {
         </Card>
 
         {/* Deskripsi Kondisi */}
-        <Card className="mb-2">
+        <Card>
           <CardHeader>
             <CardTitle>Deskripsi Kondisi Saat Ini</CardTitle>
           </CardHeader>
@@ -511,7 +520,7 @@ export const TicketSubmissionForm = () => {
         </Card>
 
         {/* Level Prioritas */}
-        <Card className="mb-2">
+        <Card>
           <CardHeader>
             <CardTitle>Level Prioritas</CardTitle>
           </CardHeader>
@@ -538,7 +547,7 @@ export const TicketSubmissionForm = () => {
         </Card>
 
         {/* Submit Button */}
-        <Card className="mb-2">
+        <Card>
           <CardContent className="pt-6">
             <Button
               type="submit"
