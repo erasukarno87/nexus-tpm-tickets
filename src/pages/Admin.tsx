@@ -65,9 +65,9 @@ const Admin = () => {
 
       {/* Enhanced Admin Navigation Tabs with clean styling */}
       <div className="bg-white/20 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-800/50 relative z-20">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6 py-3">
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-white/20 dark:bg-slate-800/30 backdrop-blur-xl border border-white/30 dark:border-slate-600/40 rounded-2xl p-3 shadow-xl h-20 gap-2">
+            <TabsList className="grid w-full grid-cols-3 bg-white/20 dark:bg-slate-800/30 backdrop-blur-xl border border-white/30 dark:border-slate-600/40 rounded-2xl p-3 shadow-xl h-16 gap-2">
               <TabsTrigger 
                 value="dashboard"
                 className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-gray-600 dark:text-gray-300 transition-all duration-300 rounded-xl font-semibold py-3 px-6 hover:scale-[1.02] data-[state=active]:border-0 hover:bg-white/10 dark:hover:bg-slate-700/30 h-full flex items-center justify-center mx-1"
@@ -98,7 +98,7 @@ const Admin = () => {
             </TabsList>
 
             {/* Konten Tab */}
-            <div className="py-6">
+            <div className="py-3">
               <TabsContent value="dashboard">
                 <Dashboard />
               </TabsContent>

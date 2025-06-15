@@ -34,7 +34,7 @@ const Index = () => {
         {/* Animated glow line at top - removed pulse */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent"></div>
         
-        <div className="container mx-auto px-6 py-3">
+        <div className="container mx-auto px-6 py-2">
           <div className="flex items-center justify-between">
             {/* Enhanced Title Section with reduced spacing */}
             <div className="flex items-center space-x-3">
@@ -89,10 +89,10 @@ const Index = () => {
 
       {/* Enhanced Navigation Tabs with proper sizing and padding */}
       <div className="relative z-20 backdrop-blur-xl bg-gradient-to-r from-white/5 via-blue-500/5 to-purple-500/5 dark:from-slate-900/20 dark:via-blue-950/15 dark:to-purple-950/20 border-b border-blue-500/20 dark:border-blue-400/30">
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6 py-3">
           <div className="max-w-4xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gradient-to-r from-white/30 via-blue-500/10 to-purple-500/20 dark:from-slate-800/40 dark:via-slate-700/30 dark:to-slate-800/40 backdrop-blur-xl border-2 border-gradient-to-r from-blue-500/40 via-purple-500/30 to-cyan-500/40 dark:border-blue-400/40 rounded-2xl p-3 shadow-2xl hover:shadow-3xl transition-all duration-500 relative overflow-hidden h-20">
+              <TabsList className="grid w-full grid-cols-2 mb-4 bg-gradient-to-r from-white/30 via-blue-500/10 to-purple-500/20 dark:from-slate-800/40 dark:via-slate-700/30 dark:to-slate-800/40 backdrop-blur-xl border-2 border-gradient-to-r from-blue-500/40 via-purple-500/30 to-cyan-500/40 dark:border-blue-400/40 rounded-2xl p-3 shadow-2xl hover:shadow-3xl transition-all duration-500 relative overflow-hidden h-20">
                 {/* Animated background gradient */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-cyan-500/5 animate-gradientShift rounded-2xl"></div>
                 
@@ -130,7 +130,7 @@ const Index = () => {
               </TabsList>
 
               {/* Content */}
-              <div className="py-6">
+              <div className="py-3">
                 <TabsContent value="submit" className="animate-slideInUp">
                   <TicketSubmissionForm />
                 </TabsContent>
@@ -145,9 +145,9 @@ const Index = () => {
       </div>
 
       {/* Enhanced Footer */}
-      <footer className="relative z-20 mt-16 backdrop-blur-xl bg-gradient-to-r from-white/5 via-blue-500/5 to-purple-500/5 dark:from-slate-900/20 dark:via-blue-950/15 dark:to-purple-950/20 border-t border-gradient-to-r from-blue-500/20 to-purple-500/20">
+      <footer className="relative z-20 mt-8 backdrop-blur-xl bg-gradient-to-r from-white/5 via-blue-500/5 to-purple-500/5 dark:from-slate-900/20 dark:via-blue-950/15 dark:to-purple-950/20 border-t border-gradient-to-r from-blue-500/20 to-purple-500/20">
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
-        <div className="container mx-auto px-6 py-8 text-center">
+        <div className="container mx-auto px-6 py-6 text-center">
           <p className="text-gray-600 dark:text-gray-300 font-medium">
             © 2024 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold">TPM NEXUS</span> - Advanced Manufacturing Maintenance System
           </p>
