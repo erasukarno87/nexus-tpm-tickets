@@ -1,23 +1,12 @@
+
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
-import { Dashboard } from '@/components/Dashboard';
-import { MasterData } from '@/components/MasterData';
 import { ModernBackground } from '@/components/ModernBackground';
-import { FuturisticHeader } from '@/components/FuturisticHeader';
-import { Card, CardContent } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { AdminHeader } from '@/components/admin/AdminHeader';
+import { AdminLoadingScreen } from '@/components/admin/AdminLoadingScreen';
+import { AdminTabs } from '@/components/admin/AdminTabs';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
-import { 
-  Settings, 
-  BarChart3,
-  Database,
-  FileText
-} from 'lucide-react';
-import { TicketFilters } from '@/components/admin/TicketFilters';
-import { TicketCard } from '@/components/admin/TicketCard';
-import { TicketDetailModal } from '@/components/admin/TicketDetailModal';
-import { TicketEditModal } from '@/components/admin/TicketEditModal';
 
 interface Ticket {
   id: string;
@@ -49,16 +38,8 @@ interface Technician {
 const Admin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [tickets, setTickets] = useState<Ticket[]>([]);
-  const [filteredTickets, setFilteredTickets] = useState<Ticket[]>([]);
   const [technicians, setTechnicians] = useState<Technician[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [priorityFilter, setPriorityFilter] = useState<string>('all');
-  const [viewingTicket, setViewingTicket] = useState<Ticket | null>(null);
-  const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -71,10 +52,6 @@ const Admin = () => {
       setIsLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    filterTickets();
-  }, [tickets, searchQuery, statusFilter, priorityFilter]);
 
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
@@ -137,28 +114,6 @@ const Admin = () => {
     }
   };
 
-  const filterTickets = () => {
-    let filtered = tickets;
-
-    if (searchQuery) {
-      filtered = filtered.filter(ticket => 
-        ticket.ticket_number.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        ticket.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        ticket.requester_name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
-
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(ticket => ticket.status === statusFilter);
-    }
-
-    if (priorityFilter !== 'all') {
-      filtered = filtered.filter(ticket => ticket.priority === priorityFilter);
-    }
-
-    setFilteredTickets(filtered);
-  };
-
   const updateTicket = async (ticketId: string, updates: Partial<Ticket>) => {
     try {
       if (updates.status && updates.status !== 'open' && (!updates.assigned_to || updates.assigned_to === 'unassigned')) {
@@ -197,8 +152,6 @@ const Admin = () => {
         });
 
       await fetchTickets();
-      setEditingTicket(null);
-      setIsEditModalOpen(false);
       
       toast({
         title: "Berhasil",
@@ -214,16 +167,6 @@ const Admin = () => {
     }
   };
 
-  const handleViewDetails = (ticket: Ticket) => {
-    setViewingTicket(ticket);
-    setIsDetailModalOpen(true);
-  };
-
-  const handleEditTicket = (ticket: Ticket) => {
-    setEditingTicket(ticket);
-    setIsEditModalOpen(true);
-  };
-
   if (!isLoggedIn) {
     return (
       <div className="relative min-h-screen">
@@ -236,21 +179,7 @@ const Admin = () => {
   }
 
   if (isLoading) {
-    return (
-      <div className="relative min-h-screen">
-        <ModernBackground />
-        <div className="min-h-screen flex items-center justify-center relative z-10">
-          <div className="text-center animate-fadeIn">
-            <div className="relative">
-              <Settings className="w-20 h-20 text-blue-400 mx-auto mb-6 animate-spin" />
-              <div className="absolute inset-0 w-20 h-20 mx-auto border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent mb-2">Memuat Panel Admin</h2>
-            <p className="text-gray-300">Menyiapkan dashboard administrasi...</p>
-          </div>
-        </div>
-      </div>
-    );
+    return <AdminLoadingScreen />;
   }
 
   return (
@@ -258,110 +187,16 @@ const Admin = () => {
       <ModernBackground />
       
       <div className="relative z-10">
-        <FuturisticHeader
-          title="Panel Admin TPM"
-          subtitle="Kelola dan pantau semua permintaan pemeliharaan"
-          showLogoutButton={true}
-          onLogout={handleLogout}
-        />
+        <AdminHeader onLogout={handleLogout} />
 
         <div className="max-w-6xl mx-auto px-4 pb-12">
-          <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
-            <Tabs defaultValue="dashboard" className="w-full">
-              <TabsList className="grid w-full grid-cols-3 mb-8 p-2 h-16 rounded-xl">
-                <TabsTrigger 
-                  value="dashboard" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200 backdrop-blur-sm rounded-lg hover:scale-105"
-                >
-                  <BarChart3 className="w-5 h-5 mr-2" />
-                  Dashboard
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="tickets" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-600 data-[state=active]:to-blue-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200 backdrop-blur-sm rounded-lg hover:scale-105"
-                >
-                  <FileText className="w-5 h-5 mr-2" />
-                  Kelola Tiket
-                </TabsTrigger>
-                <TabsTrigger 
-                  value="master-data" 
-                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-gray-700 dark:text-gray-200 backdrop-blur-sm rounded-lg hover:scale-105"
-                >
-                  <Database className="w-5 h-5 mr-2" />
-                  Data Master
-                </TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="dashboard" className="animate-slideInLeft">
-                <Dashboard />
-              </TabsContent>
-
-              <TabsContent value="tickets" className="animate-fadeIn">
-                <TicketFilters
-                  searchQuery={searchQuery}
-                  setSearchQuery={setSearchQuery}
-                  statusFilter={statusFilter}
-                  setStatusFilter={setStatusFilter}
-                  priorityFilter={priorityFilter}
-                  setPriorityFilter={setPriorityFilter}
-                  filteredTicketsCount={filteredTickets.length}
-                />
-
-                <div className="space-y-6">
-                  {filteredTickets.map((ticket, index) => (
-                    <TicketCard
-                      key={ticket.id}
-                      ticket={ticket}
-                      index={index}
-                      onViewDetails={handleViewDetails}
-                      onEdit={handleEditTicket}
-                    />
-                  ))}
-
-                  {filteredTickets.length === 0 && (
-                    <Card className="bg-white dark:bg-gray-800 backdrop-blur-sm border border-gray-200 dark:border-gray-700 border-dashed">
-                      <CardContent className="text-center py-16">
-                        <FileText className="w-20 h-20 text-gray-400 mx-auto mb-6 animate-pulse" />
-                        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Tidak Ada Tiket Ditemukan</h3>
-                        <p className="text-gray-600 dark:text-gray-400 text-lg">
-                          {searchQuery || statusFilter !== 'all' || priorityFilter !== 'all' 
-                            ? 'Coba sesuaikan filter pencarian Anda' 
-                            : 'Belum ada tiket yang diajukan dalam sistem'
-                          }
-                        </p>
-                      </CardContent>
-                    </Card>
-                  )}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="master-data" className="animate-slideInRight">
-                <MasterData />
-              </TabsContent>
-            </Tabs>
-          </div>
+          <AdminTabs
+            tickets={tickets}
+            technicians={technicians}
+            onUpdateTicket={updateTicket}
+          />
         </div>
       </div>
-
-      <TicketDetailModal
-        ticket={viewingTicket}
-        isOpen={isDetailModalOpen}
-        onClose={() => {
-          setIsDetailModalOpen(false);
-          setViewingTicket(null);
-        }}
-      />
-
-      <TicketEditModal
-        ticket={editingTicket}
-        isOpen={isEditModalOpen}
-        onClose={() => {
-          setIsEditModalOpen(false);
-          setEditingTicket(null);
-        }}
-        onSave={updateTicket}
-        technicians={technicians}
-      />
     </div>
   );
 };
