@@ -297,8 +297,9 @@ export const TicketSubmissionForm = () => {
     <div className="relative min-h-screen bg-gray-50 dark:bg-gray-900">
       <ModernBackground />
       <div className="container mx-auto px-4 py-8 relative z-10">
-        <Card className="bg-white/80 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
-          <CardHeader className="text-center pb-8 bg-white/85 dark:bg-gray-800">
+        {/* Header Card */}
+        <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm mb-6">
+          <CardHeader className="text-center pb-8">
             <div className="flex items-center justify-center mb-6">
               <FileText className="w-12 h-12 text-blue-600 mr-4" />
               <CardTitle className="text-4xl font-bold text-gray-900 dark:text-white">
@@ -311,209 +312,245 @@ export const TicketSubmissionForm = () => {
             </p>
             <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 rounded-full"></div>
           </CardHeader>
+        </Card>
 
-          <CardContent className="px-8 pb-8 bg-white/85 dark:bg-gray-800">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-              {/* Enhanced Category Selection */}
-              <div className="space-y-6">
-                <Label className="text-2xl font-bold text-black dark:text-white flex items-center">
-                  <Settings className="w-6 h-6 mr-3 text-blue-600" />
-                  Jenis Permintaan
-                </Label>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {categoryOptions.map((option) => {
-                    const Icon = option.icon;
-                    const isSelected = selectedCategory === option.value;
-                    return (
-                      <div
-                        key={option.value}
-                        onClick={() => setValue('category', option.value as TicketCategory)}
-                        className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
-                          isSelected 
-                            ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-xl` 
-                            : 'bg-white/70 dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:border-blue-500 text-black dark:text-white backdrop-blur-sm'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-4 mb-3">
-                          <Icon className="w-8 h-8" />
-                          <span className="font-bold text-lg">{option.label}</span>
-                        </div>
-                        <p className="text-sm opacity-90">{option.description}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Enhanced Requester Information with new structure */}
-              <div className="space-y-6">
-                <h3 className="text-2xl font-bold text-black dark:text-white flex items-center">
-                  <User className="w-6 h-6 mr-3 text-blue-600" />
-                  Informasi Pemohon
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-3">
-                    <Label htmlFor="requester_name" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <User className="w-4 h-4" />
-                      <span>Nama *</span>
-                    </Label>
-                    <Input
-                      {...register('requester_name', { required: 'Nama wajib diisi' })}
-                      className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
-                      placeholder="Nama lengkap Anda"
-                    />
-                    {errors.requester_name && (
-                      <p className="text-red-500 text-sm">{errors.requester_name.message}</p>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <Phone className="w-4 h-4" />
-                      <span>Kontak</span>
-                    </Label>
-                    <Input
-                      {...register('requester_contact')}
-                      className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
-                      placeholder="Telepon atau email (opsional)"
-                    />
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label htmlFor="requester_department" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <Building className="w-4 h-4" />
-                      <span>Departemen *</span>
-                    </Label>
-                    <Select onValueChange={(value) => setValue('requester_department', value)}>
-                      <SelectTrigger className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
-                        <SelectValue placeholder="Pilih departemen" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white/85 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
-                        {departments.length > 0 ? (
-                          departments.map((dept) => (
-                            <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                              {dept.name}
-                            </SelectItem>
-                          ))
-                        ) : (
-                          <SelectItem value="loading" disabled className="text-gray-500">
-                            Memuat departemen...
-                          </SelectItem>
-                        )}
-                      </SelectContent>
-                    </Select>
-                    {errors.requester_department && (
-                      <p className="text-red-500 text-sm">Departemen wajib dipilih</p>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <Label htmlFor="line_area_id" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
-                      <MapPin className="w-4 h-4" />
-                      <span>Line/Area *</span>
-                    </Label>
-                    <Select 
-                      onValueChange={(value) => setValue('line_area_id', value)}
-                      disabled={!selectedDepartment}
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          {/* Card 1: Jenis Permintaan */}
+          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-black dark:text-white flex items-center">
+                <Settings className="w-6 h-6 mr-3 text-blue-600" />
+                Jenis Permintaan
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {categoryOptions.map((option) => {
+                  const Icon = option.icon;
+                  const isSelected = selectedCategory === option.value;
+                  return (
+                    <div
+                      key={option.value}
+                      onClick={() => setValue('category', option.value as TicketCategory)}
+                      className={`p-6 rounded-xl border-2 cursor-pointer transition-all duration-500 transform hover:scale-105 ${
+                        isSelected 
+                          ? `bg-gradient-to-r ${option.color} border-transparent text-white shadow-xl` 
+                          : 'bg-white/80 dark:bg-gray-700/80 border-gray-300 dark:border-gray-600 hover:border-blue-500 text-black dark:text-white backdrop-blur-sm'
+                      }`}
                     >
-                      <SelectTrigger className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
-                        <SelectValue placeholder={selectedDepartment ? "Pilih line/area" : "Pilih departemen terlebih dahulu"} />
-                      </SelectTrigger>
-                      <SelectContent className="bg-white/85 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
-                        {filteredLineAreas.length > 0 ? (
-                          filteredLineAreas.map((area) => (
-                            <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-                              {area.name}
-                            </SelectItem>
-                          ))
-                        ) : selectedDepartment ? (
-                          <SelectItem value="no-areas" disabled className="text-gray-500">
-                            Tidak ada line/area untuk departemen ini
+                      <div className="flex items-center space-x-4 mb-3">
+                        <Icon className="w-8 h-8" />
+                        <span className="font-bold text-lg">{option.label}</span>
+                      </div>
+                      <p className="text-sm opacity-90">{option.description}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Card 2: Informasi Pemohon */}
+          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-2xl font-bold text-black dark:text-white flex items-center">
+                <User className="w-6 h-6 mr-3 text-blue-600" />
+                Informasi Pemohon
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <Label htmlFor="requester_name" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                    <User className="w-4 h-4" />
+                    <span>Nama *</span>
+                  </Label>
+                  <Input
+                    {...register('requester_name', { required: 'Nama wajib diisi' })}
+                    className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                    placeholder="Nama lengkap Anda"
+                  />
+                  {errors.requester_name && (
+                    <p className="text-red-500 text-sm">{errors.requester_name.message}</p>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <Label htmlFor="requester_contact" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                    <Phone className="w-4 h-4" />
+                    <span>Kontak</span>
+                  </Label>
+                  <Input
+                    {...register('requester_contact')}
+                    className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                    placeholder="Telepon atau email (opsional)"
+                  />
+                </div>
+
+                <div className="space-y-3">
+                  <Label htmlFor="requester_department" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                    <Building className="w-4 h-4" />
+                    <span>Departemen *</span>
+                  </Label>
+                  <Select onValueChange={(value) => setValue('requester_department', value)}>
+                    <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                      <SelectValue placeholder="Pilih departemen" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white/90 dark:bg-gray-800/90 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                      {departments.length > 0 ? (
+                        departments.map((dept) => (
+                          <SelectItem key={dept.id} value={dept.name} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            {dept.name}
                           </SelectItem>
-                        ) : (
-                          <SelectItem value="select-dept" disabled className="text-gray-500">
-                            Pilih departemen terlebih dahulu
+                        ))
+                      ) : (
+                        <SelectItem value="loading" disabled className="text-gray-500">
+                          Memuat departemen...
+                        </SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  {errors.requester_department && (
+                    <p className="text-red-500 text-sm">Departemen wajib dipilih</p>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <Label htmlFor="line_area_id" className="text-black dark:text-white flex items-center space-x-2 font-semibold">
+                    <MapPin className="w-4 h-4" />
+                    <span>Line/Area *</span>
+                  </Label>
+                  <Select 
+                    onValueChange={(value) => setValue('line_area_id', value)}
+                    disabled={!selectedDepartment}
+                  >
+                    <SelectTrigger className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                      <SelectValue placeholder={selectedDepartment ? "Pilih line/area" : "Pilih departemen terlebih dahulu"} />
+                    </SelectTrigger>
+                    <SelectContent className="bg-white/90 dark:bg-gray-800/90 border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                      {filteredLineAreas.length > 0 ? (
+                        filteredLineAreas.map((area) => (
+                          <SelectItem key={area.id} value={area.id} className="text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                            {area.name}
                           </SelectItem>
-                        )}
-                      </SelectContent>
-                    </Select>
-                    {errors.line_area_id && (
-                      <p className="text-red-500 text-sm">Line/Area wajib dipilih</p>
-                    )}
-                  </div>
+                        ))
+                      ) : selectedDepartment ? (
+                        <SelectItem value="no-areas" disabled className="text-gray-500">
+                          Tidak ada line/area untuk departemen ini
+                        </SelectItem>
+                      ) : (
+                        <SelectItem value="select-dept" disabled className="text-gray-500">
+                          Pilih departemen terlebih dahulu
+                        </SelectItem>
+                      )}
+                    </SelectContent>
+                  </Select>
+                  {errors.line_area_id && (
+                    <p className="text-red-500 text-sm">Line/Area wajib dipilih</p>
+                  )}
                 </div>
               </div>
+            </CardContent>
+          </Card>
 
-              {/* Enhanced Title */}
+          {/* Card 3: Judul Masalah */}
+          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-black dark:text-white flex items-center space-x-2 text-2xl font-bold">
+                <FileText className="w-6 h-6 text-blue-600" />
+                <span>Judul Masalah</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <div className="space-y-3">
                 <Label htmlFor="title" className="text-black dark:text-white flex items-center space-x-2 text-lg font-semibold">
-                  <FileText className="w-5 h-5 text-blue-600" />
-                  <span>Judul Masalah *</span>
+                  <span>Deskripsi singkat masalah *</span>
                 </Label>
                 <Input
                   {...register('title', { required: 'Judul wajib diisi' })}
-                  className="bg-white/70 dark:bg-gray-700 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                  className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white h-14 text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
                   placeholder="Deskripsi singkat masalah"
                 />
                 {errors.title && (
                   <p className="text-red-500 text-sm">{errors.title.message}</p>
                 )}
               </div>
+            </CardContent>
+          </Card>
 
-              {/* Image Upload Section */}
-              <div className="space-y-6">
-                <Label className="text-black dark:text-white text-lg font-semibold flex items-center">
-                  <Camera className="w-5 h-5 mr-2 text-blue-600" />
-                  Foto Kondisi Sekarang (Opsional)
-                </Label>
-                <div className="p-6 bg-gray-50/70 dark:bg-gray-700 rounded-xl border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
-                  <ImageUpload
-                    onImagesChange={setBeforeImages}
-                    existingImages={beforeImages}
-                    maxImages={5}
-                  />
-                </div>
+          {/* Card 4: Foto Kondisi Sekarang */}
+          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-black dark:text-white text-2xl font-bold flex items-center">
+                <Camera className="w-6 h-6 mr-3 text-blue-600" />
+                Foto Kondisi Sekarang (Opsional)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="p-6 bg-gray-50/80 dark:bg-gray-700/80 rounded-xl border border-gray-300 dark:border-gray-600 backdrop-blur-sm">
+                <ImageUpload
+                  onImagesChange={setBeforeImages}
+                  existingImages={beforeImages}
+                  maxImages={5}
+                />
               </div>
+            </CardContent>
+          </Card>
 
-              {/* Enhanced Description */}
+          {/* Card 5: Deskripsi Kondisi */}
+          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-black dark:text-white text-2xl font-bold">
+                Deskripsi Kondisi Saat Ini
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
               <div className="space-y-3">
                 <Label htmlFor="description" className="text-black dark:text-white text-lg font-semibold">
-                  Deskripsi kondisi saat ini *
+                  Detail kondisi dan masalah *
                 </Label>
                 <Textarea
                   {...register('description', { required: 'Deskripsi wajib diisi' })}
-                  className="bg-white/70 dark:bg-gray-700 text-black dark:text-white min-h-[150px] text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
+                  className="bg-white/80 dark:bg-gray-700/80 text-black dark:text-white min-h-[150px] text-lg border-gray-300 dark:border-gray-600 backdrop-blur-sm"
                   placeholder="Berikan informasi detail tentang masalah, termasuk gejala, kapan mulai terjadi, dan konteks yang relevan..."
                 />
                 {errors.description && (
                   <p className="text-red-500 text-sm">{errors.description.message}</p>
                 )}
               </div>
+            </CardContent>
+          </Card>
 
-              {/* Enhanced Priority Selection */}
-              <div className="space-y-6">
-                <Label className="text-black dark:text-white text-lg font-semibold">Level Prioritas</Label>
-                <RadioGroup
-                  value={selectedPriority}
-                  onValueChange={(value) => setValue('priority', value as TicketPriority)}
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                >
-                  {priorityOptions.map((option) => (
-                    <div key={option.value} className="flex items-center space-x-3">
-                      <RadioGroupItem value={option.value} id={option.value} className="w-5 h-5" />
-                      <Label
-                        htmlFor={option.value}
-                        className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105 backdrop-blur-sm`}
-                      >
-                        <div className="font-bold text-lg">{option.label.toUpperCase()}</div>
-                        <div className="text-sm opacity-80">{option.description}</div>
-                      </Label>
-                    </div>
-                  ))}
-                </RadioGroup>
-              </div>
+          {/* Card 6: Level Prioritas */}
+          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+            <CardHeader>
+              <CardTitle className="text-black dark:text-white text-2xl font-bold">Level Prioritas</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RadioGroup
+                value={selectedPriority}
+                onValueChange={(value) => setValue('priority', value as TicketPriority)}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+              >
+                {priorityOptions.map((option) => (
+                  <div key={option.value} className="flex items-center space-x-3">
+                    <RadioGroupItem value={option.value} id={option.value} className="w-5 h-5" />
+                    <Label
+                      htmlFor={option.value}
+                      className={`flex-1 px-6 py-4 rounded-xl border-2 ${option.color} cursor-pointer transition-all duration-300 hover:scale-105 backdrop-blur-sm`}
+                    >
+                      <div className="font-bold text-lg">{option.label.toUpperCase()}</div>
+                      <div className="text-sm opacity-80">{option.description}</div>
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </CardContent>
+          </Card>
 
-              {/* Enhanced Submit Button */}
+          {/* Submit Button Card */}
+          <Card className="bg-white/90 dark:bg-gray-800/90 border border-gray-200 dark:border-gray-700 shadow-lg backdrop-blur-sm">
+            <CardContent className="pt-6">
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -531,9 +568,9 @@ export const TicketSubmissionForm = () => {
                   </>
                 )}
               </Button>
-            </form>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </form>
       </div>
     </div>
   );
