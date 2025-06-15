@@ -87,51 +87,29 @@ const Index = () => {
         <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-50"></div>
       </header>
 
-      {/* Enhanced Navigation Tabs with improved styling */}
+      {/* Enhanced Navigation Tabs with clean styling */}
       <div className="relative z-20 backdrop-blur-xl bg-gradient-to-r from-white/5 via-blue-500/5 to-purple-500/5 dark:from-slate-900/20 dark:via-blue-950/15 dark:to-purple-950/20 border-b border-blue-500/20 dark:border-blue-400/30">
         <div className="container mx-auto px-6 py-4">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6 bg-gradient-to-r from-gray-100/60 to-gray-200/60 dark:from-slate-800/60 dark:to-slate-700/60 backdrop-blur-xl border-2 border-white/30 dark:border-slate-600/40 rounded-3xl p-1.5 shadow-2xl">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-gradient-to-r from-gray-100/40 to-gray-200/40 dark:from-slate-800/40 dark:to-slate-700/40 backdrop-blur-xl border border-white/20 dark:border-slate-600/30 rounded-2xl p-1 shadow-lg">
                 <TabsTrigger 
                   value="submit" 
-                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:via-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/40 text-black dark:text-white transition-all duration-500 rounded-2xl font-bold text-sm py-3 hover:scale-[1.02] hover:shadow-lg"
+                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-black dark:text-white transition-all duration-300 rounded-xl font-semibold text-sm py-2.5 hover:scale-[1.02]"
                 >
                   <div className="flex items-center space-x-2">
-                    <div className="relative">
-                      <FileText className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                      {activeTab === 'submit' && (
-                        <div className="absolute inset-0 bg-white/30 rounded-full blur-sm animate-pulse"></div>
-                      )}
-                    </div>
+                    <FileText className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
                     <span>Submit Request</span>
                   </div>
-                  {activeTab === 'submit' && (
-                    <>
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-2xl animate-pulse"></div>
-                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-30 animate-pulse"></div>
-                    </>
-                  )}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="track" 
-                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:via-purple-600 data-[state=active]:to-cyan-600 data-[state=active]:text-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/40 text-black dark:text-white transition-all duration-500 rounded-2xl font-bold text-sm py-3 hover:scale-[1.02] hover:shadow-lg"
+                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-black dark:text-white transition-all duration-300 rounded-xl font-semibold text-sm py-2.5 hover:scale-[1.02]"
                 >
                   <div className="flex items-center space-x-2">
-                    <div className="relative">
-                      <Search className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
-                      {activeTab === 'track' && (
-                        <div className="absolute inset-0 bg-white/30 rounded-full blur-sm animate-pulse"></div>
-                      )}
-                    </div>
+                    <Search className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
                     <span>Track Ticket</span>
                   </div>
-                  {activeTab === 'track' && (
-                    <>
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-cyan-400/20 rounded-2xl animate-pulse"></div>
-                      <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-3xl blur opacity-30 animate-pulse"></div>
-                    </>
-                  )}
                 </TabsTrigger>
               </TabsList>
 
