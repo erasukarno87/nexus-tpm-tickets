@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
@@ -309,18 +308,18 @@
   background-color: rgba(55, 65, 81, 0.7);
 }
 
-/* Global transparent container for all pages to show 3D background - reduced from 2% to 1% background */
+/* Global transparent container for all pages to show 3D background - made more transparent */
 .page-container {
-  background: rgba(255, 255, 255, 0.01) !important;
-  backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  background: rgba(255, 255, 255, 0.005) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.03) !important;
   border-radius: 1rem !important;
 }
 
 .dark .page-container {
-  background: rgba(0, 0, 0, 0.03) !important;
-  backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.04) !important;
+  background: rgba(0, 0, 0, 0.015) !important;
+  backdrop-filter: blur(8px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.02) !important;
 }
 
 /* Specific transparency for the form container to show 3D background - reduced from 1% to 0.5% background */
