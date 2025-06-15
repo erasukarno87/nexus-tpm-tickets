@@ -35,16 +35,20 @@ const Index = () => {
           <div className="max-w-4xl mx-auto flex justify-between items-center">
             <div className="animate-fadeIn">
               <div className="flex items-center justify-center mb-6">
-                <Sparkles className="w-12 h-12 text-cyan-400 mr-4 animate-pulse" />
-                <h1 className="text-4xl md:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse">
-                  Sistem TPM
-                </h1>
-                <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
+                <Sparkles className="w-12 h-12 text-cyan-400 mr-4 animate-pulse drop-shadow-lg" />
+                <div className="relative">
+                  {/* Background glow untuk kontras */}
+                  <div className="absolute inset-0 bg-black/30 backdrop-blur-sm rounded-2xl transform scale-110"></div>
+                  <h1 className="relative text-4xl md:text-7xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent animate-pulse drop-shadow-2xl px-8 py-4">
+                    Sistem TPM
+                  </h1>
+                </div>
+                <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse drop-shadow-lg" />
               </div>
-              <p className="text-xl md:text-2xl text-gray-200 dark:text-gray-200 font-medium">
+              <p className="text-xl md:text-2xl text-white dark:text-white font-medium drop-shadow-lg bg-black/20 backdrop-blur-sm rounded-lg px-4 py-2 inline-block">
                 Total Productive Maintenance Management System
               </p>
-              <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 rounded-full animate-pulse"></div>
+              <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 rounded-full animate-pulse drop-shadow-lg"></div>
             </div>
             <div className="flex flex-col items-center space-y-4 animate-slideInRight">
               <ThemeToggle />
