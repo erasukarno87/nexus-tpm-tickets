@@ -58,33 +58,33 @@ const Admin = () => {
       {/* 3D Animated Background */}
       <ThreeBackground />
       
-      {/* Header Admin Panel with reduced background opacity */}
+      {/* Header Admin Panel with much reduced background opacity */}
       <div className="relative z-20">
         <AdminHeader onLogout={handleLogout} />
       </div>
 
-      {/* Navigasi Tab with reduced background opacity */}
-      <div className="bg-white/70 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 relative z-20">
+      {/* Navigasi Tab with much reduced background opacity */}
+      <div className="bg-white/30 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 relative z-20">
         <div className="container mx-auto px-4">
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 dark:bg-gray-800 p-1 rounded-lg">
+            <TabsList className="grid w-full grid-cols-3 bg-gray-100/50 dark:bg-gray-800 p-1 rounded-lg">
               <TabsTrigger 
                 value="dashboard"
-                className="data-[state=active]:bg-white data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
+                className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
               >
                 <BarChart3 className="w-5 h-5 mr-2" />
                 Dashboard
               </TabsTrigger>
               <TabsTrigger 
                 value="tickets"
-                className="data-[state=active]:bg-white data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
+                className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
               >
                 <FileText className="w-5 h-5 mr-2" />
                 Kelola Tiket
               </TabsTrigger>
               <TabsTrigger 
                 value="master-data"
-                className="data-[state=active]:bg-white data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
+                className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
               >
                 <Database className="w-5 h-5 mr-2" />
                 Data Master
