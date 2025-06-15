@@ -61,7 +61,7 @@ const Index = () => {
         </header>
 
         {/* Main Content without container */}
-        <div className="max-w-5xl mx-auto px-4 pb-12">
+        <div className="max-w-5xl mx-auto px-4 pb-12 bg-red-500/80 backdrop-blur-md border border-white/10 rounded-xl shadow-xl p-8">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full animate-fadeIn" style={{ animationDelay: '0.3s' }}>
             <TabsList className="grid w-full grid-cols-2 mb-8 p-2 h-16 rounded-xl">
               <TabsTrigger 
