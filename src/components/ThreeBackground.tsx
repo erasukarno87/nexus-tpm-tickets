@@ -1,12 +1,11 @@
 
-import React, { useRef, useMemo } from 'react';
+import React, { useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Text3D, Center, useMatcapTexture } from '@react-three/drei';
+import { Text, Center } from '@react-three/drei';
 import * as THREE from 'three';
 
-const AnimatedText3D = ({ text, position }: { text: string; position: [number, number, number] }) => {
+const AnimatedText3D = ({ text, position, color = '#ffffff' }: { text: string; position: [number, number, number]; color?: string }) => {
   const textRef = useRef<THREE.Mesh>(null);
-  const [matcap] = useMatcapTexture('7B5254_E9DCC7_B19986_C8AC91', 256);
 
   useFrame((state) => {
     if (textRef.current) {
@@ -18,21 +17,16 @@ const AnimatedText3D = ({ text, position }: { text: string; position: [number, n
 
   return (
     <Center position={position}>
-      <Text3D
+      <Text
         ref={textRef}
-        font="/fonts/helvetiker_regular.typeface.json"
-        size={1.5}
-        height={0.3}
-        curveSegments={12}
-        bevelEnabled
-        bevelThickness={0.02}
-        bevelSize={0.02}
-        bevelOffset={0}
-        bevelSegments={5}
+        fontSize={1.5}
+        color={color}
+        anchorX="center"
+        anchorY="middle"
       >
         {text}
-        <meshMatcapMaterial matcap={matcap} />
-      </Text3D>
+        <meshStandardMaterial color={color} />
+      </Text>
     </Center>
   );
 };
@@ -51,20 +45,15 @@ const HolographicText = ({ text, position }: { text: string; position: [number, 
   return (
     <group ref={textRef} position={position}>
       <Center>
-        <Text3D
-          font="/fonts/helvetiker_regular.typeface.json"
-          size={1.2}
-          height={0.2}
-          curveSegments={12}
-          bevelEnabled
-          bevelThickness={0.01}
-          bevelSize={0.01}
-          bevelOffset={0}
-          bevelSegments={3}
+        <Text
+          fontSize={1.2}
+          color="#00ffff"
+          anchorX="center"
+          anchorY="middle"
         >
           {text}
           <meshBasicMaterial color="#00ffff" transparent opacity={0.8} wireframe />
-        </Text3D>
+        </Text>
       </Center>
     </group>
   );
@@ -82,21 +71,16 @@ const GlowingText = ({ text, position }: { text: string; position: [number, numb
 
   return (
     <Center position={position}>
-      <Text3D
+      <Text
         ref={textRef}
-        font="/fonts/helvetiker_regular.typeface.json"
-        size={1}
-        height={0.15}
-        curveSegments={8}
-        bevelEnabled
-        bevelThickness={0.015}
-        bevelSize={0.015}
-        bevelOffset={0}
-        bevelSegments={3}
+        fontSize={1.0}
+        color="#ff6b35"
+        anchorX="center"
+        anchorY="middle"
       >
         {text}
         <meshBasicMaterial color="#ff6b35" transparent opacity={0.9} />
-      </Text3D>
+      </Text>
     </Center>
   );
 };
@@ -115,21 +99,16 @@ const FloatingText = ({ text, position }: { text: string; position: [number, num
 
   return (
     <Center position={position}>
-      <Text3D
+      <Text
         ref={textRef}
-        font="/fonts/helvetiker_regular.typeface.json"
-        size={0.8}
-        height={0.1}
-        curveSegments={6}
-        bevelEnabled
-        bevelThickness={0.01}
-        bevelSize={0.01}
-        bevelOffset={0}
-        bevelSegments={2}
+        fontSize={0.8}
+        color="#9333ea"
+        anchorX="center"
+        anchorY="middle"
       >
         {text}
         <meshBasicMaterial color="#9333ea" transparent opacity={0.7} />
-      </Text3D>
+      </Text>
     </Center>
   );
 };
@@ -145,6 +124,9 @@ export const ThreeBackground = () => {
         <Canvas
           camera={{ position: [0, 0, 10], fov: 75 }}
           style={{ background: 'transparent' }}
+          onCreated={({ gl }) => {
+            gl.setClearColor(0x000000, 0);
+          }}
         >
           <ambientLight intensity={0.5} />
           <pointLight position={[10, 10, 10]} intensity={1} color="#00d4ff" />
@@ -152,8 +134,8 @@ export const ThreeBackground = () => {
           <pointLight position={[0, 10, 5]} intensity={0.6} color="#f59e0b" />
           
           {/* Main 3D Text */}
-          <AnimatedText3D text="TPM" position={[-2, 2, -3]} />
-          <AnimatedText3D text="Chao Long" position={[1, -1, -4]} />
+          <AnimatedText3D text="TPM" position={[-2, 2, -3]} color="#0066ff" />
+          <AnimatedText3D text="Chao Long" position={[1, -1, -4]} color="#ff0066" />
           
           {/* Additional holographic text variations */}
           <HolographicText text="TPM" position={[-4, -2, -6]} />
