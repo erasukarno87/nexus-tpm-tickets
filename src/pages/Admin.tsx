@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -41,7 +42,7 @@ const Admin = () => {
     return (
       <div className="min-h-screen relative">
         <ThreeBackground />
-        <div className="relative z-10">
+        <div className="relative z-20">
           <LoginForm onLoginSuccess={handleLoginSuccess} />
         </div>
       </div>
@@ -57,16 +58,16 @@ const Admin = () => {
       {/* 3D Animated Background */}
       <ThreeBackground />
       
-      {/* Header Admin Panel */}
-      <div className="relative z-10">
+      {/* Header Admin Panel with reduced background opacity */}
+      <div className="relative z-20">
         <AdminHeader onLogout={handleLogout} />
       </div>
 
-      {/* Navigasi Tab */}
-      <div className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 relative z-10">
+      {/* Navigasi Tab with reduced background opacity */}
+      <div className="bg-white/70 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 relative z-20">
         <div className="container mx-auto px-4">
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
+            <TabsList className="grid w-full grid-cols-3 bg-gray-100/80 dark:bg-gray-800 p-1 rounded-lg">
               <TabsTrigger 
                 value="dashboard"
                 className="data-[state=active]:bg-white data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
