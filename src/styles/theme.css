@@ -100,3 +100,120 @@ html:not(.dark) .content,
 html:not(.dark) .content * {
   color: black !important;
 }
+
+/* DARK MODE OVERRIDES - Force white text and borders */
+html.dark * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Ensure all text elements are white in dark mode */
+html.dark body,
+html.dark p,
+html.dark span,
+html.dark div,
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark label,
+html.dark input,
+html.dark textarea,
+html.dark select,
+html.dark button,
+html.dark a,
+html.dark li,
+html.dark td,
+html.dark th {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Button text override for dark mode */
+html.dark button,
+html.dark button *,
+html.dark .btn,
+html.dark .btn *,
+html.dark [role="button"],
+html.dark [role="button"] * {
+  color: white !important;
+}
+
+/* Override any Tailwind text color classes in dark mode */
+html.dark .text-black,
+html.dark .text-gray-600,
+html.dark .text-gray-500,
+html.dark .text-gray-400,
+html.dark .text-muted-foreground,
+html.dark .text-secondary-foreground,
+html.dark .text-primary-foreground {
+  color: white !important;
+}
+
+/* Placeholder text in dark mode */
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: white !important;
+  opacity: 0.7;
+}
+
+/* Form elements in dark mode */
+html.dark input,
+html.dark textarea,
+html.dark select,
+html.dark option {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Links in dark mode */
+html.dark a,
+html.dark a:visited,
+html.dark a:hover,
+html.dark a:active {
+  color: white !important;
+}
+
+/* Table elements in dark mode */
+html.dark table,
+html.dark thead,
+html.dark tbody,
+html.dark tfoot,
+html.dark tr,
+html.dark td,
+html.dark th {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* List elements in dark mode */
+html.dark ul,
+html.dark ol,
+html.dark li {
+  color: white !important;
+}
+
+/* Card and content elements in dark mode */
+html.dark .card,
+html.dark .card *,
+html.dark .content,
+html.dark .content * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Icons in dark mode */
+html.dark svg {
+  color: white !important;
+}
+
+/* Special overrides for specific components */
+html.dark .border,
+html.dark .border-b,
+html.dark .border-t,
+html.dark .border-l,
+html.dark .border-r {
+  border-color: white !important;
+}

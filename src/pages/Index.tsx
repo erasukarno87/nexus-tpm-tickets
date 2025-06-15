@@ -24,20 +24,20 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ color: 'black' }}>
+    <div className="min-h-screen">
       {/* Header */}
-      <header className="bg-white border-b">
+      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-white">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             {/* Judul Header */}
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <Wrench className="w-8 h-8" style={{ color: 'black' }} />
+                <Wrench className="w-8 h-8 text-black dark:text-white" />
                 <div>
-                  <h1 className="text-3xl font-bold" style={{ color: 'black' }}>
+                  <h1 className="text-3xl font-bold text-black dark:text-white">
                     Sistem TPM
                   </h1>
-                  <p className="text-lg text-gray-600 mt-1" style={{ color: 'black' }}>
+                  <p className="text-lg text-gray-600 dark:text-white mt-1">
                     Total Productive Maintenance Management System
                   </p>
                 </div>
@@ -50,9 +50,9 @@ const Index = () => {
               <Button
                 onClick={() => window.location.href = '/admin'}
                 variant="outline"
-                style={{ color: 'black' }}
+                className="text-black dark:text-white border-gray-300 dark:border-white hover:bg-gray-100 dark:hover:bg-gray-800"
               >
-                <Settings className="w-4 h-4 mr-2" style={{ color: 'black' }} />
+                <Settings className="w-4 h-4 mr-2 text-black dark:text-white" />
                 Admin Panel
               </Button>
             </div>
@@ -61,17 +61,23 @@ const Index = () => {
       </header>
 
       {/* Navigasi Tab */}
-      <div className="bg-white border-b">
+      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-white">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8">
-                <TabsTrigger value="submit" style={{ color: 'black' }}>
-                  <FileText className="w-5 h-5 mr-2" style={{ color: 'black' }} />
+              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100 dark:bg-gray-800">
+                <TabsTrigger 
+                  value="submit" 
+                  className="data-[state=active]:bg-white data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-black dark:text-white"
+                >
+                  <FileText className="w-5 h-5 mr-2 text-black dark:text-white" />
                   Ajukan Permintaan
                 </TabsTrigger>
-                <TabsTrigger value="track" style={{ color: 'black' }}>
-                  <Search className="w-5 h-5 mr-2" style={{ color: 'black' }} />
+                <TabsTrigger 
+                  value="track" 
+                  className="data-[state=active]:bg-white data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-black dark:text-white"
+                >
+                  <Search className="w-5 h-5 mr-2 text-black dark:text-white" />
                   Lacak Tiket
                 </TabsTrigger>
               </TabsList>
@@ -92,9 +98,9 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white border-t mt-16">
+      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-white mt-16">
         <div className="container mx-auto px-4 py-6 text-center">
-          <p style={{ color: 'black' }}>
+          <p className="text-black dark:text-white">
             © 2024 TPM Nexus - Advanced Manufacturing Maintenance System
           </p>
         </div>

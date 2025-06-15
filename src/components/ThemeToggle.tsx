@@ -39,10 +39,13 @@ export const ThemeToggle = () => {
       variant="outline"
       size="sm"
       onClick={toggleTheme}
-      style={{ color: 'black' }}
+      className="text-black dark:text-white border-gray-300 dark:border-white hover:bg-gray-100 dark:hover:bg-gray-800"
     >
-      {isDark ? <Sun style={{ color: 'black' }} /> : <Moon style={{ color: 'black' }} />}
-      <span style={{ color: 'black' }}>{isDark ? 'Terang' : 'Gelap'}</span>
+      {isDark ? 
+        <Sun className="text-black dark:text-white" /> : 
+        <Moon className="text-black dark:text-white" />
+      }
+      <span className="text-black dark:text-white">{isDark ? 'Terang' : 'Gelap'}</span>
     </Button>
   );
 };
