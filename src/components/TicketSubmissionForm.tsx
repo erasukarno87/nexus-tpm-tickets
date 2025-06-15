@@ -283,17 +283,17 @@ export const TicketSubmissionForm = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Enhanced Header Card - positioned higher and without icon */}
-      <Card className="relative overflow-hidden bg-gradient-to-br from-white/95 via-blue-50/90 to-purple-50/85 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-purple-950/85 backdrop-blur-xl border-2 border-blue-500/30 dark:border-blue-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:border-blue-500/50 dark:hover:border-blue-400/60 mb-6">
+    <div className="space-y-4">
+      {/* Enhanced Header Card - positioned at the very top with minimal spacing */}
+      <Card className="relative overflow-hidden bg-gradient-to-br from-white/95 via-blue-50/90 to-purple-50/85 dark:from-slate-900/95 dark:via-blue-950/90 dark:to-purple-950/85 backdrop-blur-xl border-2 border-blue-500/30 dark:border-blue-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:border-blue-500/50 dark:hover:border-blue-400/60 mb-4">
         {/* Animated background effects */}
         <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-xl opacity-30"></div>
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500 via-purple-500 to-cyan-500"></div>
         <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
         
-        <CardHeader className="relative text-center py-6 px-8">
+        <CardHeader className="relative text-center py-5 px-8">
           {/* Enhanced title with gradient and effects - no icon */}
-          <div className="space-y-3">
+          <div className="space-y-2">
             <div className="flex items-center justify-center space-x-2">
               <CardTitle className="text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
                 Ajukan Permintaan Pemeliharaan
@@ -306,7 +306,7 @@ export const TicketSubmissionForm = () => {
                 Lengkapi formulir di bawah untuk meminta bantuan 
                 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold"> TPM</span>
               </p>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 font-medium">
+              <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 font-medium">
                 Tim kami akan segera memproses permintaan Anda dengan prioritas tinggi
               </p>
             </div>
