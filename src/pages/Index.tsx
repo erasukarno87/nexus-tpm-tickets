@@ -1,13 +1,11 @@
 
-
 import React, { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TicketSubmissionForm } from '@/components/TicketSubmissionForm';
 import { TicketTracking } from '@/components/TicketTracking';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { GlobalBackground } from '@/components/GlobalBackground';
-import { Button } from '@/components/ui/button';
-import { FileText, Search, Settings, Sparkles } from 'lucide-react';
+import { FuturisticHeader } from '@/components/FuturisticHeader';
+import { FileText, Search } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('submit');
@@ -31,35 +29,11 @@ const Index = () => {
       
       {/* Main Content */}
       <div className="relative z-10">
-        {/* Header with enhanced styling */}
-        <header className="text-center py-12 px-4">
-          <div className="max-w-4xl mx-auto flex justify-between items-center">
-            <div className="animate-fadeIn">
-              <div className="flex items-center justify-center mb-6">
-                <Sparkles className="w-12 h-12 text-blue-400 mr-4 animate-pulse" />
-                <h1 className="text-4xl md:text-7xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                  Sistem TPM
-                </h1>
-                <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
-              </div>
-              <p className="text-xl md:text-2xl text-gray-200 dark:text-gray-200 font-medium">
-                Total Productive Maintenance Management System
-              </p>
-              <div className="mt-4 h-1 w-32 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
-            </div>
-            <div className="flex flex-col items-center space-y-4 animate-slideInRight">
-              <ThemeToggle />
-              <Button
-                onClick={() => window.location.href = '/admin'}
-                variant="info"
-                className="hover:scale-105 backdrop-blur-md"
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Admin Panel
-              </Button>
-            </div>
-          </div>
-        </header>
+        <FuturisticHeader
+          title="Sistem TPM"
+          subtitle="Total Productive Maintenance Management System"
+          showAdminButton={true}
+        />
 
         {/* Main Content with full transparency */}
         <div className="max-w-5xl mx-auto px-4 pb-12">
@@ -103,4 +77,3 @@ const Index = () => {
 };
 
 export default Index;
-

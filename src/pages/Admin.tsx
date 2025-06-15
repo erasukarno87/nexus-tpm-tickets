@@ -2,20 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
 import { MasterData } from '@/components/MasterData';
-import { ThemeToggle } from '@/components/ThemeToggle';
 import { ModernBackground } from '@/components/ModernBackground';
+import { FuturisticHeader } from '@/components/FuturisticHeader';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { 
   Settings, 
-  LogOut,
   BarChart3,
   Database,
-  Shield,
-  Sparkles,
   FileText
 } from 'lucide-react';
 import { TicketFilters } from '@/components/admin/TicketFilters';
@@ -262,34 +258,12 @@ const Admin = () => {
       <ModernBackground />
       
       <div className="relative z-10">
-        <header className="text-center py-12 px-4">
-          <div className="max-w-6xl mx-auto flex justify-between items-center">
-            <div className="animate-fadeIn">
-              <div className="flex items-center justify-center mb-6">
-                <Shield className="w-12 h-12 text-blue-400 mr-4 animate-pulse" />
-                <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-                  Panel Admin TPM
-                </h1>
-                <Sparkles className="w-12 h-12 text-purple-400 ml-4 animate-pulse" />
-              </div>
-              <p className="text-xl md:text-2xl text-gray-200 font-medium">
-                Kelola dan pantau semua permintaan pemeliharaan
-              </p>
-              <div className="mt-4 h-1 w-40 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
-            </div>
-            <div className="flex flex-col items-center space-x-4 animate-slideInRight">
-              <ThemeToggle />
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                className="border-red-500 text-red-400 hover:bg-red-500 hover:text-white transition-all duration-300 hover:scale-105"
-              >
-                <LogOut className="w-4 h-4 mr-2" />
-                Keluar
-              </Button>
-            </div>
-          </div>
-        </header>
+        <FuturisticHeader
+          title="Panel Admin TPM"
+          subtitle="Kelola dan pantau semua permintaan pemeliharaan"
+          showLogoutButton={true}
+          onLogout={handleLogout}
+        />
 
         <div className="max-w-6xl mx-auto px-4 pb-12">
           <div className="animate-fadeIn" style={{ animationDelay: '0.3s' }}>
