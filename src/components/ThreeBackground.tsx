@@ -162,35 +162,170 @@ const QuantumCube = ({ position }: { position: [number, number, number] }) => {
   );
 };
 
+// New Holographic Characters
+const HologramHumanoid = ({ position }: { position: [number, number, number] }) => {
+  const groupRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.2;
+      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.5 + position[0]) * 0.3;
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={position}>
+      {/* Head */}
+      <mesh position={[0, 1.5, 0]}>
+        <sphereGeometry args={[0.25, 8, 6]} />
+        <meshBasicMaterial color="#00ffff" transparent opacity={0.8} wireframe />
+      </mesh>
+      
+      {/* Body */}
+      <mesh position={[0, 0.5, 0]}>
+        <cylinderGeometry args={[0.15, 0.25, 1.2, 8]} />
+        <meshBasicMaterial color="#00ffff" transparent opacity={0.7} wireframe />
+      </mesh>
+      
+      {/* Arms */}
+      <mesh position={[-0.4, 0.8, 0]} rotation={[0, 0, Math.PI / 6]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.8, 6]} />
+        <meshBasicMaterial color="#00ccff" transparent opacity={0.6} wireframe />
+      </mesh>
+      <mesh position={[0.4, 0.8, 0]} rotation={[0, 0, -Math.PI / 6]}>
+        <cylinderGeometry args={[0.08, 0.08, 0.8, 6]} />
+        <meshBasicMaterial color="#00ccff" transparent opacity={0.6} wireframe />
+      </mesh>
+      
+      {/* Legs */}
+      <mesh position={[-0.15, -0.5, 0]}>
+        <cylinderGeometry args={[0.08, 0.1, 1, 6]} />
+        <meshBasicMaterial color="#0099ff" transparent opacity={0.6} wireframe />
+      </mesh>
+      <mesh position={[0.15, -0.5, 0]}>
+        <cylinderGeometry args={[0.08, 0.1, 1, 6]} />
+        <meshBasicMaterial color="#0099ff" transparent opacity={0.6} wireframe />
+      </mesh>
+    </group>
+  );
+};
+
+const FloatingAvatar = ({ position }: { position: [number, number, number] }) => {
+  const groupRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.4;
+      groupRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime * 0.7 + position[0]) * 0.5;
+      groupRef.current.scale.setScalar(1 + Math.sin(state.clock.elapsedTime * 0.8) * 0.1);
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={position}>
+      {/* Main Avatar Sphere */}
+      <mesh>
+        <icosahedronGeometry args={[0.8, 1]} />
+        <meshBasicMaterial color="#ff00ff" transparent opacity={0.7} wireframe />
+      </mesh>
+      
+      {/* Floating Elements */}
+      <mesh position={[1.2, 0.5, 0]} rotation={[0, 0, Math.PI / 4]}>
+        <boxGeometry args={[0.2, 0.2, 0.2]} />
+        <meshBasicMaterial color="#ff66ff" transparent opacity={0.8} wireframe />
+      </mesh>
+      <mesh position={[-1.2, -0.5, 0]}>
+        <tetrahedronGeometry args={[0.3]} />
+        <meshBasicMaterial color="#ff33ff" transparent opacity={0.8} wireframe />
+      </mesh>
+      <mesh position={[0, 1.5, 0.8]}>
+        <octahedronGeometry args={[0.25]} />
+        <meshBasicMaterial color="#ff99ff" transparent opacity={0.8} wireframe />
+      </mesh>
+    </group>
+  );
+};
+
+const GeometricCharacter = ({ position }: { position: [number, number, number] }) => {
+  const groupRef = useRef<THREE.Group>(null);
+  
+  useFrame((state) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.6;
+      groupRef.current.rotation.z = Math.cos(state.clock.elapsedTime * 0.2) * 0.1;
+    }
+  });
+
+  return (
+    <group ref={groupRef} position={position}>
+      {/* Central Core */}
+      <mesh>
+        <dodecahedronGeometry args={[0.6]} />
+        <meshBasicMaterial color="#ffff00" transparent opacity={0.8} wireframe />
+      </mesh>
+      
+      {/* Orbiting Elements */}
+      <group rotation={[0, 0, 0]}>
+        <mesh position={[1.5, 0, 0]}>
+          <tetrahedronGeometry args={[0.2]} />
+          <meshBasicMaterial color="#ffcc00" transparent opacity={0.9} wireframe />
+        </mesh>
+        <mesh position={[-1.5, 0, 0]}>
+          <tetrahedronGeometry args={[0.2]} />
+          <meshBasicMaterial color="#ffcc00" transparent opacity={0.9} wireframe />
+        </mesh>
+        <mesh position={[0, 1.5, 0]}>
+          <tetrahedronGeometry args={[0.2]} />
+          <meshBasicMaterial color="#ffcc00" transparent opacity={0.9} wireframe />
+        </mesh>
+        <mesh position={[0, -1.5, 0]}>
+          <tetrahedronGeometry args={[0.2]} />
+          <meshBasicMaterial color="#ffcc00" transparent opacity={0.9} wireframe />
+        </mesh>
+      </group>
+    </group>
+  );
+};
+
 export const ThreeBackground = () => {
   const crystalPositions: [number, number, number][] = useMemo(() => [
     [-12, 2, -10],
     [14, -4, -15],
     [-8, -6, -8],
     [10, 5, -12],
-    [-15, -1, -11],
-    [8, 7, -9]
   ], []);
 
   const spherePositions: [number, number, number][] = useMemo(() => [
     [-6, 3, -6],
     [12, -2, -8],
     [-10, -5, -7],
-    [7, 6, -10],
-    [0, -7, -5]
   ], []);
 
   const ringPositions: [number, number, number][] = useMemo(() => [
     [-4, 0, -7],
     [9, -3, -9],
-    [-7, 4, -6]
   ], []);
 
   const cubePositions: [number, number, number][] = useMemo(() => [
     [5, 1, -4],
     [-9, -3, -5],
+  ], []);
+
+  // New Hologram Character Positions
+  const humanoidPositions: [number, number, number][] = useMemo(() => [
+    [-15, -1, -11],
+    [8, 7, -9]
+  ], []);
+
+  const avatarPositions: [number, number, number][] = useMemo(() => [
+    [7, 6, -10],
+    [0, -7, -5]
+  ], []);
+
+  const geometricPositions: [number, number, number][] = useMemo(() => [
     [11, 3, -7],
-    [-5, -6, -4]
+    [-7, 4, -6]
   ], []);
 
   return (
@@ -208,6 +343,8 @@ export const ThreeBackground = () => {
           <pointLight position={[20, 20, 20]} intensity={1.2} color="#00d4ff" />
           <pointLight position={[-20, -20, 20]} intensity={0.8} color="#9333ea" />
           <pointLight position={[0, 0, 15]} intensity={0.6} color="#f59e0b" />
+          <pointLight position={[10, -10, 10]} intensity={0.7} color="#00ffff" />
+          <pointLight position={[-10, 10, -10]} intensity={0.5} color="#ff00ff" />
           
           <AnimatedPoints />
           
@@ -225,6 +362,19 @@ export const ThreeBackground = () => {
           
           {cubePositions.map((pos, index) => (
             <QuantumCube key={`cube-${index}`} position={pos} />
+          ))}
+
+          {/* New Holographic Characters */}
+          {humanoidPositions.map((pos, index) => (
+            <HologramHumanoid key={`humanoid-${index}`} position={pos} />
+          ))}
+          
+          {avatarPositions.map((pos, index) => (
+            <FloatingAvatar key={`avatar-${index}`} position={pos} />
+          ))}
+          
+          {geometricPositions.map((pos, index) => (
+            <GeometricCharacter key={`geometric-${index}`} position={pos} />
           ))}
         </Canvas>
       </div>
