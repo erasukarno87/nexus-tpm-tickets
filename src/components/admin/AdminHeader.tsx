@@ -14,31 +14,31 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ onLogout }) => {
       {/* Animated glow line at top */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-red-500 to-transparent animate-pulse"></div>
       
-      <div className="container mx-auto px-6 py-8">
+      <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
-          {/* Enhanced Admin Title Section */}
-          <div className="flex items-center space-x-6">
+          {/* Enhanced Admin Title Section with reduced spacing */}
+          <div className="flex items-center space-x-4">
             <div className="relative">
               {/* Multi-layered glowing background */}
               <div className="absolute inset-0 bg-gradient-to-r from-red-500 to-orange-500 rounded-full blur-xl opacity-40 animate-pulse"></div>
               <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-600 rounded-full blur-lg opacity-30 animate-ping"></div>
-              <div className="relative bg-gradient-to-r from-red-600 to-orange-600 p-4 rounded-xl shadow-2xl border border-red-500/30">
-                <Shield className="w-8 h-8 text-white drop-shadow-lg" />
+              <div className="relative bg-gradient-to-r from-red-600 to-orange-600 p-3 rounded-xl shadow-2xl border border-red-500/30">
+                <Shield className="w-7 h-7 text-white drop-shadow-lg" />
               </div>
             </div>
             
-            <div className="space-y-2">
-              <div className="flex items-center space-x-4">
-                <h1 className="text-4xl font-black bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent animate-gradientShift">
+            <div className="space-y-1">
+              <div className="flex items-center space-x-3">
+                <h1 className="text-3xl font-black bg-gradient-to-r from-red-600 via-orange-600 to-yellow-600 bg-clip-text text-transparent animate-gradientShift">
                   ADMIN CONTROL
                 </h1>
-                <div className="flex space-x-2">
-                  <Sparkles className="w-6 h-6 text-yellow-500 animate-bounce" />
-                  <Activity className="w-6 h-6 text-red-500 animate-pulse" />
+                <div className="flex space-x-1">
+                  <Sparkles className="w-5 h-5 text-yellow-500 animate-bounce" />
+                  <Activity className="w-5 h-5 text-red-500 animate-pulse" />
                 </div>
               </div>
               
-              <p className="text-lg font-semibold text-gray-600 dark:text-gray-300">
+              <p className="text-base font-semibold text-gray-600 dark:text-gray-300">
                 <span className="bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
                   TPM System Management Dashboard
                 </span>
@@ -72,9 +72,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({ onLogout }) => {
               </div>
             </div>
             
-            <div className="relative">
-              <ThemeToggle />
-            </div>
+            <ThemeToggle />
             
             <div className="relative group">
               <div className="absolute -inset-1 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-500"></div>

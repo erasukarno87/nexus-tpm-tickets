@@ -29,31 +29,31 @@ const Index = () => {
       {/* 3D Animated Background */}
       <ThreeBackground />
       
-      {/* Futuristic Header */}
+      {/* Futuristic Header with reduced padding */}
       <header className="relative z-20 backdrop-blur-xl bg-gradient-to-r from-white/10 via-blue-500/5 to-purple-500/10 dark:from-slate-900/30 dark:via-blue-950/20 dark:to-purple-950/30 border-b border-gradient-to-r from-blue-500/30 via-purple-500/30 to-cyan-500/30">
         {/* Animated glow line at top */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse"></div>
         
-        <div className="container mx-auto px-6 py-8">
+        <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Enhanced Title Section */}
-            <div className="flex items-center space-x-6">
+            {/* Enhanced Title Section with reduced spacing */}
+            <div className="flex items-center space-x-4">
               <div className="relative">
                 {/* Glowing background for icon */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
-                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-xl shadow-2xl">
-                  <Wrench className="w-8 h-8 text-white" />
+                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2.5 rounded-xl shadow-2xl">
+                  <Wrench className="w-7 h-7 text-white" />
                 </div>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-1">
                 <div className="flex items-center space-x-3">
-                  <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
+                  <h1 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
                     TPM NEXUS
                   </h1>
-                  <Sparkles className="w-6 h-6 text-yellow-500 animate-spin-slow" />
+                  <Sparkles className="w-5 h-5 text-yellow-500 animate-spin-slow" />
                 </div>
-                <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
+                <p className="text-base font-medium text-gray-600 dark:text-gray-300">
                   <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
                     Advanced Manufacturing Maintenance System
                   </span>
@@ -67,9 +67,7 @@ const Index = () => {
             
             {/* Enhanced Controls */}
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <ThemeToggle />
-              </div>
+              <ThemeToggle />
               
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-300"></div>
@@ -89,36 +87,56 @@ const Index = () => {
         <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-50"></div>
       </header>
 
-      {/* Enhanced Navigation Tabs */}
+      {/* Enhanced Navigation Tabs with improved styling */}
       <div className="relative z-20 backdrop-blur-xl bg-gradient-to-r from-white/5 via-blue-500/5 to-purple-500/5 dark:from-slate-900/20 dark:via-blue-950/15 dark:to-purple-950/20 border-b border-blue-500/20 dark:border-blue-400/30">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 py-4">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gradient-to-r from-gray-100/80 to-gray-200/80 dark:from-slate-800/80 dark:to-slate-700/80 backdrop-blur-sm border border-white/20 dark:border-slate-600/50 rounded-2xl p-2">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-gradient-to-r from-gray-100/60 to-gray-200/60 dark:from-slate-800/60 dark:to-slate-700/60 backdrop-blur-xl border-2 border-white/30 dark:border-slate-600/40 rounded-3xl p-1.5 shadow-2xl">
                 <TabsTrigger 
                   value="submit" 
-                  className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/25 text-black dark:text-white transition-all duration-300 rounded-xl font-semibold"
+                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:via-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/40 text-black dark:text-white transition-all duration-500 rounded-2xl font-bold text-sm py-3 hover:scale-[1.02] hover:shadow-lg"
                 >
-                  <FileText className="w-5 h-5 mr-2" />
-                  Submit Request
+                  <div className="flex items-center space-x-2">
+                    <div className="relative">
+                      <FileText className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                      {activeTab === 'submit' && (
+                        <div className="absolute inset-0 bg-white/30 rounded-full blur-sm animate-pulse"></div>
+                      )}
+                    </div>
+                    <span>Submit Request</span>
+                  </div>
                   {activeTab === 'submit' && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl animate-pulse"></div>
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-2xl animate-pulse"></div>
+                      <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-3xl blur opacity-30 animate-pulse"></div>
+                    </>
                   )}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="track" 
-                  className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/25 text-black dark:text-white transition-all duration-300 rounded-xl font-semibold"
+                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:via-purple-600 data-[state=active]:to-cyan-600 data-[state=active]:text-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/40 text-black dark:text-white transition-all duration-500 rounded-2xl font-bold text-sm py-3 hover:scale-[1.02] hover:shadow-lg"
                 >
-                  <Search className="w-5 h-5 mr-2" />
-                  Track Ticket
+                  <div className="flex items-center space-x-2">
+                    <div className="relative">
+                      <Search className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                      {activeTab === 'track' && (
+                        <div className="absolute inset-0 bg-white/30 rounded-full blur-sm animate-pulse"></div>
+                      )}
+                    </div>
+                    <span>Track Ticket</span>
+                  </div>
                   {activeTab === 'track' && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-cyan-400/20 rounded-xl animate-pulse"></div>
+                    <>
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-cyan-400/20 rounded-2xl animate-pulse"></div>
+                      <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-3xl blur opacity-30 animate-pulse"></div>
+                    </>
                   )}
                 </TabsTrigger>
               </TabsList>
 
               {/* Content */}
-              <div className="py-8">
+              <div className="py-6">
                 <TabsContent value="submit" className="animate-slideInUp">
                   <TicketSubmissionForm />
                 </TabsContent>

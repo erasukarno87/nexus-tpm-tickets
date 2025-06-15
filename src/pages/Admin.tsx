@@ -58,36 +58,42 @@ const Admin = () => {
       {/* 3D Animated Background */}
       <ThreeBackground />
       
-      {/* Header Admin Panel with much reduced background opacity */}
+      {/* Header Admin Panel */}
       <div className="relative z-20">
         <AdminHeader onLogout={handleLogout} />
       </div>
 
-      {/* Navigasi Tab with much reduced background opacity */}
-      <div className="bg-white/30 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 relative z-20">
-        <div className="container mx-auto px-4">
+      {/* Enhanced Admin Navigation Tabs */}
+      <div className="bg-white/20 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-800/50 relative z-20">
+        <div className="container mx-auto px-4 py-4">
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-gray-100/50 dark:bg-gray-800 p-1 rounded-lg">
+            <TabsList className="grid w-full grid-cols-3 bg-gradient-to-r from-gray-100/40 to-gray-200/40 dark:from-gray-800/40 dark:to-gray-700/40 backdrop-blur-xl p-1.5 rounded-3xl border-2 border-white/20 dark:border-gray-600/30 shadow-2xl">
               <TabsTrigger 
                 value="dashboard"
-                className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
+                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:via-blue-600 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-2xl data-[state=active]:shadow-blue-500/40 text-gray-600 dark:text-gray-300 transition-all duration-500 rounded-2xl font-bold py-3 hover:scale-[1.02]"
               >
-                <BarChart3 className="w-5 h-5 mr-2" />
-                Dashboard
+                <div className="flex items-center space-x-2">
+                  <BarChart3 className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                  <span>Dashboard</span>
+                </div>
               </TabsTrigger>
               <TabsTrigger 
                 value="tickets"
-                className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
+                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:via-green-600 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-2xl data-[state=active]:shadow-green-500/40 text-gray-600 dark:text-gray-300 transition-all duration-500 rounded-2xl font-bold py-3 hover:scale-[1.02]"
               >
-                <FileText className="w-5 h-5 mr-2" />
-                Kelola Tiket
+                <div className="flex items-center space-x-2">
+                  <FileText className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                  <span>Kelola Tiket</span>
+                </div>
               </TabsTrigger>
               <TabsTrigger 
                 value="master-data"
-                className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-gray-600 dark:text-gray-300"
+                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:via-purple-600 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-2xl data-[state=active]:shadow-purple-500/40 text-gray-600 dark:text-gray-300 transition-all duration-500 rounded-2xl font-bold py-3 hover:scale-[1.02]"
               >
-                <Database className="w-5 h-5 mr-2" />
-                Data Master
+                <div className="flex items-center space-x-2">
+                  <Database className="w-5 h-5 transition-transform duration-300 group-hover:scale-110" />
+                  <span>Data Master</span>
+                </div>
               </TabsTrigger>
             </TabsList>
 
