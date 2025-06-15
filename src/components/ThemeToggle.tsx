@@ -39,8 +39,8 @@ export const ThemeToggle = () => {
       variant="outline"
       size="sm"
       onClick={toggleTheme}
-      className={`glass-input border-gray-600 hover:border-blue-400 transition-colors ${
-        isDark ? 'text-yellow-400' : 'text-blue-600'
+      className={`backdrop-blur-md border-white/30 hover:border-blue-400/50 transition-all duration-300 hover:scale-105 ${
+        isDark ? 'text-yellow-400 hover:text-yellow-300' : 'text-blue-600 hover:text-blue-700'
       }`}
     >
       {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
