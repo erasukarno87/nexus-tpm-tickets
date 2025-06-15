@@ -308,18 +308,18 @@
   background-color: rgba(55, 65, 81, 0.7);
 }
 
-/* Global transparent container for all pages to show 3D background - made more transparent */
+/* Global transparent container for all pages to show 3D background - extreme transparency */
 .page-container {
-  background: rgba(255, 255, 255, 0.005) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.03) !important;
+  background: rgba(255, 255, 255, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.01) !important;
   border-radius: 1rem !important;
 }
 
 .dark .page-container {
-  background: rgba(0, 0, 0, 0.015) !important;
-  backdrop-filter: blur(8px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.02) !important;
+  background: rgba(0, 0, 0, 0.005) !important;
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.005) !important;
 }
 
 /* Specific transparency for the form container to show 3D background - reduced from 1% to 0.5% background */
