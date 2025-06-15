@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -38,44 +37,44 @@ const Index = () => {
       title: 'Tindakan Korektif',
       description: 'Perbaikan untuk mencegah masalah berulang',
       icon: <AlertTriangle className="w-8 h-8" />,
-      gradient: 'from-red-600 via-red-500 to-red-400',
-      bgGradient: 'from-red-500/20 via-red-400/15 to-red-300/10',
-      borderColor: 'border-red-500/50 hover:border-red-400/70',
-      shadowColor: 'shadow-red-500/30 hover:shadow-red-400/50',
-      iconColor: 'text-red-600'
+      gradient: 'from-red-500 via-pink-500 to-rose-500',
+      bgGradient: 'from-red-500/10 via-pink-500/10 to-rose-500/10',
+      borderColor: 'border-red-500/30 hover:border-pink-500/50',
+      shadowColor: 'shadow-red-500/20 hover:shadow-pink-500/30',
+      iconColor: 'text-red-500'
     },
     {
       id: 'repair',
       title: 'Perbaikan',
       description: 'Perbaikan kerusakan mesin atau peralatan',
       icon: <Hammer className="w-8 h-8" />,
-      gradient: 'from-blue-600 via-blue-500 to-blue-400',
-      bgGradient: 'from-blue-500/20 via-blue-400/15 to-blue-300/10',
-      borderColor: 'border-blue-500/50 hover:border-blue-400/70',
-      shadowColor: 'shadow-blue-500/30 hover:shadow-blue-400/50',
-      iconColor: 'text-blue-600'
+      gradient: 'from-blue-500 via-cyan-500 to-teal-500',
+      bgGradient: 'from-blue-500/10 via-cyan-500/10 to-teal-500/10',
+      borderColor: 'border-blue-500/30 hover:border-cyan-500/50',
+      shadowColor: 'shadow-blue-500/20 hover:shadow-cyan-500/30',
+      iconColor: 'text-blue-500'
     },
     {
       id: 'procurement',
       title: 'Pengadaan',
       description: 'Permintaan suku cadang atau material',
       icon: <ShoppingCart className="w-8 h-8" />,
-      gradient: 'from-green-600 via-green-500 to-green-400',
-      bgGradient: 'from-green-500/20 via-green-400/15 to-green-300/10',
-      borderColor: 'border-green-500/50 hover:border-green-400/70',
-      shadowColor: 'shadow-green-500/30 hover:shadow-green-400/50',
-      iconColor: 'text-green-600'
+      gradient: 'from-emerald-500 via-green-500 to-teal-500',
+      bgGradient: 'from-emerald-500/10 via-green-500/10 to-teal-500/10',
+      borderColor: 'border-emerald-500/30 hover:border-green-500/50',
+      shadowColor: 'shadow-emerald-500/20 hover:shadow-green-500/30',
+      iconColor: 'text-emerald-500'
     },
     {
       id: 'support',
       title: 'Dukungan',
       description: 'Bantuan teknis dan konsultasi',
       icon: <HelpCircle className="w-8 h-8" />,
-      gradient: 'from-purple-600 via-purple-500 to-purple-400',
-      bgGradient: 'from-purple-500/20 via-purple-400/15 to-purple-300/10',
-      borderColor: 'border-purple-500/50 hover:border-purple-400/70',
-      shadowColor: 'shadow-purple-500/30 hover:shadow-purple-400/50',
-      iconColor: 'text-purple-600'
+      gradient: 'from-purple-500 via-violet-500 to-indigo-500',
+      bgGradient: 'from-purple-500/10 via-violet-500/10 to-indigo-500/10',
+      borderColor: 'border-purple-500/30 hover:border-violet-500/50',
+      shadowColor: 'shadow-purple-500/20 hover:shadow-violet-500/30',
+      iconColor: 'text-purple-500'
     }
   ];
 
