@@ -84,7 +84,7 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
             <Input
               value={editingTicket.ticket_number}
               readOnly
-              className="bg-gray-100/30 dark:bg-gray-700 border border-gray-300/30 dark:border-gray-600 text-gray-900 dark:text-white h-12 cursor-not-allowed"
+              className="h-12 cursor-not-allowed opacity-60"
             />
             <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Nomor tiket tidak dapat diubah</p>
           </div>
@@ -177,14 +177,14 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
             <Button
               variant="outline"
               onClick={onClose}
-              className="hover:bg-gray-500 hover:text-white transition-all duration-300"
+              className="h-12 px-6 text-base font-medium"
             >
               <X className="w-4 h-4 mr-2" />
               Close
             </Button>
             <Button
               onClick={handleSave}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 text-white"
+              className="h-12 px-6 text-base font-medium"
             >
               <Save className="w-4 h-4 mr-2" />
               Simpan Perubahan

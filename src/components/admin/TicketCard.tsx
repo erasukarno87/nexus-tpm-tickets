@@ -34,11 +34,11 @@ interface TicketCardProps {
 }
 
 const statusConfig = {
-  open: { label: 'Terbuka', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
-  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
-  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500', glow: 'shadow-orange-500/30' },
-  closed: { label: 'Selesai', color: 'bg-green-500', glow: 'shadow-green-500/30' },
-  ditolak: { label: 'Ditolak', color: 'bg-red-500', glow: 'shadow-red-500/30' },
+  open: { label: 'Terbuka', color: 'bg-blue-500' },
+  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500' },
+  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500' },
+  closed: { label: 'Selesai', color: 'bg-green-500' },
+  ditolak: { label: 'Ditolak', color: 'bg-red-500' },
 };
 
 const priorityConfig = {
@@ -69,7 +69,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
   return (
     <Card 
       key={ticket.id} 
-      className="bg-white/3 dark:bg-gray-800 backdrop-blur-sm border border-gray-200/20 dark:border-gray-700 hover:shadow-lg transition-all duration-500"
+      className="transition-all duration-500"
       style={{ animationDelay: `${index * 0.1}s` }}
     >
       <CardContent className="p-6">
@@ -78,7 +78,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
             <div className="space-y-3">
               <div className="flex items-center space-x-4">
                 <h3 className="text-xl font-bold text-gray-900 dark:text-white">{ticket.title}</h3>
-                <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0 px-3 py-1 text-white`}>
+                <Badge className={`${statusConfig[ticket.status].color} border-0 px-3 py-1 text-white`}>
                   {getStatusIcon(ticket.status)}
                   <span className="ml-2 font-semibold">{statusConfig[ticket.status].label}</span>
                 </Badge>
@@ -129,7 +129,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               variant="outline"
               size="lg"
               onClick={() => onViewDetails(ticket)}
-              className="bg-white/5 dark:bg-gray-800 border-green-500/50 text-green-600 dark:text-green-400 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105 h-12 px-6 text-base font-medium"
+              className="h-12 px-6 text-base font-medium"
             >
               <Eye className="w-5 h-5 mr-2" />
               Lihat Detail
@@ -139,7 +139,7 @@ export const TicketCard: React.FC<TicketCardProps> = ({
               variant="outline"
               size="lg"
               onClick={() => onEdit(ticket)}
-              className="bg-white/5 dark:bg-gray-800 border-blue-500/50 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105 h-12 px-6 text-base font-medium"
+              className="h-12 px-6 text-base font-medium"
             >
               <Edit3 className="w-5 h-5 mr-2" />
               Update Tiket

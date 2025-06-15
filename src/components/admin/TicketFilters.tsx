@@ -25,7 +25,7 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
   filteredTicketsCount,
 }) => {
   return (
-    <Card className="mb-8 shadow-lg">
+    <Card className="mb-8">
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="relative">
@@ -65,9 +65,9 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
             </SelectContent>
           </Select>
 
-          <div className="flex items-center space-x-2 text-gray-800 dark:text-gray-200 bg-gradient-to-r from-blue-100/50 dark:from-blue-500/20 to-purple-100/50 dark:to-purple-500/20 rounded-lg p-3 border border-blue-200/30 dark:border-blue-500/30">
+          <div className="flex items-center space-x-3 p-3 bg-gray-50/30 dark:bg-gray-700 border border-gray-200/30 dark:border-gray-600 rounded-lg">
             <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span className="font-semibold">Total: {filteredTicketsCount}</span>
+            <span className="font-semibold text-gray-900 dark:text-white">Total: {filteredTicketsCount}</span>
           </div>
         </div>
       </CardContent>

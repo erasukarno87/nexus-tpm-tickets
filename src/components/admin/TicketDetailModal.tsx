@@ -32,11 +32,11 @@ interface TicketDetailModalProps {
 }
 
 const statusConfig = {
-  open: { label: 'Terbuka', color: 'bg-blue-500', glow: 'shadow-blue-500/30' },
-  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500', glow: 'shadow-yellow-500/30' },
-  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500', glow: 'shadow-orange-500/30' },
-  closed: { label: 'Selesai', color: 'bg-green-500', glow: 'shadow-green-500/30' },
-  ditolak: { label: 'Ditolak', color: 'bg-red-500', glow: 'shadow-red-500/30' },
+  open: { label: 'Terbuka', color: 'bg-blue-500' },
+  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500' },
+  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500' },
+  closed: { label: 'Selesai', color: 'bg-green-500' },
+  ditolak: { label: 'Ditolak', color: 'bg-red-500' },
 };
 
 const priorityConfig = {
@@ -86,7 +86,7 @@ const renderPhotos = (photos: string[] | null, title: string) => {
               <img 
                 src={imageUrl}
                 alt={`${title} ${index + 1}`}
-                className="w-full h-32 object-cover rounded-lg border border-gray-200/30 dark:border-gray-600 shadow-md cursor-pointer hover:scale-105 transition-transform duration-300"
+                className="w-full h-32 object-cover rounded-lg border border-gray-200/30 dark:border-gray-600 cursor-pointer hover:scale-105 transition-transform duration-300"
                 onClick={() => window.open(imageUrl, '_blank')}
                 onError={(e) => {
                   console.error('Error loading image:', imageUrl);
