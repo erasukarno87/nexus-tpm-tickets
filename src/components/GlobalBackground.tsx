@@ -1,11 +1,18 @@
 
 import React from 'react';
-import { ThreeBackground } from './ThreeBackground';
 
 export const GlobalBackground = () => {
   return (
     <>
-      <ThreeBackground />
+      {/* Simple gradient background */}
+      <div className="fixed inset-0 -z-10">
+        <div 
+          className="w-full h-full"
+          style={{
+            background: 'linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%)',
+          }}
+        />
+      </div>
       
       {/* Overlay gradients for better text readability on all pages */}
       <div className="fixed inset-0 -z-5 pointer-events-none">
@@ -22,4 +29,3 @@ export const GlobalBackground = () => {
     </>
   );
 };
-
