@@ -60,11 +60,11 @@ const Index = () => {
           </div>
         </header>
 
-        {/* Main Content with enhanced animations and transparency */}
+        {/* Main Content with completely transparent styling */}
         <div className="max-w-5xl mx-auto px-4 pb-12">
-          <div className="animate-fadeIn page-container p-8" style={{ animationDelay: '0.3s' }}>
+          <div className="animate-fadeIn p-8" style={{ animationDelay: '0.3s', background: 'transparent', border: '1px solid rgba(255, 255, 255, 0.005)', borderRadius: '1rem' }}>
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 bg-white/5 dark:bg-white/5 backdrop-blur-sm border border-gray-200/30 dark:border-white/10 mb-8 p-2 h-16">
+              <TabsList className="grid w-full grid-cols-2 bg-transparent backdrop-blur-sm border border-gray-200/20 dark:border-white/5 mb-8 p-2 h-16">
                 <TabsTrigger 
                   value="submit" 
                   className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-600/80 data-[state=active]:to-purple-600/80 data-[state=active]:text-white transition-all duration-300 h-12 text-lg font-semibold text-white dark:text-gray-200 backdrop-blur-sm"
