@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @tailwind base;
 @tailwind components;
@@ -132,8 +133,8 @@
   animation: float 6s ease-in-out infinite;
 }
 
-/* Full transparency form styling for maximum 3D background visibility */
-.form-card {
+/* Standardized border styling for all components */
+.form-card, .glass-card, .page-container, .admin-container, .dashboard-container, .master-data-container, .ticket-container {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(59, 130, 246, 0.4) !important;
@@ -141,19 +142,19 @@
   box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
 }
 
-.dark .form-card {
+.dark .form-card, .dark .glass-card, .dark .page-container, .dark .admin-container, .dark .dashboard-container, .dark .master-data-container, .dark .ticket-container {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(96, 165, 250, 0.3) !important;
   box-shadow: 0 0 20px rgba(96, 165, 250, 0.1);
 }
 
-/* Full transparency dropdown styling */
+/* Standardized dropdown styling */
 [data-radix-popper-content-wrapper] {
   z-index: 9999 !important;
 }
 
-.dropdown-content {
+.dropdown-content, [data-radix-select-content] {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(59, 130, 246, 0.4) !important;
@@ -161,84 +162,50 @@
   border-radius: 0.375rem;
 }
 
-.dark .dropdown-content {
+.dark .dropdown-content, .dark [data-radix-select-content] {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(96, 165, 250, 0.3) !important;
   box-shadow: 0 0 20px rgba(96, 165, 250, 0.15) !important;
 }
 
-/* Full transparency input field improvements */
-.input-field {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
-  color: rgb(31, 41, 55);
-}
-
-.input-field::placeholder {
-  color: rgb(107, 114, 128);
-}
-
-.dark .input-field {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
-  color: white;
-}
-
-.dark .input-field::placeholder {
-  color: rgb(156, 163, 175);
-}
-
-/* Full transparency glass card styling */
-.glass-card {
+/* Standardized input field styling */
+.input-field, .glass-input {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(59, 130, 246, 0.4) !important;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
-}
-
-.dark .glass-card {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 2px solid rgba(96, 165, 250, 0.3) !important;
-  box-shadow: 0 0 20px rgba(96, 165, 250, 0.1);
-}
-
-/* Full transparency glass input styling */
-.glass-input {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
   color: rgb(31, 41, 55);
 }
 
-.glass-input::placeholder {
+.input-field::placeholder, .glass-input::placeholder {
   color: rgb(107, 114, 128);
 }
 
-.dark .glass-input {
+.dark .input-field, .dark .glass-input {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
+  border: 2px solid rgba(96, 165, 250, 0.3) !important;
   color: white;
 }
 
-.dark .glass-input::placeholder {
+.dark .input-field::placeholder, .dark .glass-input::placeholder {
   color: rgb(156, 163, 175);
 }
 
-/* Button improvements with transparency */
+/* Button improvements with standardized borders */
 .btn-primary {
   @apply bg-gradient-to-r from-blue-600/70 to-purple-600/70 hover:from-blue-700/80 hover:to-purple-700/80 text-white backdrop-blur-sm;
+  border: 2px solid rgba(59, 130, 246, 0.4) !important;
+}
+
+.dark .btn-primary {
+  border: 2px solid rgba(96, 165, 250, 0.3) !important;
 }
 
 .btn-secondary {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
+  border: 2px solid rgba(59, 130, 246, 0.4) !important;
   color: rgb(31, 41, 55);
 }
 
@@ -249,7 +216,7 @@
 .dark .btn-secondary {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
+  border: 2px solid rgba(96, 165, 250, 0.3) !important;
   color: white;
 }
 
@@ -290,21 +257,7 @@
   }
 }
 
-/* Full transparency select dropdown styling */
-[data-radix-select-content] {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
-  border-radius: 0.5rem;
-  box-shadow: none !important;
-}
-
-.dark [data-radix-select-content] {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.005) !important;
-}
-
+/* Standardized select dropdown items */
 [data-radix-select-item] {
   color: rgb(31, 41, 55);
   padding: 0.5rem 1rem;
@@ -322,25 +275,34 @@
   background-color: rgba(55, 65, 81, 0.05);
 }
 
-/* Full transparency global container for all pages to show 3D background */
-.page-container {
+/* Standardized tab content */
+[data-radix-tabs-content] {
+  background: rgba(0, 0, 0, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+  border-radius: 0.75rem !important;
+}
+
+.dark [data-radix-tabs-content] {
+  background: rgba(0, 0, 0, 0.001) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Standardized card components */
+[data-radix-card], .card {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(59, 130, 246, 0.4) !important;
-  border-radius: 1rem !important;
-  animation: fadeIn 0.8s ease-out forwards;
-  animation-delay: 0.3s;
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
 }
 
-.dark .page-container {
+.dark [data-radix-card], .dark .card {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(96, 165, 250, 0.3) !important;
-  box-shadow: 0 0 30px rgba(96, 165, 250, 0.15);
+  box-shadow: 0 0 20px rgba(96, 165, 250, 0.1);
 }
 
-/* Full transparency for the form container to show 3D background */
+/* Standardized form containers */
 #radix-\:r1\:-content-submit > div > div.container.mx-auto.px-4.py-8.relative.z-10 > div {
   background: rgba(0, 0, 0, 0.001) !important;
   backdrop-filter: blur(4px) !important;
@@ -354,63 +316,4 @@
   backdrop-filter: blur(4px) !important;
   border: 2px solid rgba(96, 165, 250, 0.3) !important;
   box-shadow: 0 0 30px rgba(96, 165, 250, 0.15);
-}
-
-/* Full transparency admin page */
-.admin-container {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 2px solid rgba(59, 130, 246, 0.4) !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
-}
-
-.dark .admin-container {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 2px solid rgba(96, 165, 250, 0.3) !important;
-  box-shadow: 0 0 30px rgba(96, 165, 250, 0.15);
-}
-
-/* Full transparency dashboard and other component containers */
-.dashboard-container, .master-data-container, .ticket-container {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 2px solid rgba(59, 130, 246, 0.4) !important;
-  border-radius: 1rem !important;
-  box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
-}
-
-.dark .dashboard-container, .dark .master-data-container, .dark .ticket-container {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 2px solid rgba(96, 165, 250, 0.3) !important;
-  box-shadow: 0 0 30px rgba(96, 165, 250, 0.15);
-}
-
-/* Full transparency tab content */
-[data-radix-tabs-content] {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border-radius: 0.75rem !important;
-}
-
-.dark [data-radix-tabs-content] {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-}
-
-/* Full transparency card components */
-[data-radix-card], .card {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 2px solid rgba(59, 130, 246, 0.4) !important;
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
-}
-
-.dark [data-radix-card], .dark .card {
-  background: rgba(0, 0, 0, 0.001) !important;
-  backdrop-filter: blur(4px) !important;
-  border: 2px solid rgba(96, 165, 250, 0.3) !important;
-  box-shadow: 0 0 20px rgba(96, 165, 250, 0.1);
 }
