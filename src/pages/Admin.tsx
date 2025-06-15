@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -371,7 +370,7 @@ const Admin = () => {
               </p>
               <div className="mt-4 h-1 w-40 mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full animate-pulse"></div>
             </div>
-            <div className="flex flex-col items-center space-y-4 animate-slideInRight">
+            <div className="flex flex-col items-center space-x-4 animate-slideInRight">
               <ThemeToggle />
               <Button
                 onClick={handleLogout}
