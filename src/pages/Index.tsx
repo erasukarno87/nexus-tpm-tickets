@@ -6,7 +6,7 @@ import { TicketTracking } from '@/components/TicketTracking';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { ThreeBackground } from '@/components/ThreeBackground';
 import { Button } from '@/components/ui/button';
-import { FileText, Search, Settings, Wrench } from 'lucide-react';
+import { FileText, Search, Settings, Wrench, Sparkles, Zap } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('submit');
@@ -29,70 +29,101 @@ const Index = () => {
       {/* 3D Animated Background */}
       <ThreeBackground />
       
-      {/* Header with much reduced background opacity */}
-      <header className="bg-white/30 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-white relative z-20">
-        <div className="container mx-auto px-4 py-6">
+      {/* Futuristic Header */}
+      <header className="relative z-20 backdrop-blur-xl bg-gradient-to-r from-white/10 via-blue-500/5 to-purple-500/10 dark:from-slate-900/30 dark:via-blue-950/20 dark:to-purple-950/30 border-b border-gradient-to-r from-blue-500/30 via-purple-500/30 to-cyan-500/30">
+        {/* Animated glow line at top */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse"></div>
+        
+        <div className="container mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
-            {/* Judul Header */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-3">
-                <Wrench className="w-8 h-8 text-black dark:text-white" />
-                <div>
-                  <h1 className="text-3xl font-bold text-black dark:text-white">
-                    Sistem TPM
+            {/* Enhanced Title Section */}
+            <div className="flex items-center space-x-6">
+              <div className="relative">
+                {/* Glowing background for icon */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
+                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-xl shadow-2xl">
+                  <Wrench className="w-8 h-8 text-white" />
+                </div>
+              </div>
+              
+              <div className="space-y-2">
+                <div className="flex items-center space-x-3">
+                  <h1 className="text-4xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
+                    TPM NEXUS
                   </h1>
-                  <p className="text-lg text-gray-600 dark:text-white mt-1">
-                    Total Productive Maintenance Management System
-                  </p>
+                  <Sparkles className="w-6 h-6 text-yellow-500 animate-spin-slow" />
+                </div>
+                <p className="text-lg font-medium text-gray-600 dark:text-gray-300">
+                  <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
+                    Advanced Manufacturing Maintenance System
+                  </span>
+                </p>
+                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
+                  <Zap className="w-4 h-4 text-yellow-500" />
+                  <span>Powered by AI & Modern Technology</span>
                 </div>
               </div>
             </div>
             
-            {/* Kontrol Header */}
+            {/* Enhanced Controls */}
             <div className="flex items-center space-x-4">
-              <ThemeToggle />
-              <Button
-                onClick={() => window.location.href = '/admin'}
-                variant="outline"
-                className="text-black dark:text-white border-gray-300 dark:border-white hover:bg-gray-100 dark:hover:bg-gray-800"
-              >
-                <Settings className="w-4 h-4 mr-2 text-black dark:text-white" />
-                Admin Panel
-              </Button>
+              <div className="relative">
+                <ThemeToggle />
+              </div>
+              
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur opacity-25 group-hover:opacity-75 transition duration-300"></div>
+                <Button
+                  onClick={() => window.location.href = '/admin'}
+                  className="relative bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-white border border-slate-600 hover:border-blue-500/50 transition-all duration-300"
+                >
+                  <Settings className="w-4 h-4 mr-2" />
+                  Admin Portal
+                </Button>
+              </div>
             </div>
           </div>
         </div>
+        
+        {/* Bottom glow line */}
+        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent opacity-50"></div>
       </header>
 
-      {/* Navigasi Tab with much reduced background opacity */}
-      <div className="bg-white/30 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-white relative z-20">
-        <div className="container mx-auto px-4">
+      {/* Enhanced Navigation Tabs */}
+      <div className="relative z-20 backdrop-blur-xl bg-gradient-to-r from-white/5 via-blue-500/5 to-purple-500/5 dark:from-slate-900/20 dark:via-blue-950/15 dark:to-purple-950/20 border-b border-blue-500/20 dark:border-blue-400/30">
+        <div className="container mx-auto px-6">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gray-100/50 dark:bg-gray-800">
+              <TabsList className="grid w-full grid-cols-2 mb-8 bg-gradient-to-r from-gray-100/80 to-gray-200/80 dark:from-slate-800/80 dark:to-slate-700/80 backdrop-blur-sm border border-white/20 dark:border-slate-600/50 rounded-2xl p-2">
                 <TabsTrigger 
                   value="submit" 
-                  className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-black dark:text-white"
+                  className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-purple-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-blue-500/25 text-black dark:text-white transition-all duration-300 rounded-xl font-semibold"
                 >
-                  <FileText className="w-5 h-5 mr-2 text-black dark:text-white" />
-                  Ajukan Permintaan
+                  <FileText className="w-5 h-5 mr-2" />
+                  Submit Request
+                  {activeTab === 'submit' && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-xl animate-pulse"></div>
+                  )}
                 </TabsTrigger>
                 <TabsTrigger 
                   value="track" 
-                  className="data-[state=active]:bg-white/70 data-[state=active]:text-black dark:data-[state=active]:bg-gray-700 dark:data-[state=active]:text-white text-black dark:text-white"
+                  className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-purple-500/25 text-black dark:text-white transition-all duration-300 rounded-xl font-semibold"
                 >
-                  <Search className="w-5 h-5 mr-2 text-black dark:text-white" />
-                  Lacak Tiket
+                  <Search className="w-5 h-5 mr-2" />
+                  Track Ticket
+                  {activeTab === 'track' && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-cyan-400/20 rounded-xl animate-pulse"></div>
+                  )}
                 </TabsTrigger>
               </TabsList>
 
-              {/* Konten Tab */}
-              <div className="py-6">
-                <TabsContent value="submit">
+              {/* Content */}
+              <div className="py-8">
+                <TabsContent value="submit" className="animate-slideInUp">
                   <TicketSubmissionForm />
                 </TabsContent>
 
-                <TabsContent value="track">
+                <TabsContent value="track" className="animate-slideInUp">
                   <TicketTracking />
                 </TabsContent>
               </div>
@@ -101,11 +132,12 @@ const Index = () => {
         </div>
       </div>
 
-      {/* Footer with much reduced background opacity */}
-      <footer className="bg-white/30 dark:bg-gray-900/90 backdrop-blur-sm border-t border-gray-200 dark:border-white mt-16 relative z-20">
-        <div className="container mx-auto px-4 py-6 text-center">
-          <p className="text-black dark:text-white">
-            © 2024 TPM Nexus - Advanced Manufacturing Maintenance System
+      {/* Enhanced Footer */}
+      <footer className="relative z-20 mt-16 backdrop-blur-xl bg-gradient-to-r from-white/5 via-blue-500/5 to-purple-500/5 dark:from-slate-900/20 dark:via-blue-950/15 dark:to-purple-950/20 border-t border-gradient-to-r from-blue-500/20 to-purple-500/20">
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
+        <div className="container mx-auto px-6 py-8 text-center">
+          <p className="text-gray-600 dark:text-gray-300 font-medium">
+            © 2024 <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent font-bold">TPM NEXUS</span> - Advanced Manufacturing Maintenance System
           </p>
         </div>
       </footer>
