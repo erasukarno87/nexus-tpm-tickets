@@ -478,7 +478,7 @@ export const TicketSubmissionForm = () => {
               {/* Enhanced Description */}
               <div className="space-y-3">
                 <Label htmlFor="description" className="text-black dark:text-white text-lg font-semibold">
-                  Deskripsi Detail *
+                  Deskripsi kondisi saat ini *
                 </Label>
                 <Textarea
                   {...register('description', { required: 'Deskripsi wajib diisi' })}
