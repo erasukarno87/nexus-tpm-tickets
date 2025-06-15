@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -598,7 +599,7 @@ const Admin = () => {
                                   </div>
 
                                   <div>
-                                    <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Deskripsi</label>
+                                    <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Deskripsi kondisi saat ini</label>
                                     <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
                                       {ticket.description}
                                     </p>
@@ -768,7 +769,7 @@ const Admin = () => {
                                       Close
                                     </Button>
                                     <Button
-                                      onClick={() => editingTicket && updateTicket(ticket.id, editingTicket)}
+                                      onClick={() => editingTicket && updateTicket(editingTicket.id, editingTicket)}
                                       className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 text-white"
                                     >
                                       <Save className="w-4 h-4 mr-2" />
