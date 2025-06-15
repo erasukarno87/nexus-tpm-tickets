@@ -24,44 +24,37 @@ export const TechnicianForm: React.FC<TechnicianFormProps> = ({
   onCancel
 }) => {
   return (
-    <Card className="technician-form-card">
-      <CardContent className="technician-form-content">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label className="form-label">Nama Teknisi *</Label>
-            <Input
-              value={name}
-              onChange={(e) => onNameChange(e.target.value)}
-              className="technician-form-input"
-              placeholder="Masukkan nama teknisi"
-            />
+    <Card>
+      <CardContent className="p-6">
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label>Nama Teknisi *</Label>
+              <Input
+                value={name}
+                onChange={(e) => onNameChange(e.target.value)}
+                placeholder="Masukkan nama teknisi"
+              />
+            </div>
+            <div>
+              <Label>Telepon</Label>
+              <Input
+                value={phone}
+                onChange={(e) => onPhoneChange(e.target.value)}
+                placeholder="Masukkan nomor telepon"
+              />
+            </div>
           </div>
-          <div>
-            <Label className="form-label">Telepon</Label>
-            <Input
-              value={phone}
-              onChange={(e) => onPhoneChange(e.target.value)}
-              className="technician-form-input"
-              placeholder="Masukkan nomor telepon"
-            />
+          <div className="flex space-x-2">
+            <Button onClick={onSave}>
+              <Save className="w-4 h-4 mr-2" />
+              Simpan
+            </Button>
+            <Button variant="outline" onClick={onCancel}>
+              <X className="w-4 h-4 mr-2" />
+              Batal
+            </Button>
           </div>
-        </div>
-        <div className="technician-form-actions">
-          <Button
-            onClick={onSave}
-            className="btn-save"
-          >
-            <Save className="w-4 h-4 mr-2" />
-            Simpan
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onCancel}
-            className="btn-cancel"
-          >
-            <X className="w-4 h-4 mr-2" />
-            Batal
-          </Button>
         </div>
       </CardContent>
     </Card>

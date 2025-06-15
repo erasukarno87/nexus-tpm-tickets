@@ -37,63 +37,56 @@ export const LineAreaForm: React.FC<LineAreaFormProps> = ({
   onCancel
 }) => {
   return (
-    <Card className="linearea-form-card">
-      <CardContent className="linearea-form-content">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <Card>
+      <CardContent className="p-6">
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <Label>Nama Line/Area *</Label>
+              <Input
+                value={name}
+                onChange={(e) => onNameChange(e.target.value)}
+                placeholder="Masukkan nama Line/Area"
+              />
+            </div>
+            <div>
+              <Label>Departemen</Label>
+              <Select 
+                value={departmentId} 
+                onValueChange={onDepartmentChange}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Pilih departemen" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="none">Tidak ada departemen</SelectItem>
+                  {departments.map((dept) => (
+                    <SelectItem key={dept.id} value={dept.id}>
+                      {dept.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
           <div>
-            <Label className="form-label">Nama Line/Area *</Label>
-            <Input
-              value={name}
-              onChange={(e) => onNameChange(e.target.value)}
-              className="linearea-form-input"
-              placeholder="Masukkan nama Line/Area"
+            <Label>Deskripsi</Label>
+            <Textarea
+              value={description}
+              onChange={(e) => onDescriptionChange(e.target.value)}
+              placeholder="Masukkan deskripsi Line/Area"
             />
           </div>
-          <div>
-            <Label className="form-label">Departemen</Label>
-            <Select 
-              value={departmentId} 
-              onValueChange={onDepartmentChange}
-            >
-              <SelectTrigger className="linearea-form-select">
-                <SelectValue placeholder="Pilih departemen" />
-              </SelectTrigger>
-              <SelectContent className="linearea-form-select-content">
-                <SelectItem value="none">Tidak ada departemen</SelectItem>
-                {departments.map((dept) => (
-                  <SelectItem key={dept.id} value={dept.id}>
-                    {dept.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex space-x-2">
+            <Button onClick={onSave}>
+              <Save className="w-4 h-4 mr-2" />
+              Simpan
+            </Button>
+            <Button variant="outline" onClick={onCancel}>
+              <X className="w-4 h-4 mr-2" />
+              Batal
+            </Button>
           </div>
-        </div>
-        <div>
-          <Label className="form-label">Deskripsi</Label>
-          <Textarea
-            value={description}
-            onChange={(e) => onDescriptionChange(e.target.value)}
-            className="linearea-form-textarea"
-            placeholder="Masukkan deskripsi Line/Area"
-          />
-        </div>
-        <div className="linearea-form-actions">
-          <Button
-            onClick={onSave}
-            className="btn-save"
-          >
-            <Save className="w-4 h-4 mr-2" />
-            Simpan
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onCancel}
-            className="btn-cancel"
-          >
-            <X className="w-4 h-4 mr-2" />
-            Batal
-          </Button>
         </div>
       </CardContent>
     </Card>
