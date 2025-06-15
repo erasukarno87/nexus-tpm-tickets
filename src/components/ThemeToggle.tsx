@@ -21,7 +21,10 @@ export const ThemeToggle = () => {
     }
   }, []);
 
-  const toggleTheme = () => {
+  const toggleTheme = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
     const newTheme = !isDark;
     setIsDark(newTheme);
     
@@ -39,6 +42,7 @@ export const ThemeToggle = () => {
       variant="outline"
       size="icon"
       onClick={toggleTheme}
+      type="button"
       className={`transition-all duration-300 backdrop-blur-md shadow-md hover:scale-105 rounded-full w-10 h-10 ${
         isDark 
           ? 'bg-gradient-to-r from-yellow-500/10 to-orange-500/10 border-yellow-400/40 text-yellow-300 hover:from-yellow-500/20 hover:to-orange-500/20 hover:border-yellow-400/60 hover:shadow-yellow-400/20' 

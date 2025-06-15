@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
@@ -11,6 +10,7 @@ import {
   Stars,
   Orbit
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface FuturisticHeaderProps {
   title: string;
@@ -27,12 +27,18 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
   showLogoutButton = false,
   onLogout
 }) => {
-  const handleAdminClick = () => {
+  const navigate = useNavigate();
+
+  const handleAdminClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     console.log('Admin button clicked, navigating to /admin');
-    window.location.href = '/admin';
+    navigate('/admin');
   };
 
-  const handleLogoutClick = () => {
+  const handleLogoutClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     console.log('Logout button clicked');
     if (onLogout) {
       onLogout();
@@ -115,6 +121,7 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
                 onClick={handleAdminClick}
                 variant="outline"
                 size="sm"
+                type="button"
                 className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border-cyan-400/40 text-cyan-300 hover:from-cyan-500/20 hover:to-blue-500/20 hover:border-cyan-400/60 transition-all duration-300 backdrop-blur-md shadow-md hover:shadow-cyan-400/20 hover:scale-105"
               >
                 <Settings className="w-4 h-4 mr-2" />
@@ -130,6 +137,7 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
                 onClick={handleLogoutClick}
                 variant="outline"
                 size="sm"
+                type="button"
                 className="bg-gradient-to-r from-red-500/10 to-pink-500/10 border-red-400/40 text-red-300 hover:from-red-500/20 hover:to-pink-500/20 hover:border-red-400/60 transition-all duration-300 backdrop-blur-md shadow-md hover:shadow-red-400/20 hover:scale-105"
               >
                 <LogOut className="w-4 h-4 mr-2" />
