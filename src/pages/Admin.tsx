@@ -214,9 +214,9 @@ const Admin = () => {
       console.log('Updating ticket with ID:', ticketId);
       console.log('Updates:', updates);
 
-      // Remove undefined/null values and exclude id field (primary key cannot be updated)
+      // Remove undefined/null values and exclude id and ticket_number fields (these cannot be updated)
       const cleanUpdates = Object.entries(updates).reduce((acc, [key, value]) => {
-        if (value !== undefined && value !== null && key !== 'id') {
+        if (value !== undefined && value !== null && key !== 'id' && key !== 'ticket_number') {
           acc[key] = value;
         }
         return acc;
@@ -656,6 +656,17 @@ const Admin = () => {
 
                                 {editingTicket && (
                                   <div className="space-y-6 mt-6">
+                                    {/* Display ticket number as read-only */}
+                                    <div>
+                                      <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Nomor Tiket</label>
+                                      <Input
+                                        value={editingTicket.ticket_number}
+                                        readOnly
+                                        className="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12 cursor-not-allowed"
+                                      />
+                                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Nomor tiket tidak dapat diubah</p>
+                                    </div>
+
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                       <div>
                                         <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Status</label>
