@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -177,16 +178,16 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           multiple
           onChange={handleFileSelect}
           disabled={uploading || images.length >= maxImages}
-          style={{ color: 'black' }}
+          className="bg-white dark:bg-gray-800 text-black dark:text-white border-gray-300 dark:border-gray-600"
         />
         <Button
           type="button"
           variant="outline"
           disabled={uploading || images.length >= maxImages}
-          style={{ color: 'black' }}
+          className="bg-white dark:bg-gray-800 border-green-500 text-green-600 dark:text-green-400 hover:bg-green-500 hover:text-white"
         >
-          <Upload className="w-4 h-4 mr-2" style={{ color: 'black' }} />
-          <span style={{ color: 'black' }}>{uploading ? 'Mengunggah...' : 'Upload'}</span>
+          <Upload className="w-4 h-4 mr-2" />
+          {uploading ? 'Mengunggah...' : 'Upload'}
         </Button>
       </div>
 
@@ -197,7 +198,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
               <img
                 src={imageUrl}
                 alt={`Kondisi saat ini ${index + 1}`}
-                className="w-full h-32 object-cover rounded-lg border"
+                className="w-full h-32 object-cover rounded-lg border-2 border-gray-300 dark:border-gray-600"
                 onError={(e) => {
                   console.error('Error loading image:', imageUrl);
                   e.currentTarget.src = '/placeholder.svg';
@@ -209,9 +210,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                 size="sm"
                 onClick={() => removeImage(index)}
                 className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 p-0"
-                style={{ color: 'black' }}
               >
-                <X className="w-4 h-4" style={{ color: 'black' }} />
+                <X className="w-4 h-4" />
               </Button>
             </div>
           ))}
@@ -219,13 +219,13 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       )}
 
       {images.length === 0 && (
-        <div className="text-center py-8 border-2 border-dashed rounded-lg">
-          <Image className="w-12 h-12 mx-auto mb-2" style={{ color: 'black' }} />
-          <p style={{ color: 'black' }}>Belum ada gambar yang diunggah</p>
+        <div className="text-center py-8 border-2 border-dashed border-gray-400 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-800">
+          <Image className="w-12 h-12 text-gray-400 mx-auto mb-2" />
+          <p className="text-gray-500 dark:text-gray-400">Belum ada gambar yang diunggah</p>
         </div>
       )}
 
-      <p className="text-xs" style={{ color: 'black' }}>
+      <p className="text-xs text-gray-500 dark:text-gray-400">
         {images.length}/{maxImages} gambar • Maks 10MB per gambar • Format: JPG, PNG, GIF • Dikompres ke lebar maks 720px • Disimpan di Supabase Storage
       </p>
     </div>

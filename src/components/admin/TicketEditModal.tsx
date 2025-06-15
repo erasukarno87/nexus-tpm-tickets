@@ -68,35 +68,35 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="modal-content-large">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
         <DialogHeader>
-          <DialogTitle className="modal-title-gradient">
+          <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
             Update Tiket: {editingTicket.title}
           </DialogTitle>
-          <DialogDescription className="modal-description">
+          <DialogDescription className="text-gray-600 dark:text-gray-400">
             Perbarui informasi tiket {editingTicket.ticket_number}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="modal-form-container">
+        <div className="space-y-6 mt-6">
           <div>
-            <label className="form-label">Nomor Tiket</label>
+            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Nomor Tiket</label>
             <Input
               value={editingTicket.ticket_number}
               readOnly
-              className="readonly-input"
+              className="bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12 cursor-not-allowed"
             />
-            <p className="form-helper-text">Nomor tiket tidak dapat diubah</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Nomor tiket tidak dapat diubah</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="form-label">Status</label>
+              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Status</label>
               <Select 
                 value={editingTicket.status} 
                 onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
               >
-                <SelectTrigger className="form-select">
+                <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -110,12 +110,12 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
             </div>
             
             <div>
-              <label className="form-label">Ditugaskan Kepada</label>
+              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Ditugaskan Kepada</label>
               <Select 
                 value={editingTicket.assigned_to || 'unassigned'} 
                 onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
               >
-                <SelectTrigger className="form-select">
+                <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
                   <SelectValue placeholder="Pilih teknisi" />
                 </SelectTrigger>
                 <SelectContent>
@@ -132,11 +132,11 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
 
           {editingTicket.status === 'ditolak' && (
             <div>
-              <label className="form-label">Alasan Penolakan *</label>
+              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Alasan Penolakan *</label>
               <Textarea
                 value={editingTicket.rejection_reason || ''}
                 onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
-                className="form-textarea"
+                className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
                 placeholder="Masukkan alasan penolakan..."
                 required
               />
@@ -144,51 +144,47 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
           )}
 
           <div>
-            <label className="form-label">Catatan dari Tim TPM</label>
+            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Catatan dari Tim TPM</label>
             <Textarea
               value={editingTicket.notes || ''}
               onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
-              className="form-textarea"
+              className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
               placeholder="Tambahkan catatan dari tim TPM..."
             />
           </div>
 
           <div>
-            <label className="form-label">Upload Foto Before</label>
-            <div className="image-upload-container">
-              <ImageUpload
-                onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
-                existingImages={editingTicket.before_photos || []}
-                maxImages={5}
-              />
-            </div>
+            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto Before</label>
+            <ImageUpload
+              onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
+              existingImages={editingTicket.before_photos || []}
+              maxImages={5}
+            />
           </div>
 
           <div>
-            <label className="form-label">Upload Foto After</label>
-            <div className="image-upload-container">
-              <ImageUpload
-                onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
-                existingImages={editingTicket.after_photos || []}
-                maxImages={5}
-              />
-            </div>
+            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto After</label>
+            <ImageUpload
+              onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
+              existingImages={editingTicket.after_photos || []}
+              maxImages={5}
+            />
           </div>
         </div>
 
-        <DialogFooter className="modal-footer">
-          <div className="modal-button-group">
+        <DialogFooter className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
+          <div className="flex justify-end space-x-4 w-full">
             <Button
               variant="outline"
               onClick={onClose}
-              className="modal-button-secondary"
+              className="bg-white dark:bg-gray-800 border-gray-500 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-500 hover:text-white transition-all duration-300"
             >
               <X className="w-4 h-4 mr-2" />
               Close
             </Button>
             <Button
               onClick={handleSave}
-              className="modal-button-primary"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 text-white"
             >
               <Save className="w-4 h-4 mr-2" />
               Simpan Perubahan
