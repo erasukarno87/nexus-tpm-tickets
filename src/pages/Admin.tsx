@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -11,7 +12,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { 
@@ -96,6 +97,7 @@ const Admin = () => {
   const [editingTicket, setEditingTicket] = useState<Ticket | null>(null);
   const [viewingTicket, setViewingTicket] = useState<Ticket | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -227,6 +229,7 @@ const Admin = () => {
 
       await fetchTickets();
       setEditingTicket(null);
+      setIsEditModalOpen(false);
       
       toast({
         title: "Berhasil",
@@ -451,277 +454,300 @@ const Admin = () => {
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >
                       <CardContent className="p-6">
-                        {editingTicket?.id === ticket.id ? (
-                          // Enhanced Edit Mode
-                          <div className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                              <div>
-                                <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Status</label>
-                                <Select 
-                                  value={editingTicket.status} 
-                                  onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
-                                >
-                                  <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
-                                    <SelectValue />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="open">Terbuka</SelectItem>
-                                    <SelectItem value="in_progress">Sedang Proses</SelectItem>
-                                    <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
-                                    <SelectItem value="closed">Selesai</SelectItem>
-                                    <SelectItem value="ditolak">Ditolak</SelectItem>
-                                  </SelectContent>
-                                </Select>
+                        {/* Enhanced View Mode */}
+                        <div>
+                          <div className="flex items-start justify-between mb-6">
+                            <div className="space-y-3">
+                              <div className="flex items-center space-x-4">
+                                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{ticket.title}</h3>
+                                <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0 px-3 py-1 text-white`}>
+                                  {getStatusIcon(ticket.status)}
+                                  <span className="ml-2 font-semibold">{statusConfig[ticket.status].label}</span>
+                                </Badge>
                               </div>
-                              
-                              <div>
-                                <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Ditugaskan Kepada</label>
-                                <Select 
-                                  value={editingTicket.assigned_to || 'unassigned'} 
-                                  onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
-                                >
-                                  <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
-                                    <SelectValue placeholder="Pilih teknisi" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="unassigned">Belum Ditugaskan</SelectItem>
-                                    {technicians.map((tech) => (
-                                      <SelectItem key={tech.id} value={tech.name}>
-                                        {tech.name}
-                                      </SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
-                              </div>
-                            </div>
-
-                            {editingTicket.status === 'ditolak' && (
-                              <div>
-                                <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Alasan Penolakan *</label>
-                                <Textarea
-                                  value={editingTicket.rejection_reason || ''}
-                                  onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
-                                  className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
-                                  placeholder="Masukkan alasan penolakan..."
-                                  required
-                                />
-                              </div>
-                            )}
-
-                            <div>
-                              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Catatan dari Tim TPM</label>
-                              <Textarea
-                                value={editingTicket.notes || ''}
-                                onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
-                                className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
-                                placeholder="Tambahkan catatan dari tim TPM..."
-                              />
-                            </div>
-
-                            {/* Upload Foto Before */}
-                            <div>
-                              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto Before</label>
-                              <ImageUpload
-                                onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
-                                existingImages={editingTicket.before_photos || []}
-                                maxImages={5}
-                              />
-                            </div>
-
-                            {/* Upload Foto After */}
-                            <div>
-                              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto After</label>
-                              <ImageUpload
-                                onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
-                                existingImages={editingTicket.after_photos || []}
-                                maxImages={5}
-                              />
-                            </div>
-
-                            <div className="flex space-x-4">
-                              <Button
-                                onClick={() => updateTicket(ticket.id, editingTicket)}
-                                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 text-white"
-                              >
-                                <Save className="w-4 h-4 mr-2" />
-                                Simpan Perubahan
-                              </Button>
-                              <Button
-                                variant="outline"
-                                onClick={() => setEditingTicket(null)}
-                                className="bg-white dark:bg-gray-800 border-gray-500 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-500 hover:text-white transition-all duration-300"
-                              >
-                                <X className="w-4 h-4 mr-2" />
-                                Batal
-                              </Button>
+                              <p className="text-lg font-mono text-blue-600 dark:text-blue-400 font-bold">{ticket.ticket_number}</p>
                             </div>
                           </div>
-                        ) : (
-                          // Enhanced View Mode
-                          <div>
-                            <div className="flex items-start justify-between mb-6">
-                              <div className="space-y-3">
-                                <div className="flex items-center space-x-4">
-                                  <h3 className="text-xl font-bold text-gray-900 dark:text-white">{ticket.title}</h3>
-                                  <Badge className={`${statusConfig[ticket.status].color} ${statusConfig[ticket.status].glow} shadow-lg border-0 px-3 py-1 text-white`}>
-                                    {getStatusIcon(ticket.status)}
-                                    <span className="ml-2 font-semibold">{statusConfig[ticket.status].label}</span>
-                                  </Badge>
-                                </div>
-                                <p className="text-lg font-mono text-blue-600 dark:text-blue-400 font-bold">{ticket.ticket_number}</p>
+
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+                              <User className="w-5 h-5 text-green-500 dark:text-green-400" />
+                              <div>
+                                <p className="text-xs text-gray-600 dark:text-gray-400">Teknisi</p>
+                                <p className="text-gray-900 dark:text-white font-semibold">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
                               </div>
                             </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
-                                <User className="w-5 h-5 text-green-500 dark:text-green-400" />
-                                <div>
-                                  <p className="text-xs text-gray-600 dark:text-gray-400">Teknisi</p>
-                                  <p className="text-gray-900 dark:text-white font-semibold">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
-                                </div>
-                              </div>
-                              <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
-                                <Calendar className="w-5 h-5 text-purple-500 dark:text-purple-400" />
-                                <div>
-                                  <p className="text-xs text-gray-600 dark:text-gray-400">Dibuat</p>
-                                  <p className="text-gray-900 dark:text-white font-semibold text-xs">{formatDate(ticket.created_at)}</p>
-                                </div>
-                              </div>
-                              <div className="flex items-center justify-center p-3">
-                                <div className={`px-4 py-2 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-bold`}>
-                                  PRIORITAS {ticket.priority.toUpperCase()}
-                                </div>
+                            <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg">
+                              <Calendar className="w-5 h-5 text-purple-500 dark:text-purple-400" />
+                              <div>
+                                <p className="text-xs text-gray-600 dark:text-gray-400">Dibuat</p>
+                                <p className="text-gray-900 dark:text-white font-semibold text-xs">{formatDate(ticket.created_at)}</p>
                               </div>
                             </div>
-
-                            <div className="p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mb-4">
-                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed">{ticket.description}</p>
-                            </div>
-                            
-                            {ticket.status === 'ditolak' && ticket.rejection_reason && (
-                              <div className="mt-4 p-4 bg-red-100 dark:bg-red-500/20 border-2 border-red-300 dark:border-red-500 rounded-lg">
-                                <p className="text-red-600 dark:text-red-400 text-sm font-bold mb-2">⚠️ Alasan Penolakan:</p>
-                                <p className="text-red-700 dark:text-red-300">{ticket.rejection_reason}</p>
+                            <div className="flex items-center justify-center p-3">
+                              <div className={`px-4 py-2 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-bold`}>
+                                PRIORITAS {ticket.priority.toUpperCase()}
                               </div>
-                            )}
-
-                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mb-6">
-                              <strong>Pemohon:</strong> {ticket.requester_name} ({ticket.requester_department})
                             </div>
+                          </div>
 
-                            {/* Buttons moved to bottom with proper size */}
-                            <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                              <Dialog>
-                                <DialogTrigger asChild>
-                                  <Button
-                                    variant="outline"
-                                    size="lg"
-                                    onClick={() => setViewingTicket(ticket)}
-                                    className="bg-white dark:bg-gray-800 border-green-500 text-green-600 dark:text-green-400 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105 h-12 px-6 text-base font-medium"
-                                  >
-                                    <Eye className="w-5 h-5 mr-2" />
-                                    Lihat Detail
-                                  </Button>
-                                </DialogTrigger>
-                                <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-                                  <DialogHeader>
-                                    <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                                      Detail Tiket: {ticket.title}
-                                    </DialogTitle>
-                                    <DialogDescription className="text-gray-600 dark:text-gray-400">
-                                      Informasi lengkap tentang tiket {ticket.ticket_number}
-                                    </DialogDescription>
-                                  </DialogHeader>
-                                  <div className="space-y-6 mt-6">
-                                    <div className="grid grid-cols-2 gap-4">
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Nomor Tiket</label>
-                                        <p className="text-lg font-mono text-blue-600 dark:text-blue-400">{ticket.ticket_number}</p>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Status</label>
-                                        <div className="mt-1">
-                                          <Badge className={`${statusConfig[ticket.status].color} text-white`}>
-                                            {getStatusIcon(ticket.status)}
-                                            <span className="ml-1">{statusConfig[ticket.status].label}</span>
-                                          </Badge>
-                                        </div>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Prioritas</label>
-                                        <div className={`mt-1 inline-block px-3 py-1 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-bold`}>
-                                          {ticket.priority.toUpperCase()}
-                                        </div>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Kategori</label>
-                                        <p className="text-gray-900 dark:text-white">{categoryLabels[ticket.category]}</p>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Line/Area</label>
-                                        <p className="text-gray-900 dark:text-white">{ticket.line_area_name || 'Tidak Ada'}</p>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Teknisi</label>
-                                        <p className="text-gray-900 dark:text-white">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Pemohon</label>
-                                        <p className="text-gray-900 dark:text-white">{ticket.requester_name}</p>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Departemen</label>
-                                        <p className="text-gray-900 dark:text-white">{ticket.requester_department}</p>
-                                      </div>
-                                      <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Tanggal Dibuat</label>
-                                        <p className="text-gray-900 dark:text-white">{formatDate(ticket.created_at)}</p>
+                          <div className="p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mb-4">
+                            <p className="text-gray-800 dark:text-gray-200 leading-relaxed">{ticket.description}</p>
+                          </div>
+                          
+                          {ticket.status === 'ditolak' && ticket.rejection_reason && (
+                            <div className="mt-4 p-4 bg-red-100 dark:bg-red-500/20 border-2 border-red-300 dark:border-red-500 rounded-lg">
+                              <p className="text-red-600 dark:text-red-400 text-sm font-bold mb-2">⚠️ Alasan Penolakan:</p>
+                              <p className="text-red-700 dark:text-red-300">{ticket.rejection_reason}</p>
+                            </div>
+                          )}
+
+                          <div className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mb-6">
+                            <strong>Pemohon:</strong> {ticket.requester_name} ({ticket.requester_department})
+                          </div>
+
+                          {/* Buttons moved to bottom with proper size */}
+                          <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                            <Dialog>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="lg"
+                                  onClick={() => setViewingTicket(ticket)}
+                                  className="bg-white dark:bg-gray-800 border-green-500 text-green-600 dark:text-green-400 hover:bg-green-500 hover:text-white transition-all duration-300 hover:scale-105 h-12 px-6 text-base font-medium"
+                                >
+                                  <Eye className="w-5 h-5 mr-2" />
+                                  Lihat Detail
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                                <DialogHeader>
+                                  <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                    Detail Tiket: {ticket.title}
+                                  </DialogTitle>
+                                  <DialogDescription className="text-gray-600 dark:text-gray-400">
+                                    Informasi lengkap tentang tiket {ticket.ticket_number}
+                                  </DialogDescription>
+                                </DialogHeader>
+                                <div className="space-y-6 mt-6">
+                                  <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Nomor Tiket</label>
+                                      <p className="text-lg font-mono text-blue-600 dark:text-blue-400">{ticket.ticket_number}</p>
+                                    </div>
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Status</label>
+                                      <div className="mt-1">
+                                        <Badge className={`${statusConfig[ticket.status].color} text-white`}>
+                                          {getStatusIcon(ticket.status)}
+                                          <span className="ml-1">{statusConfig[ticket.status].label}</span>
+                                        </Badge>
                                       </div>
                                     </div>
-
                                     <div>
-                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Deskripsi</label>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Prioritas</label>
+                                      <div className={`mt-1 inline-block px-3 py-1 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-bold`}>
+                                        {ticket.priority.toUpperCase()}
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Kategori</label>
+                                      <p className="text-gray-900 dark:text-white">{categoryLabels[ticket.category]}</p>
+                                    </div>
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Line/Area</label>
+                                      <p className="text-gray-900 dark:text-white">{ticket.line_area_name || 'Tidak Ada'}</p>
+                                    </div>
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Teknisi</label>
+                                      <p className="text-gray-900 dark:text-white">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
+                                    </div>
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Pemohon</label>
+                                      <p className="text-gray-900 dark:text-white">{ticket.requester_name}</p>
+                                    </div>
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Departemen</label>
+                                      <p className="text-gray-900 dark:text-white">{ticket.requester_department}</p>
+                                    </div>
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Tanggal Dibuat</label>
+                                      <p className="text-gray-900 dark:text-white">{formatDate(ticket.created_at)}</p>
+                                    </div>
+                                  </div>
+
+                                  <div>
+                                    <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Deskripsi</label>
+                                    <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
+                                      {ticket.description}
+                                    </p>
+                                  </div>
+
+                                  {renderPhotos(ticket.before_photos, "Foto Sebelum")}
+                                  
+                                  {renderPhotos(ticket.after_photos, "Foto Sesudah")}
+
+                                  {ticket.notes && (
+                                    <div>
+                                      <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Catatan dari Tim TPM</label>
                                       <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
-                                        {ticket.description}
+                                        {ticket.notes}
                                       </p>
                                     </div>
+                                  )}
 
-                                    {renderPhotos(ticket.before_photos, "Foto Sebelum")}
-                                    
-                                    {renderPhotos(ticket.after_photos, "Foto Sesudah")}
+                                  {ticket.status === 'ditolak' && ticket.rejection_reason && (
+                                    <div>
+                                      <label className="text-sm font-semibold text-red-600 dark:text-red-400">Alasan Penolakan</label>
+                                      <p className="text-red-700 dark:text-red-300 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg mt-2">
+                                        {ticket.rejection_reason}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              </DialogContent>
+                            </Dialog>
 
-                                    {ticket.notes && (
+                            {/* Update Ticket Modal */}
+                            <Dialog open={isEditModalOpen} onOpenChange={setIsEditModalOpen}>
+                              <DialogTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  size="lg"
+                                  onClick={() => {
+                                    setEditingTicket(ticket);
+                                    setIsEditModalOpen(true);
+                                  }}
+                                  className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105 h-12 px-6 text-base font-medium"
+                                >
+                                  <Edit3 className="w-5 h-5 mr-2" />
+                                  Update Tiket
+                                </Button>
+                              </DialogTrigger>
+                              <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
+                                <DialogHeader>
+                                  <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                                    Update Tiket: {editingTicket?.title}
+                                  </DialogTitle>
+                                  <DialogDescription className="text-gray-600 dark:text-gray-400">
+                                    Perbarui informasi tiket {editingTicket?.ticket_number}
+                                  </DialogDescription>
+                                </DialogHeader>
+
+                                {editingTicket && (
+                                  <div className="space-y-6 mt-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                       <div>
-                                        <label className="text-sm font-semibold text-gray-600 dark:text-gray-400">Catatan dari Tim TPM</label>
-                                        <p className="text-gray-900 dark:text-white p-4 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg mt-2">
-                                          {ticket.notes}
-                                        </p>
+                                        <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Status</label>
+                                        <Select 
+                                          value={editingTicket.status} 
+                                          onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
+                                        >
+                                          <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
+                                            <SelectValue />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="open">Terbuka</SelectItem>
+                                            <SelectItem value="in_progress">Sedang Proses</SelectItem>
+                                            <SelectItem value="pending_parts">Menunggu Suku Cadang</SelectItem>
+                                            <SelectItem value="closed">Selesai</SelectItem>
+                                            <SelectItem value="ditolak">Ditolak</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                      
+                                      <div>
+                                        <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Ditugaskan Kepada</label>
+                                        <Select 
+                                          value={editingTicket.assigned_to || 'unassigned'} 
+                                          onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
+                                        >
+                                          <SelectTrigger className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white h-12">
+                                            <SelectValue placeholder="Pilih teknisi" />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="unassigned">Belum Ditugaskan</SelectItem>
+                                            {technicians.map((tech) => (
+                                              <SelectItem key={tech.id} value={tech.name}>
+                                                {tech.name}
+                                              </SelectItem>
+                                            ))}
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    </div>
+
+                                    {editingTicket.status === 'ditolak' && (
+                                      <div>
+                                        <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Alasan Penolakan *</label>
+                                        <Textarea
+                                          value={editingTicket.rejection_reason || ''}
+                                          onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
+                                          className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
+                                          placeholder="Masukkan alasan penolakan..."
+                                          required
+                                        />
                                       </div>
                                     )}
 
-                                    {ticket.status === 'ditolak' && ticket.rejection_reason && (
-                                      <div>
-                                        <label className="text-sm font-semibold text-red-600 dark:text-red-400">Alasan Penolakan</label>
-                                        <p className="text-red-700 dark:text-red-300 p-4 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 rounded-lg mt-2">
-                                          {ticket.rejection_reason}
-                                        </p>
-                                      </div>
-                                    )}
+                                    <div>
+                                      <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Catatan dari Tim TPM</label>
+                                      <Textarea
+                                        value={editingTicket.notes || ''}
+                                        onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
+                                        className="bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white min-h-[100px]"
+                                        placeholder="Tambahkan catatan dari tim TPM..."
+                                      />
+                                    </div>
+
+                                    {/* Upload Foto Before */}
+                                    <div>
+                                      <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto Before</label>
+                                      <ImageUpload
+                                        onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
+                                        existingImages={editingTicket.before_photos || []}
+                                        maxImages={5}
+                                      />
+                                    </div>
+
+                                    {/* Upload Foto After */}
+                                    <div>
+                                      <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto After</label>
+                                      <ImageUpload
+                                        onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
+                                        existingImages={editingTicket.after_photos || []}
+                                        maxImages={5}
+                                      />
+                                    </div>
                                   </div>
-                                </DialogContent>
-                              </Dialog>
-                              <Button
-                                variant="outline"
-                                size="lg"
-                                onClick={() => setEditingTicket(ticket)}
-                                className="bg-white dark:bg-gray-800 border-blue-500 text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-105 h-12 px-6 text-base font-medium"
-                              >
-                                <Edit3 className="w-5 h-5 mr-2" />
-                                Update Tiket
-                              </Button>
-                            </div>
+                                )}
+
+                                <DialogFooter className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
+                                  <div className="flex justify-end space-x-4 w-full">
+                                    <Button
+                                      variant="outline"
+                                      onClick={() => {
+                                        setEditingTicket(null);
+                                        setIsEditModalOpen(false);
+                                      }}
+                                      className="bg-white dark:bg-gray-800 border-gray-500 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-500 hover:text-white transition-all duration-300"
+                                    >
+                                      <X className="w-4 h-4 mr-2" />
+                                      Close
+                                    </Button>
+                                    <Button
+                                      onClick={() => editingTicket && updateTicket(ticket.id, editingTicket)}
+                                      className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 transition-all duration-300 hover:scale-105 text-white"
+                                    >
+                                      <Save className="w-4 h-4 mr-2" />
+                                      Simpan Perubahan
+                                    </Button>
+                                  </div>
+                                </DialogFooter>
+                              </DialogContent>
+                            </Dialog>
                           </div>
-                        )}
+                        </div>
                       </CardContent>
                     </Card>
                   ))}
