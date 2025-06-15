@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -79,6 +78,11 @@ const Index = () => {
     }
   ];
 
+  const handleLoginSuccess = () => {
+    // After successful login, redirect to admin panel or show success message
+    setActiveTab('admin');
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'submission':
@@ -90,7 +94,7 @@ const Index = () => {
       case 'master':
         return <MasterData />;
       case 'admin':
-        return <LoginForm />;
+        return <LoginForm onLoginSuccess={handleLoginSuccess} />;
       default:
         return (
           <div className="space-y-8">
