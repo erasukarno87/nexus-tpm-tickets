@@ -6,25 +6,27 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 hover:scale-105 active:scale-95 shadow-lg backdrop-blur-sm",
+  "relative inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-2xl text-sm font-bold ring-offset-background transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0 hover:scale-105 active:scale-95 shadow-2xl backdrop-blur-sm overflow-hidden group",
+  "before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-100%] before:transition-transform before:duration-700 hover:before:translate-x-[100%]",
+  "after:absolute after:inset-0 after:bg-gradient-to-45deg after:from-transparent after:via-white/10 after:to-transparent after:opacity-0 after:transition-opacity after:duration-300 hover:after:opacity-100",
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 dark:from-blue-500 dark:to-purple-500 dark:shadow-blue-400/25",
+        default: "bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 text-white hover:from-blue-700 hover:via-purple-700 hover:to-cyan-700 shadow-blue-500/30 hover:shadow-xl hover:shadow-purple-500/50 dark:from-blue-500 dark:via-purple-500 dark:to-cyan-500 dark:shadow-blue-400/30 border-2 border-blue-400/30 hover:border-purple-400/50",
         destructive:
-          "bg-gradient-to-r from-red-600 to-pink-600 text-white hover:from-red-700 hover:to-pink-700 shadow-red-500/25 hover:shadow-xl hover:shadow-red-500/40",
+          "bg-gradient-to-r from-red-600 via-pink-600 to-rose-600 text-white hover:from-red-700 hover:via-pink-700 hover:to-rose-700 shadow-red-500/30 hover:shadow-xl hover:shadow-pink-500/50 border-2 border-red-400/30 hover:border-pink-400/50",
         outline:
-          "border-2 border-blue-500/50 bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm hover:bg-gradient-to-r hover:from-blue-500/20 hover:to-purple-500/20 hover:border-blue-500/70 text-black dark:text-white dark:border-blue-400/50 dark:from-blue-900/20 dark:to-purple-900/20 dark:hover:from-blue-800/30 dark:hover:to-purple-800/30",
+          "border-3 border-blue-500/60 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-cyan-500/10 backdrop-blur-xl hover:bg-gradient-to-r hover:from-blue-500/20 hover:via-purple-500/20 hover:to-cyan-500/20 hover:border-blue-500/80 text-black dark:text-white dark:border-blue-400/60 dark:from-blue-900/20 dark:via-purple-900/20 dark:to-cyan-900/20 dark:hover:from-blue-800/30 dark:hover:via-purple-800/30 dark:hover:to-cyan-800/30 shadow-lg hover:shadow-xl hover:shadow-blue-500/25",
         secondary:
-          "bg-gradient-to-r from-slate-600 to-slate-700 text-white hover:from-slate-700 hover:to-slate-800 shadow-slate-500/25 dark:from-slate-500 dark:to-slate-600",
-        ghost: "hover:bg-gradient-to-r hover:from-blue-500/10 hover:to-purple-500/10 text-black dark:text-white dark:hover:from-blue-900/20 dark:hover:to-purple-900/20",
-        link: "text-blue-600 underline-offset-4 hover:underline dark:text-blue-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors",
+          "bg-gradient-to-r from-slate-600 via-gray-600 to-slate-700 text-white hover:from-slate-700 hover:via-gray-700 hover:to-slate-800 shadow-slate-500/30 dark:from-slate-500 dark:via-gray-500 dark:to-slate-600 border-2 border-slate-400/30 hover:border-gray-400/50",
+        ghost: "hover:bg-gradient-to-r hover:from-blue-500/15 hover:via-purple-500/15 hover:to-cyan-500/15 text-black dark:text-white dark:hover:from-blue-900/25 dark:hover:via-purple-900/25 dark:hover:to-cyan-900/25 hover:shadow-lg hover:shadow-blue-500/20",
+        link: "text-blue-600 underline-offset-4 hover:underline dark:text-blue-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-300 hover:drop-shadow-lg",
       },
       size: {
-        default: "h-12 px-6 py-3",
-        sm: "h-10 rounded-lg px-4",
-        lg: "h-14 rounded-xl px-8 text-base",
-        icon: "h-12 w-12",
+        default: "h-14 px-8 py-4 text-base",
+        sm: "h-12 rounded-xl px-6 text-sm",
+        lg: "h-16 rounded-2xl px-10 text-lg",
+        icon: "h-14 w-14",
       },
     },
     defaultVariants: {
