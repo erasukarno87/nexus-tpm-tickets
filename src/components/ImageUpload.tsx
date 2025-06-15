@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -178,14 +177,16 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           multiple
           onChange={handleFileSelect}
           disabled={uploading || images.length >= maxImages}
+          style={{ color: 'black' }}
         />
         <Button
           type="button"
           variant="outline"
           disabled={uploading || images.length >= maxImages}
+          style={{ color: 'black' }}
         >
-          <Upload className="w-4 h-4 mr-2" />
-          {uploading ? 'Mengunggah...' : 'Upload'}
+          <Upload className="w-4 h-4 mr-2" style={{ color: 'black' }} />
+          <span style={{ color: 'black' }}>{uploading ? 'Mengunggah...' : 'Upload'}</span>
         </Button>
       </div>
 
@@ -208,8 +209,9 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
                 size="sm"
                 onClick={() => removeImage(index)}
                 className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8 p-0"
+                style={{ color: 'black' }}
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4" style={{ color: 'black' }} />
               </Button>
             </div>
           ))}
@@ -218,12 +220,12 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
       {images.length === 0 && (
         <div className="text-center py-8 border-2 border-dashed rounded-lg">
-          <Image className="w-12 h-12 mx-auto mb-2" />
-          <p>Belum ada gambar yang diunggah</p>
+          <Image className="w-12 h-12 mx-auto mb-2" style={{ color: 'black' }} />
+          <p style={{ color: 'black' }}>Belum ada gambar yang diunggah</p>
         </div>
       )}
 
-      <p className="text-xs">
+      <p className="text-xs" style={{ color: 'black' }}>
         {images.length}/{maxImages} gambar • Maks 10MB per gambar • Format: JPG, PNG, GIF • Dikompres ke lebar maks 720px • Disimpan di Supabase Storage
       </p>
     </div>

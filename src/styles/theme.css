@@ -1,2 +1,44 @@
 
+/* Global text color overrides for light theme */
+html:not(.dark) * {
+  color: black !important;
+}
 
+/* Ensure all text elements are black in light mode */
+html:not(.dark) body,
+html:not(.dark) p,
+html:not(.dark) span,
+html:not(.dark) div,
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3,
+html:not(.dark) h4,
+html:not(.dark) h5,
+html:not(.dark) h6,
+html:not(.dark) label,
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select,
+html:not(.dark) button,
+html:not(.dark) a,
+html:not(.dark) li,
+html:not(.dark) td,
+html:not(.dark) th {
+  color: black !important;
+}
+
+/* Placeholder text */
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder {
+  color: black !important;
+  opacity: 0.6;
+}
+
+/* Override any specific text color classes */
+html:not(.dark) .text-gray-600,
+html:not(.dark) .text-gray-500,
+html:not(.dark) .text-gray-400,
+html:not(.dark) .text-muted-foreground,
+html:not(.dark) .text-secondary-foreground {
+  color: black !important;
+}

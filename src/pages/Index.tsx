@@ -24,24 +24,25 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ color: 'black' }}>
       <header className="bg-white border-b">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <Wrench className="w-8 h-8" />
-                <h1 className="text-3xl font-bold">Sistem TPM</h1>
+                <Wrench className="w-8 h-8" style={{ color: 'black' }} />
+                <h1 className="text-3xl font-bold" style={{ color: 'black' }}>Sistem TPM</h1>
               </div>
-              <p className="text-lg text-gray-600">Total Productive Maintenance Management System</p>
+              <p className="text-lg" style={{ color: 'black' }}>Total Productive Maintenance Management System</p>
             </div>
             <div className="flex items-center space-x-4">
               <ThemeToggle />
               <Button
                 onClick={() => window.location.href = '/admin'}
                 variant="outline"
+                style={{ color: 'black' }}
               >
-                <Settings className="w-4 h-4 mr-2" />
+                <Settings className="w-4 h-4 mr-2" style={{ color: 'black' }} />
                 Admin Panel
               </Button>
             </div>
@@ -53,12 +54,12 @@ const Index = () => {
         <div className="max-w-6xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-8">
-              <TabsTrigger value="submit">
-                <FileText className="w-5 h-5 mr-2" />
+              <TabsTrigger value="submit" style={{ color: 'black' }}>
+                <FileText className="w-5 h-5 mr-2" style={{ color: 'black' }} />
                 Ajukan Permintaan
               </TabsTrigger>
-              <TabsTrigger value="track">
-                <Search className="w-5 h-5 mr-2" />
+              <TabsTrigger value="track" style={{ color: 'black' }}>
+                <Search className="w-5 h-5 mr-2" style={{ color: 'black' }} />
                 Lacak Tiket
               </TabsTrigger>
             </TabsList>
@@ -76,7 +77,7 @@ const Index = () => {
 
       <footer className="bg-white border-t mt-16">
         <div className="container mx-auto px-4 py-6 text-center">
-          <p className="text-gray-600">
+          <p style={{ color: 'black' }}>
             © 2024 TPM Nexus - Advanced Manufacturing Maintenance System
           </p>
         </div>
