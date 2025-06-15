@@ -34,32 +34,32 @@ const Index = () => {
         {/* Animated glow line at top */}
         <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse"></div>
         
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6 py-3">
           <div className="flex items-center justify-between">
             {/* Enhanced Title Section with reduced spacing */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-3">
               <div className="relative">
                 {/* Glowing background for icon */}
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full blur-lg opacity-30 animate-pulse"></div>
-                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2.5 rounded-xl shadow-2xl">
-                  <Wrench className="w-7 h-7 text-white" />
+                <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-xl shadow-2xl">
+                  <Wrench className="w-6 h-6 text-white" />
                 </div>
               </div>
               
-              <div className="space-y-1">
-                <div className="flex items-center space-x-3">
-                  <h1 className="text-3xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
+              <div className="space-y-0.5">
+                <div className="flex items-center space-x-2">
+                  <h1 className="text-2xl font-black bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent animate-gradientShift">
                     TPM NEXUS
                   </h1>
-                  <Sparkles className="w-5 h-5 text-yellow-500 animate-spin-slow" />
+                  <Sparkles className="w-4 h-4 text-yellow-500 animate-spin-slow" />
                 </div>
-                <p className="text-base font-medium text-gray-600 dark:text-gray-300">
+                <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
                   <span className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
                     Advanced Manufacturing Maintenance System
                   </span>
                 </p>
-                <div className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400">
-                  <Zap className="w-4 h-4 text-yellow-500" />
+                <div className="flex items-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
+                  <Zap className="w-3 h-3 text-yellow-500" />
                   <span>Powered by AI & Modern Technology</span>
                 </div>
               </div>
@@ -92,10 +92,10 @@ const Index = () => {
         <div className="container mx-auto px-6 py-4">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-6 bg-gradient-to-r from-gray-100/40 to-gray-200/40 dark:from-slate-800/40 dark:to-slate-700/40 backdrop-blur-xl border border-white/20 dark:border-slate-600/30 rounded-2xl p-1 shadow-lg">
+              <TabsList className="grid w-full grid-cols-2 mb-6 bg-white/20 dark:bg-slate-800/30 backdrop-blur-xl border border-white/30 dark:border-slate-600/40 rounded-2xl p-1 shadow-xl">
                 <TabsTrigger 
                   value="submit" 
-                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-black dark:text-white transition-all duration-300 rounded-xl font-semibold text-sm py-2.5 hover:scale-[1.02]"
+                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-black dark:text-white transition-all duration-300 rounded-xl font-semibold text-sm py-2.5 hover:scale-[1.02] data-[state=active]:border-0 hover:bg-white/10 dark:hover:bg-slate-700/30"
                 >
                   <div className="flex items-center space-x-2">
                     <FileText className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
@@ -104,7 +104,7 @@ const Index = () => {
                 </TabsTrigger>
                 <TabsTrigger 
                   value="track" 
-                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-black dark:text-white transition-all duration-300 rounded-xl font-semibold text-sm py-2.5 hover:scale-[1.02]"
+                  className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-black dark:text-white transition-all duration-300 rounded-xl font-semibold text-sm py-2.5 hover:scale-[1.02] data-[state=active]:border-0 hover:bg-white/10 dark:hover:bg-slate-700/30"
                 >
                   <div className="flex items-center space-x-2">
                     <Search className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />

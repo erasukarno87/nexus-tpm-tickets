@@ -67,10 +67,10 @@ const Admin = () => {
       <div className="bg-white/20 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-800/50 relative z-20">
         <div className="container mx-auto px-4 py-4">
           <Tabs defaultValue="dashboard" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 bg-gradient-to-r from-gray-100/40 to-gray-200/40 dark:from-gray-800/40 dark:to-gray-700/40 backdrop-blur-xl border border-white/20 dark:border-gray-600/30 rounded-2xl p-1 shadow-lg">
+            <TabsList className="grid w-full grid-cols-3 bg-white/20 dark:bg-slate-800/30 backdrop-blur-xl border border-white/30 dark:border-slate-600/40 rounded-2xl p-1 shadow-xl">
               <TabsTrigger 
                 value="dashboard"
-                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-gray-600 dark:text-gray-300 transition-all duration-300 rounded-xl font-semibold py-2.5 hover:scale-[1.02]"
+                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-gray-600 dark:text-gray-300 transition-all duration-300 rounded-xl font-semibold py-2.5 hover:scale-[1.02] data-[state=active]:border-0 hover:bg-white/10 dark:hover:bg-slate-700/30"
               >
                 <div className="flex items-center space-x-2">
                   <BarChart3 className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
@@ -79,7 +79,7 @@ const Admin = () => {
               </TabsTrigger>
               <TabsTrigger 
                 value="tickets"
-                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-gray-600 dark:text-gray-300 transition-all duration-300 rounded-xl font-semibold py-2.5 hover:scale-[1.02]"
+                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-green-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-gray-600 dark:text-gray-300 transition-all duration-300 rounded-xl font-semibold py-2.5 hover:scale-[1.02] data-[state=active]:border-0 hover:bg-white/10 dark:hover:bg-slate-700/30"
               >
                 <div className="flex items-center space-x-2">
                   <FileText className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
@@ -88,7 +88,7 @@ const Admin = () => {
               </TabsTrigger>
               <TabsTrigger 
                 value="master-data"
-                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-gray-600 dark:text-gray-300 transition-all duration-300 rounded-xl font-semibold py-2.5 hover:scale-[1.02]"
+                className="relative group data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg text-gray-600 dark:text-gray-300 transition-all duration-300 rounded-xl font-semibold py-2.5 hover:scale-[1.02] data-[state=active]:border-0 hover:bg-white/10 dark:hover:bg-slate-700/30"
               >
                 <div className="flex items-center space-x-2">
                   <Database className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
