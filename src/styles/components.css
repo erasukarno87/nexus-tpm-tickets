@@ -1,2 +1,232 @@
 
+/* Enhanced Component Styling */
 
+/* Ticket Cards */
+.ticket-card {
+  @apply bg-gradient-to-br from-white/90 via-blue-50/80 to-purple-50/80;
+  @apply dark:from-slate-900/90 dark:via-blue-950/80 dark:to-purple-950/80;
+  @apply backdrop-blur-xl border-2 border-blue-500/20 dark:border-blue-400/30;
+  @apply rounded-2xl shadow-xl hover:shadow-2xl;
+  @apply transition-all duration-500 hover:scale-[1.02];
+  @apply hover:border-blue-500/40 dark:hover:border-blue-400/50;
+}
+
+.ticket-number {
+  @apply text-sm font-mono font-bold;
+  @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
+  @apply dark:from-blue-400 dark:to-purple-400;
+  @apply px-3 py-1 rounded-lg;
+  @apply bg-blue-500/10 dark:bg-blue-900/20;
+  @apply border border-blue-500/30 dark:border-blue-400/30;
+}
+
+.glass-card {
+  @apply bg-gradient-to-r from-white/60 to-blue-50/60;
+  @apply dark:from-slate-800/60 dark:to-blue-950/60;
+  @apply backdrop-blur-sm border border-blue-500/20;
+  @apply dark:border-blue-400/20;
+  @apply transition-all duration-300 hover:from-blue-50/80 hover:to-purple-50/80;
+  @apply dark:hover:from-slate-700/80 dark:hover:to-blue-900/80;
+}
+
+/* Status Badges */
+.status-open {
+  @apply bg-gradient-to-r from-yellow-500 to-orange-500;
+  @apply shadow-lg shadow-yellow-500/30;
+}
+
+.status-in-progress {
+  @apply bg-gradient-to-r from-blue-500 to-cyan-500;
+  @apply shadow-lg shadow-blue-500/30;
+}
+
+.status-pending {
+  @apply bg-gradient-to-r from-orange-500 to-red-500;
+  @apply shadow-lg shadow-orange-500/30;
+}
+
+.status-closed {
+  @apply bg-gradient-to-r from-green-500 to-emerald-500;
+  @apply shadow-lg shadow-green-500/30;
+}
+
+.status-rejected {
+  @apply bg-gradient-to-r from-red-500 to-pink-500;
+  @apply shadow-lg shadow-red-500/30;
+}
+
+/* Priority Badges */
+.priority-badge {
+  @apply px-4 py-2 rounded-xl text-white font-bold text-xs;
+  @apply shadow-lg backdrop-blur-sm border border-white/20;
+  @apply transition-all duration-300 hover:scale-105;
+}
+
+.priority-low {
+  @apply bg-gradient-to-r from-green-500 to-teal-500;
+  @apply shadow-green-500/30;
+}
+
+.priority-medium {
+  @apply bg-gradient-to-r from-yellow-500 to-orange-500;
+  @apply shadow-yellow-500/30;
+}
+
+.priority-high {
+  @apply bg-gradient-to-r from-orange-500 to-red-500;
+  @apply shadow-orange-500/30;
+}
+
+.priority-critical {
+  @apply bg-gradient-to-r from-red-500 to-pink-500;
+  @apply shadow-red-500/30 animate-pulse;
+}
+
+/* Icons */
+.icon-technician {
+  @apply w-5 h-5 text-blue-500 dark:text-blue-400;
+}
+
+.icon-date {
+  @apply w-5 h-5 text-purple-500 dark:text-purple-400;
+}
+
+/* Date and Text Styling */
+.date-text {
+  @apply text-gray-900 dark:text-white font-medium text-sm;
+}
+
+.requester-info {
+  @apply text-sm text-gray-600 dark:text-gray-400;
+  @apply bg-gradient-to-r from-blue-500/10 to-purple-500/10;
+  @apply dark:from-blue-900/20 dark:to-purple-900/20;
+  @apply p-3 rounded-lg border border-blue-500/20;
+  @apply dark:border-blue-400/20;
+}
+
+.rejection-container {
+  @apply bg-gradient-to-r from-red-500/10 to-pink-500/10;
+  @apply dark:from-red-900/20 dark:to-pink-900/20;
+  @apply border-2 border-red-500/30 dark:border-red-400/30;
+  @apply rounded-xl p-4 mb-4;
+}
+
+.rejection-title {
+  @apply text-red-600 dark:text-red-400 font-semibold text-sm mb-2;
+}
+
+.rejection-text {
+  @apply text-red-700 dark:text-red-300 text-sm;
+}
+
+/* Detail Fields */
+.detail-field-label {
+  @apply text-sm font-semibold text-gray-600 dark:text-gray-400 mb-1 block;
+  @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
+  @apply dark:from-blue-400 dark:to-purple-400;
+}
+
+.detail-field-value {
+  @apply text-gray-900 dark:text-white font-medium;
+}
+
+.detail-description {
+  @apply text-gray-800 dark:text-gray-200 leading-relaxed;
+  @apply bg-gradient-to-r from-blue-500/5 to-purple-500/5;
+  @apply dark:from-blue-900/10 dark:to-purple-900/10;
+  @apply p-4 rounded-xl border border-blue-500/20;
+  @apply dark:border-blue-400/20;
+}
+
+.detail-notes {
+  @apply text-gray-800 dark:text-gray-200 leading-relaxed;
+  @apply bg-gradient-to-r from-green-500/5 to-teal-500/5;
+  @apply dark:from-green-900/10 dark:to-teal-900/10;
+  @apply p-4 rounded-xl border border-green-500/20;
+  @apply dark:border-green-400/20;
+}
+
+.detail-rejection-label {
+  @apply text-red-600 dark:text-red-400 font-semibold text-sm mb-2 block;
+}
+
+.detail-rejection-text {
+  @apply text-red-700 dark:text-red-300;
+  @apply bg-gradient-to-r from-red-500/5 to-pink-500/5;
+  @apply dark:from-red-900/10 dark:to-pink-900/10;
+  @apply p-4 rounded-xl border border-red-500/20;
+  @apply dark:border-red-400/20;
+}
+
+/* Photo Grid */
+.detail-photo-label {
+  @apply text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3 block;
+  @apply bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent;
+  @apply dark:from-blue-400 dark:to-purple-400;
+}
+
+.detail-photo-grid {
+  @apply grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3;
+}
+
+.detail-photo-item {
+  @apply relative group cursor-pointer overflow-hidden rounded-xl;
+  @apply border-2 border-blue-500/20 dark:border-blue-400/20;
+  @apply hover:border-blue-500/50 dark:hover:border-blue-400/50;
+  @apply transition-all duration-300 hover:scale-105;
+}
+
+.detail-photo-image {
+  @apply w-full h-24 object-cover transition-transform duration-300;
+  @apply group-hover:scale-110;
+}
+
+.detail-photo-overlay {
+  @apply absolute inset-0 bg-black/50 flex items-center justify-center;
+  @apply opacity-0 group-hover:opacity-100 transition-opacity duration-300;
+}
+
+.detail-photo-eye-icon {
+  @apply w-6 h-6 text-white;
+}
+
+/* Animation Classes */
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover Effects */
+.hover-glow {
+  @apply transition-all duration-300;
+}
+
+.hover-glow:hover {
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+}
+
+/* Loading States */
+.loading-shimmer {
+  @apply bg-gradient-to-r from-blue-500/10 via-purple-500/20 to-blue-500/10;
+  @apply bg-[length:200%_100%];
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
