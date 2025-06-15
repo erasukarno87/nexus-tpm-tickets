@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Upload, X, Image } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { compressImage } from '@/utils/imageUtils';
 
 interface ImageUploadProps {
   onImagesChange: (images: string[]) => void;
@@ -28,7 +29,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `${fileName}`;
 
-      console.log('Uploading file to Supabase Storage:', filePath);
+      console.log('Uploading compressed file to Supabase Storage:', filePath);
 
       const { data, error } = await supabase.storage
         .from('ticket-images')
@@ -97,8 +98,15 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
           continue;
         }
 
-        // Upload to Supabase Storage
-        const imageUrl = await uploadToSupabase(file);
+        console.log(`Compressing image: ${file.name}, original size: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        
+        // Compress image before upload
+        const compressedFile = await compressImage(file, 720, 0.8);
+        
+        console.log(`Compressed image: ${compressedFile.name}, new size: ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`);
+
+        // Upload compressed image to Supabase Storage
+        const imageUrl = await uploadToSupabase(compressedFile);
         if (imageUrl) {
           newImageUrls.push(imageUrl);
         } else {
@@ -117,7 +125,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
 
         toast({
           title: "Berhasil",
-          description: `${newImageUrls.length} gambar berhasil diunggah ke Supabase Storage`,
+          description: `${newImageUrls.length} gambar berhasil dikompres dan diunggah ke Supabase Storage`,
         });
       }
     } catch (error) {
@@ -218,7 +226,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({
       )}
 
       <p className="text-xs text-gray-500 dark:text-gray-400">
-        {images.length}/{maxImages} gambar • Maks 10MB per gambar • Format: JPG, PNG, GIF • Disimpan di Supabase Storage
+        {images.length}/{maxImages} gambar • Maks 10MB per gambar • Format: JPG, PNG, GIF • Dikompres ke lebar maks 720px • Disimpan di Supabase Storage
       </p>
     </div>
   );
