@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LoginForm } from '@/components/LoginForm';
 import { Dashboard } from '@/components/Dashboard';
@@ -9,6 +8,7 @@ import { BarChart3, Database, FileText } from 'lucide-react';
 import { AdminHeader } from '@/components/admin/AdminHeader';
 import { AdminLoadingState } from '@/components/admin/AdminLoadingState';
 import { TicketManagement } from '@/components/admin/TicketManagement';
+import { ThreeBackground } from '@/components/ThreeBackground';
 
 const Admin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -39,8 +39,11 @@ const Admin = () => {
 
   if (!isLoggedIn) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-        <LoginForm onLoginSuccess={handleLoginSuccess} />
+      <div className="min-h-screen relative">
+        <ThreeBackground />
+        <div className="relative z-10">
+          <LoginForm onLoginSuccess={handleLoginSuccess} />
+        </div>
       </div>
     );
   }
@@ -50,12 +53,17 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen relative">
+      {/* 3D Animated Background */}
+      <ThreeBackground />
+      
       {/* Header Admin Panel */}
-      <AdminHeader onLogout={handleLogout} />
+      <div className="relative z-10">
+        <AdminHeader onLogout={handleLogout} />
+      </div>
 
       {/* Navigasi Tab */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+      <div className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 relative z-10">
         <div className="container mx-auto px-4">
           <Tabs defaultValue="dashboard" className="w-full">
             <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">

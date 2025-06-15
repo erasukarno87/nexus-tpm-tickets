@@ -1,9 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TicketSubmissionForm } from '@/components/TicketSubmissionForm';
 import { TicketTracking } from '@/components/TicketTracking';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { ThreeBackground } from '@/components/ThreeBackground';
 import { Button } from '@/components/ui/button';
 import { FileText, Search, Settings, Wrench } from 'lucide-react';
 
@@ -24,9 +24,12 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen relative">
+      {/* 3D Animated Background */}
+      <ThreeBackground />
+      
       {/* Header */}
-      <header className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-white">
+      <header className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-white relative z-10">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             {/* Judul Header */}
@@ -61,7 +64,7 @@ const Index = () => {
       </header>
 
       {/* Navigasi Tab */}
-      <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-white">
+      <div className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-sm border-b border-gray-200 dark:border-white relative z-10">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -98,7 +101,7 @@ const Index = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-white mt-16">
+      <footer className="bg-white/80 dark:bg-gray-900/90 backdrop-blur-sm border-t border-gray-200 dark:border-white mt-16 relative z-10">
         <div className="container mx-auto px-4 py-6 text-center">
           <p className="text-black dark:text-white">
             © 2024 TPM Nexus - Advanced Manufacturing Maintenance System
