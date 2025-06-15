@@ -1,4 +1,5 @@
 
+
 import React, { useEffect, useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TicketSubmissionForm } from '@/components/TicketSubmissionForm';
@@ -60,8 +61,8 @@ const Index = () => {
           </div>
         </header>
 
-        {/* Main Content without container */}
-        <div className="max-w-5xl mx-auto px-4 pb-12 bg-red-500/80 backdrop-blur-md border border-white/10 rounded-xl shadow-xl p-8">
+        {/* Main Content with full transparency */}
+        <div className="max-w-5xl mx-auto px-4 pb-12">
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full animate-fadeIn" style={{ animationDelay: '0.3s' }}>
             <TabsList className="grid w-full grid-cols-2 mb-8 p-2 h-16 rounded-xl">
               <TabsTrigger 
@@ -102,3 +103,4 @@ const Index = () => {
 };
 
 export default Index;
+
