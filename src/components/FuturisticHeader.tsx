@@ -28,7 +28,15 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
   onLogout
 }) => {
   const handleAdminClick = () => {
+    console.log('Admin button clicked, navigating to /admin');
     window.location.href = '/admin';
+  };
+
+  const handleLogoutClick = () => {
+    console.log('Logout button clicked');
+    if (onLogout) {
+      onLogout();
+    }
   };
 
   return (
@@ -119,7 +127,7 @@ export const FuturisticHeader: React.FC<FuturisticHeaderProps> = ({
           {showLogoutButton && onLogout && (
             <div className="relative group">
               <Button
-                onClick={onLogout}
+                onClick={handleLogoutClick}
                 variant="outline"
                 size="sm"
                 className="bg-gradient-to-r from-red-500/10 to-pink-500/10 border-red-400/40 text-red-300 hover:from-red-500/20 hover:to-pink-500/20 hover:border-red-400/60 transition-all duration-300 backdrop-blur-md shadow-md hover:shadow-red-400/20 hover:scale-105"
