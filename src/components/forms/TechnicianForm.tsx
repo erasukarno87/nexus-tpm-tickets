@@ -24,32 +24,32 @@ export const TechnicianForm: React.FC<TechnicianFormProps> = ({
   onCancel
 }) => {
   return (
-    <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-      <CardContent className="p-6 space-y-4">
+    <Card className="technician-form-card">
+      <CardContent className="technician-form-content">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label className="text-gray-900 dark:text-white">Nama Teknisi *</Label>
+            <Label className="form-label">Nama Teknisi *</Label>
             <Input
               value={name}
               onChange={(e) => onNameChange(e.target.value)}
-              className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+              className="technician-form-input"
               placeholder="Masukkan nama teknisi"
             />
           </div>
           <div>
-            <Label className="text-gray-900 dark:text-white">Telepon</Label>
+            <Label className="form-label">Telepon</Label>
             <Input
               value={phone}
               onChange={(e) => onPhoneChange(e.target.value)}
-              className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+              className="technician-form-input"
               placeholder="Masukkan nomor telepon"
             />
           </div>
         </div>
-        <div className="flex space-x-2">
+        <div className="technician-form-actions">
           <Button
             onClick={onSave}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="btn-save"
           >
             <Save className="w-4 h-4 mr-2" />
             Simpan
@@ -57,7 +57,7 @@ export const TechnicianForm: React.FC<TechnicianFormProps> = ({
           <Button
             variant="outline"
             onClick={onCancel}
-            className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="btn-cancel"
           >
             <X className="w-4 h-4 mr-2" />
             Batal

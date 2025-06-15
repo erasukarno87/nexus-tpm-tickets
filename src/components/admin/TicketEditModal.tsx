@@ -68,35 +68,35 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="modal-content-large">
         <DialogHeader>
-          <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <DialogTitle className="modal-title-gradient">
             Update Tiket: {editingTicket.title}
           </DialogTitle>
-          <DialogDescription className="text-gray-600 dark:text-gray-400">
+          <DialogDescription className="modal-description">
             Perbarui informasi tiket {editingTicket.ticket_number}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-6 mt-6">
+        <div className="modal-form-container">
           <div>
-            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Nomor Tiket</label>
+            <label className="form-label">Nomor Tiket</label>
             <Input
               value={editingTicket.ticket_number}
               readOnly
-              className="h-12 cursor-not-allowed opacity-60"
+              className="readonly-input"
             />
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Nomor tiket tidak dapat diubah</p>
+            <p className="form-helper-text">Nomor tiket tidak dapat diubah</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Status</label>
+              <label className="form-label">Status</label>
               <Select 
                 value={editingTicket.status} 
                 onValueChange={(value) => setEditingTicket({...editingTicket, status: value as any})}
               >
-                <SelectTrigger className="h-12">
+                <SelectTrigger className="form-select">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -110,12 +110,12 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
             </div>
             
             <div>
-              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Ditugaskan Kepada</label>
+              <label className="form-label">Ditugaskan Kepada</label>
               <Select 
                 value={editingTicket.assigned_to || 'unassigned'} 
                 onValueChange={(value) => setEditingTicket({...editingTicket, assigned_to: value === 'unassigned' ? undefined : value})}
               >
-                <SelectTrigger className="h-12">
+                <SelectTrigger className="form-select">
                   <SelectValue placeholder="Pilih teknisi" />
                 </SelectTrigger>
                 <SelectContent>
@@ -132,11 +132,11 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
 
           {editingTicket.status === 'ditolak' && (
             <div>
-              <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Alasan Penolakan *</label>
+              <label className="form-label">Alasan Penolakan *</label>
               <Textarea
                 value={editingTicket.rejection_reason || ''}
                 onChange={(e) => setEditingTicket({...editingTicket, rejection_reason: e.target.value})}
-                className="min-h-[100px]"
+                className="form-textarea"
                 placeholder="Masukkan alasan penolakan..."
                 required
               />
@@ -144,18 +144,18 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
           )}
 
           <div>
-            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Catatan dari Tim TPM</label>
+            <label className="form-label">Catatan dari Tim TPM</label>
             <Textarea
               value={editingTicket.notes || ''}
               onChange={(e) => setEditingTicket({...editingTicket, notes: e.target.value})}
-              className="min-h-[100px]"
+              className="form-textarea"
               placeholder="Tambahkan catatan dari tim TPM..."
             />
           </div>
 
           <div>
-            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto Before</label>
-            <div className="p-4 glass-card rounded-lg">
+            <label className="form-label">Upload Foto Before</label>
+            <div className="image-upload-container">
               <ImageUpload
                 onImagesChange={(images) => setEditingTicket({...editingTicket, before_photos: images})}
                 existingImages={editingTicket.before_photos || []}
@@ -165,8 +165,8 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
           </div>
 
           <div>
-            <label className="text-gray-900 dark:text-white text-sm font-semibold mb-2 block">Upload Foto After</label>
-            <div className="p-4 glass-card rounded-lg">
+            <label className="form-label">Upload Foto After</label>
+            <div className="image-upload-container">
               <ImageUpload
                 onImagesChange={(images) => setEditingTicket({...editingTicket, after_photos: images})}
                 existingImages={editingTicket.after_photos || []}
@@ -176,19 +176,19 @@ export const TicketEditModal: React.FC<TicketEditModalProps> = ({
           </div>
         </div>
 
-        <DialogFooter className="mt-6 pt-6 border-t border-gray-200/30 dark:border-gray-600">
-          <div className="flex justify-end space-x-4 w-full">
+        <DialogFooter className="modal-footer">
+          <div className="modal-button-group">
             <Button
               variant="outline"
               onClick={onClose}
-              className="h-12 px-6 text-base font-medium"
+              className="modal-button-secondary"
             >
               <X className="w-4 h-4 mr-2" />
               Close
             </Button>
             <Button
               onClick={handleSave}
-              className="h-12 px-6 text-base font-medium"
+              className="modal-button-primary"
             >
               <Save className="w-4 h-4 mr-2" />
               Simpan Perubahan

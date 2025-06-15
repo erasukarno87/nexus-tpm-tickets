@@ -20,21 +20,21 @@ export const DepartmentForm: React.FC<DepartmentFormProps> = ({
   onCancel
 }) => {
   return (
-    <Card className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 shadow-lg dark:shadow-2xl backdrop-blur-sm">
-      <CardContent className="p-6 space-y-4">
+    <Card className="department-form-card">
+      <CardContent className="department-form-content">
         <div>
-          <Label className="text-gray-900 dark:text-white">Nama Departemen *</Label>
+          <Label className="form-label">Nama Departemen *</Label>
           <Input
             value={name}
             onChange={(e) => onNameChange(e.target.value)}
-            className="bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white"
+            className="department-form-input"
             placeholder="Masukkan nama departemen"
           />
         </div>
-        <div className="flex space-x-2">
+        <div className="department-form-actions">
           <Button
             onClick={onSave}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            className="btn-save"
           >
             <Save className="w-4 h-4 mr-2" />
             Simpan
@@ -42,7 +42,7 @@ export const DepartmentForm: React.FC<DepartmentFormProps> = ({
           <Button
             variant="outline"
             onClick={onCancel}
-            className="border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="btn-cancel"
           >
             <X className="w-4 h-4 mr-2" />
             Batal

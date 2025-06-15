@@ -29,17 +29,17 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
       <CardContent className="p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
+            <Search className="search-icon-filter" />
             <Input
               placeholder="Cari tiket..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-12 h-12 text-lg"
+              className="filter-input"
             />
           </div>
           
           <Select value={statusFilter} onValueChange={setStatusFilter}>
-            <SelectTrigger className="h-12">
+            <SelectTrigger className="filter-select">
               <SelectValue placeholder="Filter berdasarkan status" />
             </SelectTrigger>
             <SelectContent>
@@ -53,7 +53,7 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
           </Select>
 
           <Select value={priorityFilter} onValueChange={setPriorityFilter}>
-            <SelectTrigger className="h-12">
+            <SelectTrigger className="filter-select">
               <SelectValue placeholder="Filter berdasarkan prioritas" />
             </SelectTrigger>
             <SelectContent>
@@ -65,9 +65,9 @@ export const TicketFilters: React.FC<TicketFiltersProps> = ({
             </SelectContent>
           </Select>
 
-          <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
-            <Users className="w-5 h-5 text-blue-600 dark:text-blue-400" />
-            <span className="font-semibold text-gray-900 dark:text-white">Total: {filteredTicketsCount}</span>
+          <div className="filter-counter">
+            <Users className="filter-counter-icon" />
+            <span className="filter-counter-text">Total: {filteredTicketsCount}</span>
           </div>
         </div>
       </CardContent>
