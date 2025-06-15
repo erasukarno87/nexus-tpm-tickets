@@ -7,8 +7,6 @@ import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
   "relative inline-flex items-center justify-center gap-3 whitespace-nowrap rounded-2xl text-sm font-bold ring-offset-background transition-all duration-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-5 [&_svg]:shrink-0 hover:scale-105 active:scale-95 shadow-2xl backdrop-blur-sm overflow-hidden group",
-  "before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent before:translate-x-[-100%] before:transition-transform before:duration-700 hover:before:translate-x-[100%]",
-  "after:absolute after:inset-0 after:bg-gradient-to-45deg after:from-transparent after:via-white/10 after:to-transparent after:opacity-0 after:transition-opacity after:duration-300 hover:after:opacity-100",
   {
     variants: {
       variant: {
