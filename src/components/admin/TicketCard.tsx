@@ -34,18 +34,18 @@ interface TicketCardProps {
 }
 
 const statusConfig = {
-  open: { label: 'Terbuka', color: 'bg-blue-500' },
-  in_progress: { label: 'Sedang Proses', color: 'bg-yellow-500' },
-  pending_parts: { label: 'Menunggu Suku Cadang', color: 'bg-orange-500' },
-  closed: { label: 'Selesai', color: 'bg-green-500' },
-  ditolak: { label: 'Ditolak', color: 'bg-red-500' },
+  open: { label: 'Terbuka', color: 'status-open' },
+  in_progress: { label: 'Sedang Proses', color: 'status-in-progress' },
+  pending_parts: { label: 'Menunggu Suku Cadang', color: 'status-pending' },
+  closed: { label: 'Selesai', color: 'status-closed' },
+  ditolak: { label: 'Ditolak', color: 'status-rejected' },
 };
 
 const priorityConfig = {
-  low: { color: 'border-green-500 text-green-400' },
-  medium: { color: 'border-yellow-500 text-yellow-400' },
-  high: { color: 'border-orange-500 text-orange-400' },
-  critical: { color: 'border-red-500 text-red-400' },
+  low: { color: 'priority-low' },
+  medium: { color: 'priority-medium' },
+  high: { color: 'priority-high' },
+  critical: { color: 'priority-critical' },
 };
 
 const getStatusIcon = (status: string) => {
@@ -79,27 +79,27 @@ export const TicketCard: React.FC<TicketCardProps> = ({
                   <span className="ml-2 font-semibold">{statusConfig[ticket.status].label}</span>
                 </Badge>
               </div>
-              <p className="text-lg font-mono text-blue-600 dark:text-blue-400 font-bold">{ticket.ticket_number}</p>
+              <p className="ticket-number">{ticket.ticket_number}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
-              <User className="w-5 h-5 text-green-500 dark:text-green-400" />
+              <User className="icon-technician" />
               <div>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Teknisi</p>
                 <p className="text-gray-900 dark:text-white font-semibold">{ticket.assigned_to || 'Belum Ditugaskan'}</p>
               </div>
             </div>
             <div className="flex items-center space-x-3 p-3 glass-card rounded-lg">
-              <Calendar className="w-5 h-5 text-purple-500 dark:text-purple-400" />
+              <Calendar className="icon-date" />
               <div>
                 <p className="text-xs text-gray-600 dark:text-gray-400">Dibuat</p>
-                <p className="text-gray-900 dark:text-white font-semibold text-xs">{formatDate(ticket.created_at)}</p>
+                <p className="date-text">{formatDate(ticket.created_at)}</p>
               </div>
             </div>
             <div className="flex items-center justify-center p-3">
-              <div className={`px-4 py-2 rounded-full border-2 ${priorityConfig[ticket.priority].color} text-sm font-bold`}>
+              <div className={`priority-badge ${priorityConfig[ticket.priority].color}`}>
                 PRIORITAS {ticket.priority.toUpperCase()}
               </div>
             </div>
@@ -110,13 +110,13 @@ export const TicketCard: React.FC<TicketCardProps> = ({
           </div>
           
           {ticket.status === 'ditolak' && ticket.rejection_reason && (
-            <div className="mt-4 p-4 glass-card rounded-lg border-2 border-red-500/50">
-              <p className="text-red-600 dark:text-red-400 text-sm font-bold mb-2">⚠️ Alasan Penolakan:</p>
-              <p className="text-red-700 dark:text-red-300">{ticket.rejection_reason}</p>
+            <div className="rejection-container">
+              <p className="rejection-title">⚠️ Alasan Penolakan:</p>
+              <p className="rejection-text">{ticket.rejection_reason}</p>
             </div>
           )}
 
-          <div className="text-sm text-gray-600 dark:text-gray-400 mt-4 p-3 glass-card rounded-lg mb-6">
+          <div className="requester-info">
             <strong>Pemohon:</strong> {ticket.requester_name} ({ticket.requester_department})
           </div>
 
