@@ -214,9 +214,9 @@ const Admin = () => {
       console.log('Updating ticket with ID:', ticketId);
       console.log('Updates:', updates);
 
-      // Remove undefined/null values and ensure proper data types
+      // Remove undefined/null values and exclude id field (primary key cannot be updated)
       const cleanUpdates = Object.entries(updates).reduce((acc, [key, value]) => {
-        if (value !== undefined && value !== null) {
+        if (value !== undefined && value !== null && key !== 'id') {
           acc[key] = value;
         }
         return acc;
