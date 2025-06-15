@@ -403,7 +403,132 @@ html.dark [class*="text-"] * {
   color: white !important;
 }
 
+/* ADDITIONAL AGGRESSIVE RULES FOR FORM INPUTS AND CARDS */
+html.dark input[type="text"],
+html.dark input[type="text"] *,
+html.dark input[type="email"],
+html.dark input[type="email"] *,
+html.dark input[type="password"],
+html.dark input[type="password"] *,
+html.dark input[type="tel"],
+html.dark input[type="tel"] *,
+html.dark input[type="number"],
+html.dark input[type="number"] * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Card headers and titles */
+html.dark .card-header,
+html.dark .card-header *,
+html.dark .card-title,
+html.dark .card-title *,
+html.dark .card-content,
+html.dark .card-content *,
+html.dark .card-description,
+html.dark .card-description * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Select components - extremely specific */
+html.dark [data-radix-select-trigger],
+html.dark [data-radix-select-trigger] *,
+html.dark [data-radix-select-trigger] span,
+html.dark [data-radix-select-value],
+html.dark [data-radix-select-value] *,
+html.dark [data-radix-select-content],
+html.dark [data-radix-select-content] *,
+html.dark [data-radix-select-item],
+html.dark [data-radix-select-item] *,
+html.dark [data-radix-select-label],
+html.dark [data-radix-select-label] * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Radio group and label overrides */
+html.dark [data-radix-radio-group],
+html.dark [data-radix-radio-group] *,
+html.dark [data-radix-radio-group-item],
+html.dark [data-radix-radio-group-item] *,
+html.dark label[for],
+html.dark label[for] *,
+html.dark .space-y-2,
+html.dark .space-y-2 *,
+html.dark .space-y-4,
+html.dark .space-y-4 * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Grid and layout components */
+html.dark .grid,
+html.dark .grid *,
+html.dark .grid-cols-1,
+html.dark .grid-cols-1 *,
+html.dark .grid-cols-2,
+html.dark .grid-cols-2 *,
+html.dark .gap-4,
+html.dark .gap-4 *,
+html.dark .gap-6,
+html.dark .gap-6 * {
+  color: white !important;
+  border-color: white !important;
+}
+
 /* Final nuclear option - override any computed styles */
 html.dark * {
   color: white !important;
+  border-color: white !important;
 }
+
+/* SUPER SPECIFIC OVERRIDES FOR STUBBORN ELEMENTS */
+html.dark .flex,
+html.dark .flex *,
+html.dark .items-center,
+html.dark .items-center *,
+html.dark .justify-center,
+html.dark .justify-center *,
+html.dark .space-x-3,
+html.dark .space-x-3 *,
+html.dark .space-x-4,
+html.dark .space-x-4 *,
+html.dark .mb-2,
+html.dark .mb-2 *,
+html.dark .mb-4,
+html.dark .mb-4 *,
+html.dark .p-4,
+html.dark .p-4 *,
+html.dark .p-6,
+html.dark .p-6 *,
+html.dark .rounded,
+html.dark .rounded *,
+html.dark .cursor-pointer,
+html.dark .cursor-pointer * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Input focus states */
+html.dark input:focus,
+html.dark input:focus *,
+html.dark textarea:focus,
+html.dark textarea:focus *,
+html.dark select:focus,
+html.dark select:focus * {
+  color: white !important;
+  border-color: white !important;
+}
+
+/* Hover states */
+html.dark *:hover,
+html.dark *:hover *,
+html.dark button:hover,
+html.dark button:hover *,
+html.dark input:hover,
+html.dark input:hover * {
+  color: white !important;
+  border-color: white !important;
+}
+
